@@ -2,7 +2,7 @@
 const { XeondbClient } = require("xeondb-driver");
 
 // Drop the db data
-// DROP TABLE xeon_free_fad01e.test_table;
+// DROP TABLE test_table;
 
 const client = new XeondbClient({
 	host: 'au-central.xeondb.com',
