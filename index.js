@@ -17,6 +17,7 @@ const { getUserByEmail } = require('./database/table/user');
 const { getInstancesByUser, getInstanceById, listInstances } = require('./database/table/instances');
 const { listUsers } = require('./database/table/user');
 const { cleanEmail, clearAuthCookie, getReqDb } = require('./lib/shared');
+const oauthRoutes = require('./routes/oauth');
 
 app.use(cors());
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.set("views", __dirname + "/views");
 
 app.use('/api/auth', authApi);
+app.use('/auth', oauthRoutes);
 app.use('/api/instances', requireAuth, instancesApi);
 app.use('/api/admin', adminAuthApi);
 app.use('/api/admin', adminApi);
@@ -53,6 +55,10 @@ app.get('/admin/login', (req, res) => {
 app.get('/admin/logout', (req, res) => {
   clearAdminCookie(res);
   res.redirect('/admin/login');
+});
+
+app.get('/docs', (req, res) => {
+  res.redirect('https://docs.xeondb.com/');
 });
 
 app.get('/admin', requireAdmin, async (req, res) => {
@@ -143,6 +149,16 @@ app.get("/dashboard/:id", requireAuth, async (req, res) => {
   } catch (err) {
     return res.status(500).send(err && err.message ? err.message : 'Failed to load instance');
   }
+});
+
+app.get("/privacy", (req, res) => {
+  res.render("privacy", {
+  });
+});
+
+app.get("/tos", (req, res) => {
+  res.render("tos", {
+  });
 });
 
 (async () => {

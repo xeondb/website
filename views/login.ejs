@@ -92,7 +92,7 @@
 
               <div class="social-divider" aria-hidden="true">or sign in with</div>
               <div class="social-row" data-test-id="social-position-bottom">
-                <button class="social-btn" type="button" disabled aria-label="continue with google" provider="google"
+                <button class="social-btn" type="button" aria-label="continue with google" provider="google"
                   data-test-id="google-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
                     <path fill="#FFC107"
@@ -107,7 +107,7 @@
                   Google
                 </button>
 
-                <button class="social-btn" type="button" disabled aria-label="continue with github" provider="github"
+                <button class="social-btn" type="button" aria-label="continue with github" provider="github"
                   data-test-id="github-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" fill="none" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -135,13 +135,12 @@
                 </button>
               </div>
 
-              <div class="disclaimer">
-                By Signing up I confirm I have read and accept XeonDB's
-                <a href="https://www.scylladb.com/scylla-cloud-terms-of-service/" target="_blank"
-                  rel="noreferrer">Terms of Service</a>
-                and that my information will be handled as detailed in XeonDB's
-                <a href="https://www.scylladb.com/privacy/" target="_blank" rel="noreferrer">Privacy Policy</a>.
-              </div>
+               <div class="disclaimer">
+                 By Signing up I confirm I have read and accept XeonDB's
+                 <a href="/tos">Terms of Service</a>
+                 and that my information will be handled as detailed in XeonDB's
+                 <a href="/privacy">Privacy Policy</a>.
+               </div>
             </div>
 
             <div class="view view-signup" data-test-id="signup-page">
@@ -191,11 +190,11 @@
                   <div style="color: rgba(233,230,218,0.76); font-size: 13px; line-height: 1.55;">
                     Yes, I wish to receive future informational and marketing communications.
                     I understand and agree to the
-                    <a href="https://www.scylladb.com/scylla-cloud-terms-of-service/" target="_blank" rel="noreferrer"
-                      style="color: rgba(57,198,255,0.94); text-decoration: underline; text-underline-offset: 3px;">terms</a>
-                    and
-                    <a href="https://www.scylladb.com/privacy/" target="_blank" rel="noreferrer"
-                      style="color: rgba(57,198,255,0.94); text-decoration: underline; text-underline-offset: 3px;">privacy policy</a>.
+                     <a href="/tos"
+                       style="color: rgba(57,198,255,0.94); text-decoration: underline; text-underline-offset: 3px;">terms</a>
+                     and
+                     <a href="/privacy"
+                       style="color: rgba(57,198,255,0.94); text-decoration: underline; text-underline-offset: 3px;">privacy policy</a>.
                   </div>
                 </div>
 
@@ -207,7 +206,7 @@
 
               <div class="social-divider" aria-hidden="true">or sign up with</div>
               <div class="social-row" data-test-id="social-logins-bottom-layout">
-                <button class="social-btn" type="button" disabled aria-label="continue with google" provider="google"
+                <button class="social-btn" type="button" aria-label="continue with google" provider="google"
                   data-test-id="google-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
                     <path fill="#FFC107"
@@ -222,7 +221,7 @@
                   Google
                 </button>
 
-                <button class="social-btn" type="button" disabled aria-label="continue with github" provider="github"
+                <button class="social-btn" type="button" aria-label="continue with github" provider="github"
                   data-test-id="github-btn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" fill="none" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -250,22 +249,33 @@
                 </button>
               </div>
 
-              <div class="disclaimer">
-                By Signing up I confirm I have read and accept XeonDB's
-                <a href="https://www.scylladb.com/scylla-cloud-terms-of-service/" target="_blank"
-                  rel="noreferrer">Terms of Service</a>
-                and that my information will be handled as detailed in XeonDB's
-                <a href="https://www.scylladb.com/privacy/" target="_blank" rel="noreferrer">Privacy Policy</a>.
-              </div>
+               <div class="disclaimer">
+                 By Signing up I confirm I have read and accept XeonDB's
+                 <a href="/tos">Terms of Service</a>
+                 and that my information will be handled as detailed in XeonDB's
+                 <a href="/privacy">Privacy Policy</a>.
+               </div>
             </div>
           </div>
         </section>
       </div>
+
+      <%- include('footer.ejs') %>
     </div>
   </main>
 
   <script>
     (function () {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const oauthErr = params.get('error');
+        if (oauthErr) {
+          createAlert('error', oauthErr);
+        }
+      } catch {
+        // ignore
+      }
+
       function showError(type, msg) {
         createAlert(type, msg || 'Something went wrong');
       }
@@ -343,6 +353,15 @@
           } catch (err) {
             showError('error', err && err.message ? err.message : String(err));
           }
+        });
+      }
+
+      const socialButtons = document.querySelectorAll('button.social-btn[provider]');
+      for (const btn of socialButtons) {
+        btn.addEventListener('click', function () {
+          const provider = (btn.getAttribute('provider') || '').toLowerCase();
+          if (provider === 'google') window.location.href = '/auth/google';
+          if (provider === 'github') window.location.href = '/auth/github';
         });
       }
     })();

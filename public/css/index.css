@@ -485,15 +485,15 @@
        margin-left: 6px;
    }
 
-    .metric-chart {
-        position: relative;
-        height: 140px;
-    }
+   .metric-chart {
+       position: relative;
+       height: 140px;
+   }
 
-    .metric-chart canvas {
-        width: 100% !important;
-        height: 100% !important;
-    }
+   .metric-chart canvas {
+       width: 100% !important;
+       height: 100% !important;
+   }
 
    .terminal {
        border-radius: 14px;
@@ -1145,24 +1145,64 @@
        align-items: center;
    }
 
-   footer {
+   .site-footer {
        border-top: 1px solid var(--stroke2);
-       padding: 18px 0 0;
+       padding: 22px 0 0;
        margin-top: 44px;
        color: rgba(233, 230, 218, 0.70);
-       display: flex;
-       align-items: flex-start;
-       justify-content: space-between;
-       gap: 14px;
-       flex-wrap: wrap;
        font-size: 12px;
        line-height: 1.6;
    }
 
-   footer a {
+   .site-footer a {
        text-decoration: underline;
        text-underline-offset: 3px;
        opacity: 0.9;
+   }
+
+   .site-footer a:hover {
+       opacity: 1;
+   }
+
+   .site-footer-inner {
+       display: grid;
+       grid-template-columns: minmax(240px, 1fr) 2fr;
+       gap: 18px;
+       align-items: start;
+   }
+
+   .footer-cols {
+       display: grid;
+       grid-template-columns: repeat(3, minmax(0, 1fr));
+       gap: 16px;
+   }
+
+   .footer-col {
+       display: grid;
+       gap: 8px;
+       align-content: start;
+   }
+
+   .footer-title {
+       color: rgba(233, 230, 218, 0.86);
+       font-size: 11px;
+       letter-spacing: 0.16em;
+       text-transform: uppercase;
+   }
+
+   .footer-bottom {
+       display: flex;
+       align-items: center;
+       gap: 10px;
+       flex-wrap: wrap;
+       justify-content: flex-start;
+       opacity: 0.92;
+       position: absolute;
+       bottom: 10px;
+   }
+
+   .footer-sep {
+       opacity: 0.55;
    }
 
    .footlock {
@@ -1171,12 +1211,37 @@
        gap: 12px;
    }
 
+   .footbrand {
+       color: rgba(233, 230, 218, 0.92);
+       letter-spacing: 0.12px;
+   }
+
+   .footdesc {
+       opacity: 0.9;
+   }
+
    .footlogo {
        width: 34px;
        height: 34px;
        border-radius: 10px;
        border: 1px solid var(--stroke);
        background: var(--surface1);
+   }
+
+   @media (max-width: 900px) {
+       .site-footer-inner {
+           grid-template-columns: 1fr;
+       }
+
+       .footer-cols {
+           grid-template-columns: repeat(2, minmax(0, 1fr));
+       }
+   }
+
+   @media (max-width: 520px) {
+       .footer-cols {
+           grid-template-columns: 1fr;
+       }
    }
 
    :focus-visible {
