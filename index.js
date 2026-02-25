@@ -118,7 +118,7 @@ app.get("/dashboard", requireAuth, async (req, res) => {
       instances = await getInstancesByUser(db, email);
     }
   } catch {
-    // ignore and render defaults
+    // ignore
   }
 
   res.render("dashboard", { name, instances });
