@@ -101,6 +101,10 @@ async function getInstancesByUser(db, email) {
   return out.filter((r) => String(r.user_email || '').trim().toLowerCase() === needle);
 }
 
+async function listInstances(db) {
+  return queryList(db, 'SELECT * FROM instances ORDER BY id DESC;');
+}
+
 async function provisionInstanceOnTarget(target, keyspace, dbUsername, dbPassword, quotaBytes) {
   if (!target || !target.host || !Number.isFinite(Number(target.port))) {
     throw new Error('Invalid target instance');
@@ -212,5 +216,6 @@ module.exports = {
   ensureInstancesTable,
   createInstance,
   getInstancesByUser,
-  getInstanceById
+  getInstanceById,
+  listInstances
 };

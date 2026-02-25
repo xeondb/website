@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>XeonDB - Admin</title>
+  <meta name="description" content="XeonDB admin access." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="/logo.png" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+
+<body>
+  <%- include('alert.ejs') %>
+
+  <main class="admin-page">
+    <div class="admin-shell">
+      <div class="topbar">
+        <a class="brand" href="/" aria-label="Back to XeonDB home">
+          <img src="/logo.png" alt="XeonDB logo" />
+          <span>XeonDB</span>
+        </a>
+        <a class="btn" href="/">Back to site</a>
+      </div>
+
+      <section class="card">
+        <div class="card-header">
+          <div class="kicker">Restricted</div>
+          <h1>Admin access</h1>
+          <p>Sign in with the admin credentials from your <code>.env</code>.</p>
+        </div>
+
+        <form id="admin-login" class="form" action="#" autocomplete="off">
+          <label class="field">
+            <span>Username</span>
+            <input id="admin-username" class="input" type="text" placeholder="Admin username" />
+          </label>
+
+          <label class="field">
+            <span>Password</span>
+            <input id="admin-password" class="input" type="password" placeholder="Admin password" />
+          </label>
+
+          <button class="primary" type="submit">Continue</button>
+          <div id="admin-error" class="error" style="display:none;"></div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      function showErr(msg) {
+        var el = document.getElementById('admin-error');
+        if (!el) return;
+        el.textContent = msg;
+        el.style.display = 'block';
+      }
+      function clearErr() {
+        var el = document.getElementById('admin-error');
+        if (!el) return;
+        el.textContent = '';
+        el.style.display = 'none';
+      }
+
+      async function postData(url, body) {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(body)
+        });
+        let data = null;
+        try { data = await res.json(); } catch { data = null; }
+        if (!res.ok) {
+          const err = data && (data.error || data.message) ? (data.error || data.message) : ('Request failed (' + res.status + ')');
+          throw new Error(err);
+        }
+        return data;
+      }
+
+      var form = document.getElementById('admin-login');
+      if (!form) return;
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        clearErr();
+        var u = (document.getElementById('admin-username') || {}).value || '';
+        var p = (document.getElementById('admin-password') || {}).value || '';
+        try {
+          await postData('/api/admin/login', { username: u, password: p });
+          window.location.href = '/admin';
+        } catch (err) {
+          if (window.showToast) window.showToast('error', err && err.message ? err.message : String(err));
+          showErr(err && err.message ? err.message : String(err));
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

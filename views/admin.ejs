@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>XeonDB - Admin</title>
+  <meta name="description" content="XeonDB admin dashboard." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="/logo.png" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+
+<body>
+  <%- include('alert.ejs') %>
+
+  <main class="admin-page">
+    <div class="admin-shell">
+      <div class="topbar">
+        <a class="brand" href="/" aria-label="Back to XeonDB home">
+          <img src="/logo.png" alt="XeonDB logo" />
+          <span>XeonDB</span>
+        </a>
+        <div class="topbar-right">
+          <a class="btn" href="/">Back to site</a>
+          <button class="btn" id="btn-logout" type="button">Logout</button>
+          <div class="badge">ADMIN<% if (adminName) { %>: <%= adminName %><% } %></div>
+        </div>
+      </div>
+
+      <header class="header">
+        <div>
+          <h1>Admin Console</h1>
+          <p>View users and databases. Storage loads on demand per instance.</p>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num"><%= (users && users.length) ? users.length : 0 %></div>
+            <div class="stat-label">Users</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num"><%= (typeof totalInstances !== 'undefined') ? totalInstances : 0 %></div>
+            <div class="stat-label">Instances</div>
+          </div>
+        </div>
+      </header>
+
+
+      <section class="card">
+        <div class="card-title">Users</div>
+
+        <div class="groups">
+          <% if (users && users.length) { %>
+            <% users.forEach(function(u) { %>
+              <% const email = String(u.email || '').trim(); %>
+              <% const emailKey = String(email || '').trim().toLowerCase(); %>
+              <% const userInstances = (instancesByEmail && instancesByEmail[emailKey]) ? instancesByEmail[emailKey] : []; %>
+              <details class="user-group">
+                <summary class="user-summary">
+                  <div class="user-main">
+                    <div class="user-email mono"><%= email %></div>
+                    <div class="user-meta">
+                      <span><%= [u.first_name, u.last_name].filter(Boolean).join(' ') || '-' %></span>
+                      <span class="sep">•</span>
+                      <span><%= u.company || '-' %></span>
+                      <span class="sep">•</span>
+                      <span class="mono"><%= u.created_at ? new Date(Number(u.created_at)).toISOString() : '-' %></span>
+                    </div>
+                  </div>
+                  <div class="user-right">
+                    <div class="count mono"><%= (userInstances && userInstances.length) ? userInstances.length : 0 %> instances</div>
+                    <button class="danger" type="button" data-delete-user="1" data-email="<%= email %>">Delete account</button>
+                  </div>
+                </summary>
+
+                <div class="user-body">
+                  <div class="table-wrap">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Plan</th>
+                          <th>Host</th>
+                          <th>Port</th>
+                          <th>Keyspace</th>
+                          <th>Status</th>
+                          <th>Storage</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% if (userInstances && userInstances.length) { %>
+                          <% userInstances.forEach(function(inst) { %>
+                            <tr>
+                              <td class="mono"><%= inst.id %></td>
+                              <td><%= inst.name || '-' %></td>
+                              <td class="mono"><%= (inst.plan || 'free').toUpperCase() %></td>
+                              <td class="mono"><%= inst.host || '-' %></td>
+                              <td class="mono"><%= (typeof inst.port !== 'undefined') ? inst.port : '-' %></td>
+                              <td class="mono"><%= inst.keyspace || '-' %></td>
+                              <% const st = String(inst.status || 'online').toLowerCase(); %>
+                              <td><span class="pill <%= st === 'online' ? 'ok' : 'warn' %>"><%= st %></span></td>
+                              <td class="mono">
+                                <span data-storage-for="<%= inst.id %>">Not loaded</span>
+                              </td>
+                              <td class="actions">
+                                <button class="btn btn-small" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
+                                <button class="danger" type="button" data-delete-instance="1" data-id="<%= inst.id %>" data-keyspace="<%= inst.keyspace || '' %>">Delete DB</button>
+                              </td>
+                            </tr>
+                          <% }); %>
+                        <% } else { %>
+                          <tr><td colspan="9" class="empty">No instances</td></tr>
+                        <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </details>
+            <% }); %>
+          <% } else { %>
+            <div class="empty" style="padding: 18px;">No users</div>
+          <% } %>
+
+          <% if (orphanInstances && orphanInstances.length) { %>
+            <details class="user-group">
+              <summary class="user-summary">
+                <div class="user-main">
+                  <div class="user-email mono">Orphaned instances</div>
+                  <div class="user-meta">
+                    <span>Instances with no matching user row</span>
+                  </div>
+                </div>
+                <div class="user-right">
+                  <div class="count mono"><%= orphanInstances.length %> instances</div>
+                </div>
+              </summary>
+              <div class="user-body">
+                <div class="table-wrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Plan</th>
+                        <th>Host</th>
+                        <th>Port</th>
+                        <th>Keyspace</th>
+                        <th>Status</th>
+                        <th>Storage</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% orphanInstances.forEach(function(inst) { %>
+                        <tr>
+                          <td class="mono"><%= inst.id %></td>
+                          <td class="mono"><%= inst.user_email || '-' %></td>
+                          <td class="mono"><%= (inst.plan || 'free').toUpperCase() %></td>
+                          <td class="mono"><%= inst.host || '-' %></td>
+                          <td class="mono"><%= (typeof inst.port !== 'undefined') ? inst.port : '-' %></td>
+                          <td class="mono"><%= inst.keyspace || '-' %></td>
+                          <% const st = String(inst.status || 'online').toLowerCase(); %>
+                          <td><span class="pill <%= st === 'online' ? 'ok' : 'warn' %>"><%= st %></span></td>
+                          <td class="mono"><span data-storage-for="<%= inst.id %>">Not loaded</span></td>
+                          <td class="actions">
+                            <button class="btn btn-small" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
+                            <button class="danger" type="button" data-delete-instance="1" data-id="<%= inst.id %>" data-keyspace="<%= inst.keyspace || '' %>">Delete DB</button>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
+          <% } %>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      async function fetchJson(url, opts) {
+        const res = await fetch(url, Object.assign({ credentials: 'same-origin' }, opts || {}));
+        let data = null;
+        try { data = await res.json(); } catch { data = null; }
+        if (!res.ok) {
+          const err = data && (data.error || data.message) ? (data.error || data.message) : ('Request failed (' + res.status + ')');
+          throw new Error(err);
+        }
+        return data;
+      }
+
+      var logout = document.getElementById('btn-logout');
+      if (logout) {
+        logout.addEventListener('click', async function () {
+          try {
+            await fetchJson('/api/admin/logout', { method: 'POST' });
+          } catch {
+            // ignore
+          }
+          window.location.href = '/admin/login';
+        });
+      }
+
+      document.querySelectorAll('[data-delete-instance="1"]').forEach(function (btn) {
+        btn.addEventListener('click', async function (e) {
+          try { e.preventDefault(); e.stopPropagation(); } catch { /* ignore */ }
+          var id = btn.getAttribute('data-id') || '';
+          var keyspace = btn.getAttribute('data-keyspace') || '';
+          var token = window.prompt('Type the keyspace to confirm deletion:\n\n' + keyspace);
+          if (!token || token.trim() !== keyspace) return;
+          btn.disabled = true;
+          try {
+            await fetchJson('/api/admin/instances/' + encodeURIComponent(id), { method: 'DELETE' });
+            if (window.showToast) window.showToast('success', 'Instance deleted');
+            window.location.reload();
+          } catch (err) {
+            btn.disabled = false;
+            if (window.showToast) window.showToast('error', err && err.message ? err.message : String(err));
+            alert(err && err.message ? err.message : String(err));
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-delete-user="1"]').forEach(function (btn) {
+        btn.addEventListener('click', async function (e) {
+          try { e.preventDefault(); e.stopPropagation(); } catch { /* ignore */ }
+          var email = btn.getAttribute('data-email') || '';
+          var token = window.prompt('Type the email to confirm account deletion:\n\n' + email);
+          if (!token || token.trim().toLowerCase() !== email.toLowerCase()) return;
+          btn.disabled = true;
+          try {
+            await fetchJson('/api/admin/users/' + encodeURIComponent(email), { method: 'DELETE' });
+            if (window.showToast) window.showToast('success', 'Account deleted');
+            window.location.reload();
+          } catch (err) {
+            btn.disabled = false;
+            if (window.showToast) window.showToast('error', err && err.message ? err.message : String(err));
+            alert(err && err.message ? err.message : String(err));
+          }
+        });
+      });
+
+      function formatBytes(bytes) {
+        var b = Math.max(0, Number(bytes) || 0);
+        var units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        var i = 0;
+        while (b >= 1024 && i < units.length - 1) {
+          b = b / 1024;
+          i++;
+        }
+        var rounded = i === 0 ? String(Math.round(b)) : (b < 10 ? b.toFixed(2) : (b < 100 ? b.toFixed(1) : String(Math.round(b))));
+        return rounded + ' ' + units[i];
+      }
+
+      document.querySelectorAll('[data-load-storage="1"]').forEach(function (btn) {
+        btn.addEventListener('click', async function (e) {
+          try { e.preventDefault(); e.stopPropagation(); } catch { /* ignore */ }
+          var id = btn.getAttribute('data-id') || '';
+          if (!id) return;
+          var cell = document.querySelector('[data-storage-for="' + id.replace(/"/g, '') + '"]');
+          btn.disabled = true;
+          var old = btn.textContent;
+          btn.textContent = 'Loading...';
+          if (cell) cell.textContent = 'Loading...';
+          try {
+            var data = await fetchJson('/api/admin/instances/' + encodeURIComponent(id) + '/metrics');
+            var used = data && Object.prototype.hasOwnProperty.call(data, 'bytes_used') ? Number(data.bytes_used) : 0;
+            var quota = data && Object.prototype.hasOwnProperty.call(data, 'quota_bytes') ? Number(data.quota_bytes) : 0;
+            var text = quota > 0 ? (formatBytes(used) + ' / ' + formatBytes(quota)) : formatBytes(used);
+            if (cell) cell.textContent = text;
+            btn.textContent = 'Refresh';
+          } catch (err) {
+            if (cell) cell.textContent = 'Error';
+            btn.textContent = old || 'Load storage';
+            if (window.showToast) window.showToast('error', err && err.message ? err.message : String(err));
+          } finally {
+            btn.disabled = false;
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>

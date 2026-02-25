@@ -10,8 +10,12 @@ const { connectToDb } = require("./database/db");
 const authApi = require("./routes/auth");
 const requireAuth = require("./routes/verifyToken");
 const instancesApi = require('./routes/instances');
+const adminApi = require('./routes/adminApi');
+const { router: adminAuthApi, clearAdminCookie } = require('./routes/adminAuth');
+const requireAdmin = require('./routes/requireAdmin');
 const { getUserByEmail } = require('./database/table/user');
-const { getInstancesByUser, getInstanceById } = require('./database/table/instances');
+const { getInstancesByUser, getInstanceById, listInstances } = require('./database/table/instances');
+const { listUsers } = require('./database/table/user');
 const { cleanEmail, clearAuthCookie, getReqDb } = require('./lib/shared');
 
 app.use(cors());
@@ -24,6 +28,8 @@ app.set("views", __dirname + "/views");
 
 app.use('/api/auth', authApi);
 app.use('/api/instances', requireAuth, instancesApi);
+app.use('/api/admin', adminAuthApi);
+app.use('/api/admin', adminApi);
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -38,6 +44,61 @@ app.get("/login", (req, res) => {
 app.get('/logout', (req, res) => {
   clearAuthCookie(res);
   res.redirect('/login');
+});
+
+app.get('/admin/login', (req, res) => {
+  res.render('admin-login', {});
+});
+
+app.get('/admin/logout', (req, res) => {
+  clearAdminCookie(res);
+  res.redirect('/admin/login');
+});
+
+app.get('/admin', requireAdmin, async (req, res) => {
+  const db = getReqDb(req);
+  if (!db) return res.status(500).send('Database not ready');
+
+  try {
+    const users = await listUsers(db);
+    const instances = await listInstances(db);
+
+    const safeInstances = (instances || []).map((inst) => {
+      const out = { ...(inst || {}) };
+      delete out.db_password;
+      return out;
+    });
+
+    const knownEmails = new Set((users || []).map((u) => cleanEmail(u && u.email ? u.email : '')));
+    const instancesByEmail = {};
+    const orphanInstances = [];
+    for (const inst of safeInstances) {
+      const e = cleanEmail(inst && inst.user_email ? inst.user_email : '');
+      if (!e) {
+        orphanInstances.push(inst);
+        continue;
+      }
+      if (!Object.prototype.hasOwnProperty.call(instancesByEmail, e)) instancesByEmail[e] = [];
+      instancesByEmail[e].push(inst);
+      if (!knownEmails.has(e)) orphanInstances.push(inst);
+    }
+
+    const instanceCountByEmail = {};
+    for (const [e, list] of Object.entries(instancesByEmail)) {
+      instanceCountByEmail[e] = Array.isArray(list) ? list.length : 0;
+    }
+
+    res.render('admin', {
+      adminName: req.admin && req.admin.username ? String(req.admin.username) : '',
+      users,
+      instancesByEmail,
+      orphanInstances,
+      instanceCountByEmail,
+      totalInstances: safeInstances.length
+    });
+  } catch (err) {
+    return res.status(500).send(err && err.message ? err.message : 'Failed to load admin');
+  }
 });
 
 app.get("/dashboard", requireAuth, async (req, res) => {

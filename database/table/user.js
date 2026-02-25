@@ -62,9 +62,33 @@ async function verifyUser(db, email, password) {
   return user;
 }
 
+async function listUsers(db) {
+  const res = await db.query('SELECT * FROM users ORDER BY email ASC;');
+  if (!res || res.ok !== true) throw new Error((res && res.error) || 'Failed to list users');
+  const rows = Array.isArray(res.rows) ? res.rows : (res.row ? [res.row] : []);
+  return rows.map((u) => {
+    const out = { ...(u || {}) };
+    delete out.password_hash;
+    delete out.passwordHash;
+    delete out.password;
+    return out;
+  });
+}
+
+async function deleteUserByEmail(db, email) {
+  const e = String(email || '').trim().toLowerCase();
+  if (!e) throw new Error('email is required');
+  const cmd = `DELETE FROM users WHERE email=${cleanSQL(e)};`;
+  const res = await db.query(cmd);
+  if (!res || res.ok !== true) throw new Error((res && res.error) || 'Failed to delete user');
+  return true;
+}
+
 module.exports = {
   ensureUsersTable,
   getUserByEmail,
   createUser,
-  verifyUser
+  verifyUser,
+  listUsers,
+  deleteUserByEmail
 };
