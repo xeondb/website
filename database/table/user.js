@@ -84,11 +84,63 @@ async function deleteUserByEmail(db, email) {
   return true;
 }
 
+async function updateUserProfileByEmail(db, email, data) {
+  const e = String(email || '').trim().toLowerCase();
+  if (!e) throw new Error('email is required');
+
+  const current = await getUserByEmail(db, e);
+  if (!current) throw new Error('User not found');
+
+  const firstName = String(data && data.firstName ? data.firstName : '').trim();
+  const lastName = String(data && data.lastName ? data.lastName : '').trim();
+  const companyName = String(data && data.companyName ? data.companyName : '').trim();
+  const marketingOptIn = !!(data && data.marketingOptIn);
+
+  const createdAt = current.created_at ? Number(current.created_at) : Date.now();
+  const passwordHash = String(current.password_hash || current.passwordHash || '');
+  if (!passwordHash) throw new Error('Missing password hash');
+
+  const cmd = `INSERT INTO users (email, password_hash, first_name, last_name, company, marketing_opt_in, created_at) VALUES (${cleanSQL(
+    e
+  )}, ${cleanSQL(passwordHash)}, ${cleanSQL(firstName)}, ${cleanSQL(lastName)}, ${cleanSQL(companyName)}, ${marketingOptIn ? 'true' : 'false'}, ${createdAt});`;
+  const res = await db.query(cmd);
+  if (!res || res.ok !== true) throw new Error((res && res.error) || 'Failed to update user');
+  return true;
+}
+
+async function updateUserPasswordByEmail(db, email, newPassword) {
+  const e = String(email || '').trim().toLowerCase();
+  if (!e) throw new Error('email is required');
+
+  const current = await getUserByEmail(db, e);
+  if (!current) throw new Error('User not found');
+
+  const password = String(newPassword || '');
+  if (password.length < 8) throw new Error('Password must be at least 8 characters');
+
+  const passwordHash = bcrypt.hashSync(password, 10);
+  const createdAt = current.created_at ? Number(current.created_at) : Date.now();
+
+  const firstName = String(current.first_name || '').trim();
+  const lastName = String(current.last_name || '').trim();
+  const companyName = String(current.company || '').trim();
+  const marketingOptIn = !!(current.marketing_opt_in === true || current.marketingOptIn === true);
+
+  const cmd = `INSERT INTO users (email, password_hash, first_name, last_name, company, marketing_opt_in, created_at) VALUES (${cleanSQL(
+    e
+  )}, ${cleanSQL(passwordHash)}, ${cleanSQL(firstName)}, ${cleanSQL(lastName)}, ${cleanSQL(companyName)}, ${marketingOptIn ? 'true' : 'false'}, ${createdAt});`;
+  const res = await db.query(cmd);
+  if (!res || res.ok !== true) throw new Error((res && res.error) || 'Failed to update password');
+  return true;
+}
+
 module.exports = {
   ensureUsersTable,
   getUserByEmail,
   createUser,
   verifyUser,
   listUsers,
-  deleteUserByEmail
+  deleteUserByEmail,
+  updateUserProfileByEmail,
+  updateUserPasswordByEmail
 };

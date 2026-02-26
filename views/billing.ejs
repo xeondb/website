@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>XeonDB - Billing</title>
+  <meta name="description" content="Billing overview for your XeonDB account." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" href="/logo.png" />
+  <link rel="stylesheet" href="/css/billing.css" />
+</head>
+
+<body>
+  <%- include('alert.ejs') %>
+
+  <% const list = Array.isArray(instances) ? instances : []; %>
+  <% const freeCount = list.filter((x) => String((x && x.plan) ? x.plan : 'free').toLowerCase() !== 'pro').length; %>
+  <% const proCount = list.filter((x) => String((x && x.plan) ? x.plan : 'free').toLowerCase() === 'pro').length; %>
+
+  <main class="page">
+    <div class="shell">
+      <div class="topbar">
+        <a class="brand" href="/" aria-label="Back to XeonDB home">
+          <img src="/logo.png" alt="XeonDB logo" />
+          <span>XeonDB</span>
+        </a>
+        <div class="topbar-right">
+          <a class="btn" href="/dashboard">Dashboard</a>
+          <details class="user-menu">
+            <summary class="user-avatar" aria-label="Open user menu"><%= name %></summary>
+            <div class="user-menu-pop" role="navigation" aria-label="User menu">
+              <a class="user-menu-item" href="/settings">Settings</a>
+              <a class="user-menu-item" href="/billing" aria-current="page">Billing</a>
+              <div class="user-menu-sep" aria-hidden="true"></div>
+              <a class="user-menu-item" href="/logout">Logout</a>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <header class="header">
+        <div>
+          <h1 class="title">Billing</h1>
+          <p class="subtitle">Account-level overview. Payments and invoices are coming soon.</p>
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="card">
+          <div class="card-title">Plan Footprint</div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-num mono"><%= freeCount %></div>
+              <div class="stat-label">Free instances</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num mono"><%= proCount %></div>
+              <div class="stat-label">Pro instances</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num mono"><%= list.length %></div>
+              <div class="stat-label">Total</div>
+            </div>
+          </div>
+          <div class="hint">To change a database plan, open the database and use its Billing tab.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Databases</div>
+          <% if (list.length) { %>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Plan</th>
+                    <th>Keyspace</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% list.forEach(function(inst) { %>
+                    <% const plan = String((inst && inst.plan) ? inst.plan : 'free').toLowerCase(); %>
+                    <tr>
+                      <td>
+                        <div class="db-name"><%= (inst && (inst.name || inst.id)) ? (inst.name || inst.id) : '-' %></div>
+                        <div class="db-sub mono"><%= inst && inst.id ? inst.id : '' %></div>
+                      </td>
+                      <td><span class="pill <%= plan === 'pro' ? 'pro' : 'free' %>"><%= plan === 'pro' ? 'pro' : 'free' %></span></td>
+                      <td class="mono"><%= inst && inst.keyspace ? inst.keyspace : '-' %></td>
+                      <td class="actions">
+                        <a class="btn btn-small" href="/dashboard/<%= inst.id %>">Open</a>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <div class="empty">No databases yet. Create one from your dashboard.</div>
+          <% } %>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Invoices</div>
+          <div class="hint">Not available yet.</div>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+
+</html>

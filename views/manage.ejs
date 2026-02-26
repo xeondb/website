@@ -38,9 +38,15 @@
             </a>
             <div class="topbar-right">
               <a class="btn" href="/dashboard">Dashboard</a>
-              <div class="user-avatar">
-                <%= name %>
-              </div>
+              <details class="user-menu">
+                <summary class="user-avatar" aria-label="Open user menu"><%= name %></summary>
+                <div class="user-menu-pop" role="navigation" aria-label="User menu">
+                  <a class="user-menu-item" href="/settings">Settings</a>
+                  <a class="user-menu-item" href="/billing">Billing</a>
+                  <div class="user-menu-sep" aria-hidden="true"></div>
+                  <a class="user-menu-item" href="/logout">Logout</a>
+                </div>
+              </details>
             </div>
           </div>
 

@@ -11,6 +11,7 @@ const authApi = require("./routes/auth");
 const requireAuth = require("./routes/verifyToken");
 const instancesApi = require('./routes/instances');
 const adminApi = require('./routes/adminApi');
+const accountApi = require('./routes/account');
 const { router: adminAuthApi, clearAdminCookie } = require('./routes/adminAuth');
 const requireAdmin = require('./routes/requireAdmin');
 const { getUserByEmail } = require('./database/table/user');
@@ -30,6 +31,7 @@ app.set("views", __dirname + "/views");
 app.use('/api/auth', authApi);
 app.use('/auth', oauthRoutes);
 app.use('/api/instances', requireAuth, instancesApi);
+app.use('/api/account', requireAuth, accountApi);
 app.use('/api/admin', adminAuthApi);
 app.use('/api/admin', adminApi);
 
@@ -60,6 +62,14 @@ app.get('/admin/logout', (req, res) => {
 app.get('/docs', (req, res) => {
   res.redirect('https://docs.xeondb.com/');
 });
+
+function computeInitialsFromUser(email, user) {
+  const e = cleanEmail(email);
+  const first = user && user.first_name ? String(user.first_name).trim() : '';
+  const last = user && user.last_name ? String(user.last_name).trim() : '';
+  const initials = (first[0] || '') + (last[0] || '');
+  return (initials || (e ? e.slice(0, 2) : '') || 'ME').toUpperCase();
+}
 
 app.get('/admin', requireAdmin, async (req, res) => {
   const db = getReqDb(req);
@@ -128,6 +138,52 @@ app.get("/dashboard", requireAuth, async (req, res) => {
   }
 
   res.render("dashboard", { name, instances });
+});
+
+app.get('/settings', requireAuth, async (req, res) => {
+  const db = getReqDb(req);
+  const email = cleanEmail(req.user && req.user.email);
+  if (!db) return res.status(500).send('Database not ready');
+  if (!email) return res.redirect('/login');
+
+  let user = null;
+  let instances = [];
+  try {
+    user = await getUserByEmail(db, email);
+  } catch {
+    user = null;
+  }
+  try {
+    instances = await getInstancesByUser(db, email);
+  } catch {
+    instances = [];
+  }
+
+  const name = computeInitialsFromUser(email, user);
+  res.render('settings', { name, email, user, instances });
+});
+
+app.get('/billing', requireAuth, async (req, res) => {
+  const db = getReqDb(req);
+  const email = cleanEmail(req.user && req.user.email);
+  if (!db) return res.status(500).send('Database not ready');
+  if (!email) return res.redirect('/login');
+
+  let user = null;
+  let instances = [];
+  try {
+    user = await getUserByEmail(db, email);
+  } catch {
+    user = null;
+  }
+  try {
+    instances = await getInstancesByUser(db, email);
+  } catch {
+    instances = [];
+  }
+
+  const name = computeInitialsFromUser(email, user);
+  res.render('billing', { name, email, user, instances });
 });
 
 app.get("/dashboard/:id", requireAuth, async (req, res) => {

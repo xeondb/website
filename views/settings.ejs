@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>XeonDB - Settings</title>
+  <meta name="description" content="Account settings for XeonDB." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" href="/logo.png" />
+  <link rel="stylesheet" href="/css/settings.css" />
+</head>
+
+<body>
+  <%- include('alert.ejs') %>
+
+  <main class="page">
+    <div class="shell">
+      <div class="topbar">
+        <a class="brand" href="/" aria-label="Back to XeonDB home">
+          <img src="/logo.png" alt="XeonDB logo" />
+          <span>XeonDB</span>
+        </a>
+        <div class="topbar-right">
+          <a class="btn" href="/dashboard">Dashboard</a>
+          <details class="user-menu">
+            <summary class="user-avatar" aria-label="Open user menu"><%= name %></summary>
+            <div class="user-menu-pop" role="navigation" aria-label="User menu">
+              <a class="user-menu-item" href="/settings" aria-current="page">Settings</a>
+              <a class="user-menu-item" href="/billing">Billing</a>
+              <div class="user-menu-sep" aria-hidden="true"></div>
+              <a class="user-menu-item" href="/logout">Logout</a>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <header class="header">
+        <div>
+          <h1 class="title">Settings</h1>
+          <p class="subtitle">Manage your account details.</p>
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="card">
+          <div class="card-title">Email</div>
+          <form class="form" id="settings-form">
+            <div class="row">
+              <div class="value mono"><%= email %></div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="first-name">First name</label>
+              <input class="input" id="first-name" name="firstName" type="text" autocomplete="given-name" required value="<%= user && user.first_name ? user.first_name : '' %>" />
+            </div>
+            <div class="field">
+              <label class="label" for="last-name">Last name</label>
+              <input class="input" id="last-name" name="lastName" type="text" autocomplete="family-name" required value="<%= user && user.last_name ? user.last_name : '' %>" />
+            </div>
+            <div class="field">
+              <label class="label" for="company">Company</label>
+              <input class="input" id="company" name="companyName" type="text" autocomplete="organization" required value="<%= user && user.company ? user.company : '' %>" />
+            </div>
+
+            <label class="check" for="marketing">
+              <input id="marketing" type="checkbox" name="marketingOptIn" <%= (user && (user.marketing_opt_in === true || user.marketingOptIn === true)) ? 'checked' : '' %> />
+              <span>Marketing opt-in</span>
+            </label>
+
+            <div class="row">
+              <div class="label">Created</div>
+              <div class="value mono"><%= (user && user.created_at) ? new Date(Number(user.created_at)).toISOString() : '-' %></div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn primary" id="btn-save" type="submit">Save changes</button>
+              <span class="save-status" id="save-status" aria-live="polite"></span>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Security</div>
+          <div class="hint">Update your password. Leave blank to keep it unchanged.</div>
+          <div class="field">
+            <label class="label" for="pw-current">Current password</label>
+            <input class="input" id="pw-current" type="password" autocomplete="current-password" placeholder="Required to change password" />
+          </div>
+          <div class="field">
+            <label class="label" for="pw-new">New password</label>
+            <input class="input" id="pw-new" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" />
+          </div>
+          <a class="btn" href="/logout">Sign out</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById('settings-form');
+      var statusEl = document.getElementById('save-status');
+      var btn = document.getElementById('btn-save');
+
+      function toast(type, msg) {
+        if (typeof window.showToast === 'function') {
+          window.showToast(type, msg);
+          return;
+        }
+        if (typeof window.createAlert === 'function') {
+          window.createAlert(type, msg);
+          return;
+        }
+        if (typeof alert === 'function') alert(msg);
+      }
+
+      async function postJson(url, body) {
+        var res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(body)
+        });
+        var data = null;
+        try { data = await res.json(); } catch { data = null; }
+        if (!res.ok) {
+          var err = data && (data.error || data.message) ? (data.error || data.message) : ('Request failed (' + res.status + ')');
+          throw new Error(err);
+        }
+        return data;
+      }
+
+      if (!form) return;
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        var firstName = String((document.getElementById('first-name') || {}).value || '').trim();
+        var lastName = String((document.getElementById('last-name') || {}).value || '').trim();
+        var companyName = String((document.getElementById('company') || {}).value || '').trim();
+        var marketingOptIn = !!((document.getElementById('marketing') || {}).checked);
+
+        var passwordCurrent = String((document.getElementById('pw-current') || {}).value || '');
+        var passwordNew = String((document.getElementById('pw-new') || {}).value || '');
+
+        if (btn) btn.disabled = true;
+        if (statusEl) statusEl.textContent = 'Saving...';
+
+        try {
+          await postJson('/api/account/profile', {
+            firstName: firstName,
+            lastName: lastName,
+            companyName: companyName,
+            marketingOptIn: marketingOptIn,
+            passwordCurrent: passwordCurrent,
+            passwordNew: passwordNew
+          });
+          if (statusEl) statusEl.textContent = 'Saved';
+          toast('success', 'Settings saved');
+          if (passwordNew) {
+            var el1 = document.getElementById('pw-current');
+            var el2 = document.getElementById('pw-new');
+            if (el1) el1.value = '';
+            if (el2) el2.value = '';
+          }
+        } catch (err) {
+          if (statusEl) statusEl.textContent = '';
+          toast('error', err && err.message ? err.message : 'Save failed');
+        } finally {
+          if (btn) btn.disabled = false;
+          setTimeout(function () {
+            if (statusEl && statusEl.textContent === 'Saved') statusEl.textContent = '';
+          }, 2500);
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
