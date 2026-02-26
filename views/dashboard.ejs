@@ -22,7 +22,7 @@
   <input type="checkbox" id="modal-toggle" class="modal-toggle" />
 
   <div class="modal-backdrop">
-    <div class="modal">
+    <div class="modal" data-view="plan" data-state="idle">
       <label for="modal-toggle" class="modal-close" aria-label="Close modal">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -30,71 +30,110 @@
         </svg>
       </label>
 
-      <div class="modal-header">
-        <h2 class="modal-title">Create a Database</h2>
-        <p class="modal-subtitle">Choose a plan to get started</p>
-      </div>
+      <div class="plan-view" aria-label="Create database">
+        <div class="modal-header">
+          <h2 class="modal-title">Create a Database</h2>
+          <p class="modal-subtitle">Choose a plan to get started</p>
+        </div>
 
         <div class="modal-body">
-        <label class="plan-option" data-plan="free">
-          <div class="plan-header">
-            <span class="plan-name">Free</span>
-            <span class="plan-price">$0<span>/month</span></span>
-          </div>
-          <div class="plan-features">
-            <div class="plan-feature">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              Sharded node architecture
+          <label class="plan-option" data-plan="free">
+            <div class="plan-header">
+              <span class="plan-name">Free</span>
+              <span class="plan-price">$0<span>/month</span></span>
             </div>
-            <div class="plan-feature">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              500 MB storage
+            <div class="plan-features">
+              <div class="plan-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                Sharded node architecture
+              </div>
+              <div class="plan-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                500 MB storage
+              </div>
+              <div class="plan-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                Community support
+              </div>
             </div>
-            <div class="plan-feature">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              Community support
-            </div>
-          </div>
-          <span class="plan-badge free">Available</span>
-        </label>
+            <span class="plan-badge free">Available</span>
+          </label>
 
-        <div class="plan-option disabled" data-plan="pro">
-          <div class="plan-header">
-            <span class="plan-name">Pro</span>
-            <span class="plan-price">$5<span>/month</span></span>
+          <div class="plan-option disabled" data-plan="pro">
+            <div class="plan-header">
+              <span class="plan-name">Pro</span>
+              <span class="plan-price">$5<span>/month</span></span>
+            </div>
+            <div class="plan-features">
+              <div class="plan-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                Dedicated node
+              </div>
+              <div class="plan-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                150 GB storage
+              </div>
+              <div class="plan-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                Priority support
+              </div>
+            </div>
+            <span class="plan-badge coming">Coming Soon</span>
           </div>
-          <div class="plan-features">
-            <div class="plan-feature">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              Dedicated node
-            </div>
-            <div class="plan-feature">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              150 GB storage
-            </div>
-            <div class="plan-feature">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              Priority support
-            </div>
-          </div>
-          <span class="plan-badge coming">Coming Soon</span>
+        </div>
+
+        <div class="modal-footer">
+          <button class="modal-btn" id="create-db" type="button">Create Database</button>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="modal-btn" id="create-db" type="button">Create Database</button>
+      <div class="setup-view" aria-label="Provisioning" aria-live="polite">
+        <div class="setup-header">
+          <h2 class="setup-title">Setting up the environment</h2>
+          <p class="setup-sub" id="setup-sub">// This usually takes around 1-2 mins</p>
+        </div>
+
+        <div class="setup-spark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="setup-steps" aria-label="Setup steps">
+          <div class="setup-step pending" data-step="0">
+            <span class="setup-icon" aria-hidden="true"></span>
+            <span class="setup-label">Initializing Cloud environment</span>
+          </div>
+          <div class="setup-step pending" data-step="1">
+            <span class="setup-icon" aria-hidden="true"></span>
+            <span class="setup-label">Provisioning resources</span>
+          </div>
+          <div class="setup-step pending" data-step="2">
+            <span class="setup-icon" aria-hidden="true"></span>
+            <span class="setup-label">Configuring environment</span>
+          </div>
+          <div class="setup-step pending" data-step="3">
+            <span class="setup-icon" aria-hidden="true"></span>
+            <span class="setup-label">Starting the instance</span>
+          </div>
+        </div>
+
+        <div class="setup-error" id="setup-error" style="display:none;"></div>
+        <div class="setup-actions" id="setup-actions" style="display:none;">
+          <button class="setup-back" id="setup-back" type="button">Back</button>
+          <label for="modal-toggle" class="setup-close">Close</label>
+        </div>
       </div>
     </div>
   </div>
@@ -118,10 +157,13 @@
           <h1 class="page-title">Your Databases</h1>
           <p class="page-subtitle">Manage and monitor your database clusters</p>
         </div>
+        <div class="page-actions">
+          <label for="modal-toggle" class="btn primary">Create database</label>
+        </div>
       </div>
 
-      <div class="dbs-grid">
-        <% if (instances && instances.length) { %>
+      <% if (instances && instances.length) { %>
+        <div class="dbs-grid">
           <% instances.forEach(function(inst) { %>
             <div class="db-card">
               <div class="db-card-header">
@@ -132,34 +174,46 @@
                   <%= st === 'online' ? 'Online' : 'Offline' %>
                 </span>
               </div>
-              <div class="db-info">
-                <div class="db-info-row">
-                  <span class="db-info-label">Plan</span>
-                  <span class="db-info-value"><%= (inst.plan || 'free').toUpperCase() %></span>
-                </div>
-                <div class="db-info-row">
-                  <span class="db-info-label">Host</span>
-                  <span class="db-info-value"><%= inst.host %></span>
-                </div>
-                <div class="db-info-row">
-                  <span class="db-info-label">Port</span>
-                  <span class="db-info-value"><%= inst.port %></span>
-                </div>
-                <% if (inst.keyspace) { %>
-                  <div class="db-info-row">
-                    <span class="db-info-label">Keyspace</span>
-                    <span class="db-info-value"><%= inst.keyspace %></span>
-                  </div>
-                <% } %>
-                <div class="db-info-row">
-                  <span class="db-info-label">Username</span>
-                  <span class="db-info-value"><%= inst.db_username %></span>
-                </div>
-                <div class="db-info-row">
-                  <span class="db-info-label">Password</span>
-                  <span class="db-info-value">**************</span>
+
+              <div class="db-meta">
+                <div class="db-endpoint"><%= inst.host %>:<%= inst.port %></div>
+                <div class="db-pills" aria-label="Database attributes">
+                  <span class="db-pill"><%= (inst.plan || 'free').toUpperCase() %></span>
+                  <% if (inst.keyspace) { %>
+                    <span class="db-pill">Keyspace: <span class="mono"><%= inst.keyspace %></span></span>
+                  <% } %>
                 </div>
               </div>
+
+              <details class="db-expand">
+                <summary>Connection details</summary>
+                <div class="db-detail" aria-label="Connection details">
+                  <div class="db-info-row">
+                    <span class="db-info-label">Host</span>
+                    <span class="db-info-value"><%= inst.host %></span>
+                  </div>
+                  <div class="db-info-row">
+                    <span class="db-info-label">Port</span>
+                    <span class="db-info-value"><%= inst.port %></span>
+                  </div>
+                  <% if (inst.keyspace) { %>
+                    <div class="db-info-row">
+                      <span class="db-info-label">Keyspace</span>
+                      <span class="db-info-value"><%= inst.keyspace %></span>
+                    </div>
+                  <% } %>
+                  <div class="db-info-row">
+                    <span class="db-info-label">Username</span>
+                    <span class="db-info-value"><%= inst.db_username %></span>
+                  </div>
+                  <div class="db-info-row">
+                    <span class="db-info-label">Password</span>
+                    <span class="db-info-value">**************</span>
+                  </div>
+                  <div class="db-detail-hint">Use <span class="mono">Copy connection</span> to copy credentials.</div>
+                </div>
+              </details>
+
               <div class="db-actions">
                 <button class="db-action-btn js-connect" type="button"
                   data-host="<%= inst.host %>"
@@ -167,22 +221,21 @@
                   data-keyspace="<%= inst.keyspace ? inst.keyspace : '' %>"
                   data-username="<%= inst.db_username %>"
                   data-password="<%= inst.db_password %>">
-                  Connect
+                  Copy connection
                 </button>
-                <a class="db-action-btn" href="/dashboard/<%= inst.id %>" style="text-align:center; display:inline-block;">Manage</a>
+                <a class="db-action-btn primary" href="/dashboard/<%= inst.id %>">Manage</a>
               </div>
             </div>
           <% }); %>
-        <% } %>
-
-        <label for="modal-toggle" class="create-card">
-          <div class="create-card-label">
-            <div class="create-icon">+</div>
-            <span class="create-text">Create Database</span>
-            <span class="create-hint">Free plan available</span>
-          </div>
-        </label>
-      </div>
+        </div>
+      <% } else { %>
+        <div class="empty-state" aria-label="No databases">
+          <div class="empty-state-icon">+</div>
+          <h3>No databases yet</h3>
+          <p>Create a database to get an endpoint and credentials.</p>
+          <label for="modal-toggle" class="btn primary" style="margin: 10px;">Create database</label>
+        </div>
+      <% } %>
     </div>
   </main>
 
@@ -235,6 +288,11 @@
 
       var createBtn = document.getElementById('create-db');
       var modalToggle = document.getElementById('modal-toggle');
+      var modalEl = document.querySelector('.modal');
+      var setupSubEl = document.getElementById('setup-sub');
+      var setupErrEl = document.getElementById('setup-error');
+      var setupActionsEl = document.getElementById('setup-actions');
+      var setupBackBtn = document.getElementById('setup-back');
       var selectedPlan = 'free';
 
       function setSelectedPlan(plan) {
@@ -250,15 +308,120 @@
 
       async function create(plan) {
         const data = await postJson('/api/instances', { plan: plan });
-        if (modalToggle) modalToggle.checked = false;
-        window.location.reload();
+        return data;
+      }
+
+      function setStep(i, state) {
+        var el = document.querySelector('.setup-step[data-step="' + String(i) + '"]');
+        if (!el) return;
+        el.classList.remove('pending', 'active', 'done');
+        el.classList.add(state);
+      }
+
+      function resetSetup() {
+        for (var i = 0; i < 4; i++) setStep(i, 'pending');
+        setStep(0, 'active');
+        if (setupSubEl) setupSubEl.textContent = '// This usually takes around 1-2 mins';
+        if (setupErrEl) {
+          setupErrEl.style.display = 'none';
+          setupErrEl.textContent = '';
+        }
+        if (setupActionsEl) setupActionsEl.style.display = 'none';
+      }
+
+      function showSetupError(msg) {
+        if (modalEl) {
+          modalEl.dataset.view = 'setup';
+          modalEl.dataset.state = 'error';
+        }
+        if (setupSubEl) setupSubEl.textContent = '// Setup failed. Please try again.';
+        if (setupErrEl) {
+          setupErrEl.textContent = msg || 'Failed to create instance.';
+          setupErrEl.style.display = 'block';
+        }
+        if (setupActionsEl) setupActionsEl.style.display = 'flex';
+      }
+
+      function runWeightedSetupAnimation10s(onMinDone) {
+        // Total 10s min: 1.2s / 5.4s / 2.4s / 1.0s
+        var marks = [1200, 6600, 9000, 10000];
+        var timers = [];
+        timers.push(setTimeout(function () { setStep(0, 'done'); setStep(1, 'active'); }, marks[0]));
+        timers.push(setTimeout(function () { setStep(1, 'done'); setStep(2, 'active'); }, marks[1]));
+        timers.push(setTimeout(function () { setStep(2, 'done'); setStep(3, 'active'); }, marks[2]));
+        timers.push(setTimeout(function () {
+          if (typeof onMinDone === 'function') onMinDone();
+        }, marks[3]));
+        return function cancel() {
+          for (var i = 0; i < timers.length; i++) {
+            try { clearTimeout(timers[i]); } catch { }
+          }
+        };
       }
 
       if (createBtn) {
         createBtn.addEventListener('click', function () {
-          create(selectedPlan).catch(function (err) {
-            alert(err && err.message ? err.message : String(err));
+          if (!modalEl) {
+            create(selectedPlan).then(function () {
+              window.location.reload();
+            }).catch(function (err) {
+              alert(err && err.message ? err.message : String(err));
+            });
+            return;
+          }
+
+          modalEl.dataset.view = 'setup';
+          modalEl.dataset.state = 'running';
+          resetSetup();
+          createBtn.disabled = true;
+
+          var cancelled = false;
+          var minDone = false;
+          var apiDone = false;
+          var instanceId = '';
+
+          function maybeGo() {
+            if (cancelled) return;
+            if (!minDone || !apiDone || !instanceId) return;
+            setStep(3, 'done');
+            window.location.href = '/dashboard/' + instanceId;
+          }
+
+          var cancelAnim = runWeightedSetupAnimation10s(function () {
+            minDone = true;
+            if (!apiDone && setupSubEl) {
+              setupSubEl.textContent = '// Still working. Finalizing your instance...';
+            }
+            maybeGo();
           });
+
+          create(selectedPlan).then(function (data) {
+            if (cancelled) return;
+            var inst = data && data.instance ? data.instance : null;
+            instanceId = inst && inst.id ? String(inst.id) : '';
+            apiDone = true;
+            if (!instanceId) {
+              throw new Error('Instance created but missing id');
+            }
+            if (setupSubEl && !minDone) {
+              setupSubEl.textContent = '// Instance ready. Finishing up...';
+            }
+            maybeGo();
+          }).catch(function (err) {
+            cancelled = true;
+            try { cancelAnim(); } catch { }
+            try { createBtn.disabled = false; } catch { }
+            showSetupError(err && err.message ? err.message : String(err));
+          });
+        });
+      }
+
+      if (setupBackBtn) {
+        setupBackBtn.addEventListener('click', function () {
+          if (!modalEl) return;
+          modalEl.dataset.view = 'plan';
+          modalEl.dataset.state = 'idle';
+          if (createBtn) createBtn.disabled = false;
         });
       }
     })();
