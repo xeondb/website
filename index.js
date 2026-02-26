@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
-
+const log = require("./lib/log");
 app.set('trust proxy', true);
-
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, '.env') });
@@ -222,6 +221,6 @@ app.get("/tos", (req, res) => {
   app.locals.db = db;
 
   app.listen(process.env.PORT, () => {
-    console.log(`Application running at http://localhost:${process.env.PORT}/`);
+    log.info(`Application running at http://localhost:${process.env.PORT}/`);
   });
 })();

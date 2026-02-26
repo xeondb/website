@@ -1,6 +1,8 @@
 
 const { XeondbClient } = require("xeondb-driver");
 
+const log = require('./lib/log');
+
 // Drop the db data
 // DROP TABLE test_table;
 
@@ -17,7 +19,7 @@ async function pushLargeData() {
 	let pushedChunks = 0;
 	try {
 		await client.connect();
-		console.log('Connected to Xeondb.');
+		log.info('Connected to Xeondb.');
 
 		await client.selectKeyspace(keyspace);
 
@@ -26,7 +28,7 @@ async function pushLargeData() {
 		try {
 			const metrics = await client.query(`SHOW METRICS IN ${keyspace};`);
 			if (metrics && metrics.ok === true) {
-				console.log('Metrics:', metrics);
+				log.info('Metrics: %j', metrics);
 			}
 		} catch {
 			// ignore
@@ -43,16 +45,16 @@ async function pushLargeData() {
 			const cmd = `INSERT INTO ${table} (key, value) VALUES ("${key}", "${base64}");`;
 			const res = await client.query(cmd);
 			if (!res || res.ok !== true) {
-				console.error(`Error inserting chunk ${i + 1}:`, (res && res.error) ? res.error : 'Query failed');
+				log.error(`Error inserting chunk ${i + 1}: %s`, (res && res.error) ? res.error : 'Query failed');
 				break;
 			}
 			pushedChunks++;
-			console.log(`Pushed chunk ${i + 1}/${totalChunks}`);
+			log.info(`Pushed chunk ${i + 1}/${totalChunks}`);
 		}
-		console.log(`Done. Successfully pushed ${pushedChunks} chunk(s) (~${(pushedChunks * chunkSize) / (1024 * 1024)} MB raw).`);
+		log.info(`Done. Successfully pushed ${pushedChunks} chunk(s) (~${(pushedChunks * chunkSize) / (1024 * 1024)} MB raw).`);
 		client.close();
 	} catch (err) {
-		console.error('Error during data push:', err);
+		log.error('Error during data push: %s', err && err.message ? err.message : String(err));
 	}
 }
 
