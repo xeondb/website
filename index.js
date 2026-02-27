@@ -216,6 +216,24 @@ app.get("/tos", (req, res) => {
   });
 });
 
+app.get("/install", async (req, res) => {
+  const url = "https://raw.githubusercontent.com/xeondb/Xeondb/main/install.sh";
+  const r = await fetch(url);
+  if (!r.ok) return res.status(502).send("Failed to fetch installer");
+  res.set("Content-Type", "text/x-shellscript; charset=utf-8");
+  res.set("Cache-Control", "public, max-age=300");
+  res.send(await r.text());
+});
+
+app.get("/update", async (req, res) => {
+  const url = "https://raw.githubusercontent.com/xeondb/Xeondb/main/update.sh";
+  const r = await fetch(url);
+  if (!r.ok) return res.status(502).send("Failed to fetch updater");
+  res.set("Content-Type", "text/x-shellscript; charset=utf-8");
+  res.set("Cache-Control", "public, max-age=300");
+  res.send(await r.text());
+});
+
 (async () => {
   const db = await connectToDb();
   app.locals.db = db;
