@@ -23,6 +23,7 @@
   <%- include('alert.ejs') %>
     <input type="radio" name="nav" id="tabOverview" class="navToggle" checked />
     <input type="radio" name="nav" id="tabData" class="navToggle" />
+    <input type="radio" name="nav" id="tabTables" class="navToggle" />
     <input type="radio" name="nav" id="tabUsers" class="navToggle" />
     <input type="radio" name="nav" id="tabWhitelist" class="navToggle" disabled />
     <input type="radio" name="nav" id="tabBackups" class="navToggle" disabled />
@@ -86,6 +87,18 @@
                     <polyline points="8 6 2 12 8 18"></polyline>
                   </svg>
                   Manage Data
+                </label>
+                <label for="tabTables" class="navItem">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16"></path>
+                    <path d="M4 10h16"></path>
+                    <path d="M4 14h16"></path>
+                    <path d="M4 18h16"></path>
+                    <path d="M9 6v12"></path>
+                    <path d="M15 6v12"></path>
+                  </svg>
+                  Tables
                 </label>
                 <label for="tabUsers" class="navItem">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -283,6 +296,50 @@
                   <thead id="resultsHead"></thead>
                   <tbody id="resultsBody"></tbody>
                 </table>
+              </div>
+            </div>
+
+            <div class="panel panelTables">
+              <div class="panelHeader">
+                <h2 class="panelTitle">Tables</h2>
+                <button class="queryBtn" id="tablesRefresh" type="button">Refresh</button>
+              </div>
+
+              <% if (!(instance && instance.keyspace)) { %>
+                <div class="tablesKeyspaceRow">
+                  <input id="tablesKeyspace" class="addUserInput" placeholder="Keyspace (e.g. myapp)" autocomplete="off" />
+                  <button class="queryBtn" id="tablesLoad" type="button">Load</button>
+                </div>
+              <% } %>
+
+              <div class="tablesGrid">
+                <div class="tablesLeft">
+                  <div class="tablesSectionTitle">Your tables</div>
+                  <div class="tablesList" id="tablesList"></div>
+                </div>
+
+                <div class="tablesRight">
+                  <div class="tablesSelected" id="tablesSelected">Select a table to view schema and data.</div>
+
+                  <div class="tablesSubTitle">Schema</div>
+                  <div class="resultsTableWrap">
+                    <table class="resultsTable">
+                      <thead id="tablesSchemaHead"></thead>
+                      <tbody id="tablesSchemaBody"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="tablesSubTitle tablesSubTitleRow">
+                    <span>Data (first 100 rows)</span>
+                    <button class="queryBtn" id="tablesReloadData" type="button" disabled>Reload</button>
+                  </div>
+                  <div class="resultsTableWrap">
+                    <table class="resultsTable">
+                      <thead id="tablesDataHead"></thead>
+                      <tbody id="tablesDataBody"></tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -851,6 +908,35 @@
           });
         }
 
+        function clearTableInto(h, b) {
+          if (h) h.innerHTML = '';
+          if (b) b.innerHTML = '';
+        }
+
+        function renderTableInto(h, b, headers, rows) {
+          clearTableInto(h, b);
+          if (!h || !b) return;
+
+          const trh = document.createElement('tr');
+          headers.forEach((hh) => {
+            const th = document.createElement('th');
+            th.textContent = hh;
+            trh.appendChild(th);
+          });
+          h.appendChild(trh);
+
+          rows.forEach((row) => {
+            const tr = document.createElement('tr');
+            headers.forEach((hh) => {
+              const td = document.createElement('td');
+              const v = row && Object.prototype.hasOwnProperty.call(row, hh) ? row[hh] : '';
+              td.textContent = v === null || v === undefined ? '' : String(v);
+              tr.appendChild(td);
+            });
+            b.appendChild(tr);
+          });
+        }
+
         function renderKeyValue(obj) {
           const entries = obj && typeof obj === 'object' ? Object.entries(obj) : [['result', obj]];
           const rows = entries.map(([k, v]) => ({ key: k, value: v === null || v === undefined ? '' : (typeof v === 'string' ? v : JSON.stringify(v)) }));
@@ -921,6 +1007,285 @@
               runBtn.disabled = false;
               runBtn.textContent = 'Run Query';
             }
+          });
+        }
+
+        const tabTablesEl = document.getElementById('tabTables');
+        const tablesRefreshBtn = document.getElementById('tablesRefresh');
+        const tablesLoadBtn = document.getElementById('tablesLoad');
+        const tablesKeyspaceEl = document.getElementById('tablesKeyspace');
+        const tablesListEl = document.getElementById('tablesList');
+        const tablesSelectedEl = document.getElementById('tablesSelected');
+        const tablesSchemaHeadEl = document.getElementById('tablesSchemaHead');
+        const tablesSchemaBodyEl = document.getElementById('tablesSchemaBody');
+        const tablesDataHeadEl = document.getElementById('tablesDataHead');
+        const tablesDataBodyEl = document.getElementById('tablesDataBody');
+        const tablesReloadDataBtn = document.getElementById('tablesReloadData');
+
+        let tablesLoaded = false;
+        let selectedTable = '';
+
+        function isIdent(s) {
+          return typeof s === 'string' && /^[A-Za-z_][A-Za-z0-9_]*$/.test(s);
+        }
+
+        function getTablesKeyspace() {
+          if (instanceKeyspace) return instanceKeyspace;
+          const fromTables = tablesKeyspaceEl ? String(tablesKeyspaceEl.value || '').trim() : '';
+          if (fromTables) return fromTables;
+          const fromManageData = keyspaceEl ? String(keyspaceEl.value || '').trim() : '';
+          if (fromManageData) return fromManageData;
+          try {
+            return String(localStorage.getItem(keyspaceStorageKey) || '').trim();
+          } catch {
+            return '';
+          }
+        }
+
+        async function runInstanceQuery(query, keyspaceForSelect) {
+          if (!instanceId) throw new Error('Missing instance id');
+          const body = instanceKeyspace
+            ? { query }
+            : { keyspace: keyspaceForSelect, query };
+          const data = await postJson(`/api/instances/${instanceId}/query`, body);
+          return data.result;
+        }
+
+        function extractTableName(row) {
+          if (!row || typeof row !== 'object') return '';
+          const keys = Object.keys(row);
+          const candidates = ['table', 'table_name', 'name', 'TABLE_NAME', 'TABLE', 'NAME'];
+          for (const k of candidates) {
+            if (Object.prototype.hasOwnProperty.call(row, k) && row[k]) return String(row[k]);
+          }
+          if (keys.length === 1) {
+            const v = row[keys[0]];
+            return v ? String(v) : '';
+          }
+          return '';
+        }
+
+        function extractTableNames(result) {
+          if (!result || typeof result !== 'object') return [];
+          if (Array.isArray(result.tables)) {
+            return result.tables.map((t) => String(t || '')).filter(Boolean);
+          }
+          const rows = Array.isArray(result.rows) ? result.rows : [];
+          const names = rows.map(extractTableName).filter(Boolean);
+          const uniq = Array.from(new Set(names.map((s) => String(s).trim()).filter(Boolean)));
+          uniq.sort((a, b) => a.localeCompare(b));
+          return uniq;
+        }
+
+        function setTablesListLoading() {
+          if (!tablesListEl) return;
+          tablesListEl.innerHTML = '<div class="tablesEmpty">Loading tables...</div>';
+        }
+
+        function setTablesListEmpty(msg) {
+          if (!tablesListEl) return;
+          tablesListEl.innerHTML = `<div class="tablesEmpty"></div>`;
+          const el = tablesListEl.querySelector('.tablesEmpty');
+          if (el) el.textContent = msg;
+        }
+
+        function setSelectedMeta(text) {
+          if (tablesSelectedEl) tablesSelectedEl.textContent = text;
+        }
+
+        function highlightSelectedTable() {
+          if (!tablesListEl) return;
+          tablesListEl.querySelectorAll('.tablesItem').forEach((btn) => {
+            btn.classList.toggle('isActive', btn.getAttribute('data-table') === selectedTable);
+          });
+          if (tablesReloadDataBtn) tablesReloadDataBtn.disabled = !selectedTable;
+        }
+
+        function renderTablesList(names) {
+          if (!tablesListEl) return;
+          tablesListEl.innerHTML = '';
+          if (!names || names.length === 0) {
+            setTablesListEmpty('No tables found');
+            return;
+          }
+          for (const name of names) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'tablesItem';
+            btn.textContent = name;
+            btn.setAttribute('data-table', name);
+            btn.addEventListener('click', async () => {
+              await selectAndLoadTable(name);
+            });
+            tablesListEl.appendChild(btn);
+          }
+          highlightSelectedTable();
+        }
+
+        function parseDescribe(result) {
+          const out = { primaryKey: '', columns: [] };
+          if (!result || typeof result !== 'object') return out;
+
+          const pk = Object.prototype.hasOwnProperty.call(result, 'primaryKey') ? result.primaryKey : (result.primary_key || result.primary_key_column);
+          if (typeof pk === 'string') out.primaryKey = pk;
+
+          const cols = Object.prototype.hasOwnProperty.call(result, 'columns') ? result.columns : null;
+          if (Array.isArray(cols)) {
+            out.columns = cols
+              .map((c) => ({
+                name: c && c.name ? String(c.name) : '',
+                type: c && c.type ? String(c.type) : ''
+              }))
+              .filter((c) => c.name);
+          }
+
+          return out;
+        }
+
+        async function loadTablesList(opts) {
+          const force = !!(opts && opts.force);
+          if (!instanceId) return;
+
+          const keyspace = getTablesKeyspace();
+          if (!instanceKeyspace) {
+            if (!keyspace || !isIdent(keyspace)) {
+              toast('warning', 'Enter a valid keyspace');
+              if (tablesKeyspaceEl) tablesKeyspaceEl.focus();
+              return;
+            }
+          }
+
+          if (!force && tablesLoaded) return;
+
+          tablesLoaded = true;
+          selectedTable = '';
+          highlightSelectedTable();
+          setSelectedMeta('Select a table to view schema and data.');
+          clearTableInto(tablesSchemaHeadEl, tablesSchemaBodyEl);
+          clearTableInto(tablesDataHeadEl, tablesDataBodyEl);
+          setTablesListLoading();
+
+          try {
+            const result = await runInstanceQuery('SHOW TABLES;', keyspace);
+            const names = extractTableNames(result);
+            renderTablesList(names);
+            if (names.length === 0) {
+              setTablesListEmpty('No tables found');
+            }
+          } catch (e) {
+            setTablesListEmpty('Failed to load tables');
+            toast('error', e && e.message ? e.message : 'Failed to load tables');
+          }
+        }
+
+        async function loadSelectedTableData(tableName, keyspace) {
+          const q = `SELECT * FROM ${keyspace}.${tableName} LIMIT 100;`;
+          const result = await runInstanceQuery(q, keyspace);
+
+          const rows = Array.isArray(result && result.rows) ? result.rows : [];
+          if (rows.length === 0) {
+            clearTableInto(tablesDataHeadEl, tablesDataBodyEl);
+            toast('info', 'No rows');
+            return;
+          }
+          const headers = Object.keys(rows[0] || {});
+          renderTableInto(tablesDataHeadEl, tablesDataBodyEl, headers, rows);
+        }
+
+        async function selectAndLoadTable(name) {
+          const keyspace = getTablesKeyspace();
+          if (!instanceKeyspace) {
+            if (!keyspace || !isIdent(keyspace)) {
+              toast('warning', 'Enter a valid keyspace');
+              if (tablesKeyspaceEl) tablesKeyspaceEl.focus();
+              return;
+            }
+          }
+          if (!isIdent(name)) {
+            toast('error', 'Invalid table name');
+            return;
+          }
+
+          selectedTable = name;
+          highlightSelectedTable();
+          setSelectedMeta(`Table: ${name}`);
+          clearTableInto(tablesSchemaHeadEl, tablesSchemaBodyEl);
+          clearTableInto(tablesDataHeadEl, tablesDataBodyEl);
+
+          try {
+            const d = await runInstanceQuery(`DESCRIBE TABLE ${keyspace}.${name};`, keyspace);
+            const parsed = parseDescribe(d);
+            const pkTxt = parsed && parsed.primaryKey ? ` (primary key: ${parsed.primaryKey})` : '';
+            setSelectedMeta(`Table: ${name}${pkTxt}`);
+            const schemaRows = (parsed && Array.isArray(parsed.columns) ? parsed.columns : []).map((c) => ({ name: c.name, type: c.type }));
+            renderTableInto(tablesSchemaHeadEl, tablesSchemaBodyEl, ['name', 'type'], schemaRows);
+          } catch (e) {
+            toast('error', e && e.message ? e.message : 'Failed to load schema');
+          }
+
+          try {
+            await loadSelectedTableData(name, keyspace);
+          } catch (e) {
+            toast('error', e && e.message ? e.message : 'Failed to load table data');
+          }
+        }
+
+        if (!instanceKeyspace) {
+          if (tablesKeyspaceEl) {
+            tablesKeyspaceEl.value = (() => {
+              try {
+                return localStorage.getItem(keyspaceStorageKey) || '';
+              } catch {
+                return '';
+              }
+            })();
+            tablesKeyspaceEl.addEventListener('input', () => {
+              try {
+                localStorage.setItem(keyspaceStorageKey, tablesKeyspaceEl.value);
+              } catch {
+                // ignore
+              }
+              if (keyspaceEl) keyspaceEl.value = tablesKeyspaceEl.value;
+            });
+          }
+          if (keyspaceEl) {
+            keyspaceEl.addEventListener('input', () => {
+              if (tablesKeyspaceEl) tablesKeyspaceEl.value = keyspaceEl.value;
+            });
+          }
+        }
+
+        if (tablesRefreshBtn) {
+          tablesRefreshBtn.addEventListener('click', async () => {
+            tablesLoaded = false;
+            await loadTablesList({ force: true });
+          });
+        }
+
+        if (tablesLoadBtn) {
+          tablesLoadBtn.addEventListener('click', async () => {
+            tablesLoaded = false;
+            await loadTablesList({ force: true });
+          });
+        }
+
+        if (tablesReloadDataBtn) {
+          tablesReloadDataBtn.addEventListener('click', async () => {
+            if (!selectedTable) return;
+            const keyspace = getTablesKeyspace();
+            try {
+              await loadSelectedTableData(selectedTable, keyspace);
+              toast('success', 'Reloaded');
+            } catch (e) {
+              toast('error', e && e.message ? e.message : 'Failed to reload');
+            }
+          });
+        }
+
+        if (tabTablesEl) {
+          tabTablesEl.addEventListener('change', async () => {
+            if (!tabTablesEl.checked) return;
+            await loadTablesList();
           });
         }
 

@@ -563,6 +563,7 @@
   }
 
   #tabData:checked~.pageContainer .contentWrapper .manageShell .overviewSection,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .overviewSection,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .overviewSection,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .overviewSection,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .overviewSection,
@@ -575,6 +576,7 @@
   }
 
   #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel,
@@ -583,27 +585,38 @@
   }
 
   #tabOverview:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabOverview:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabOverview:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
   #tabOverview:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
   #tabOverview:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups,
   #tabOverview:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBilling,
+  #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
   #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
   #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups,
   #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBilling,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBilling,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBilling,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBilling,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBilling,
   #tabBilling:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabBilling:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabBilling:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
   #tabBilling:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
   #tabBilling:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups {
@@ -611,6 +624,7 @@
   }
 
   #tabData:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelData,
+  #tabTables:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelTables,
   #tabUsers:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelUsers,
   #tabWhitelist:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelWhitelist,
   #tabBackups:checked~.pageContainer .contentWrapper .manageShell .mainPanel .panelBackups,
@@ -646,6 +660,115 @@
   .panelTitle {
       font-size: 16px;
       font-weight: 800;
+  }
+
+  .panelTables {
+      gap: 16px;
+  }
+
+  .tablesKeyspaceRow {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+  }
+
+  .tablesGrid {
+      display: grid;
+      grid-template-columns: minmax(220px, 320px) 1fr;
+      gap: 16px;
+      align-items: start;
+      min-width: 0;
+  }
+
+  .tablesLeft,
+  .tablesRight {
+      min-width: 0;
+  }
+
+  .tablesSectionTitle {
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+  }
+
+  .tablesList {
+      display: grid;
+      gap: 8px;
+  }
+
+  .tablesEmpty {
+      padding: 12px;
+      border: 1px dashed var(--stroke);
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(10, 10, 11, 0.35);
+      font-size: 13px;
+  }
+
+  .tablesItem {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid var(--stroke2);
+      background: rgba(16, 16, 18, 0.55);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
+
+  .tablesItem:hover {
+      transform: translateX(2px);
+      border-color: rgba(57, 198, 255, 0.35);
+      background: rgba(16, 16, 18, 0.80);
+  }
+
+  .tablesItem.isActive {
+      border-color: rgba(57, 198, 255, 0.55);
+      background: linear-gradient(135deg, rgba(57, 198, 255, 0.14), rgba(46, 211, 161, 0.06));
+  }
+
+  .tablesSelected {
+      padding: 12px;
+      border: 1px solid var(--stroke2);
+      border-radius: 12px;
+      background: rgba(10, 10, 11, 0.35);
+      color: var(--text);
+      font-weight: 800;
+      margin-bottom: 12px;
+  }
+
+  .tablesSubTitle {
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 14px 0 10px;
+  }
+
+  .tablesSubTitleRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+  }
+
+  @media (max-width: 860px) {
+      .tablesGrid {
+          grid-template-columns: 1fr;
+      }
   }
 
   .queryEditor {
