@@ -21,55 +21,55 @@
 
 <body>
   <%- include('alert.ejs') %>
-    <input type="radio" name="nav" id="tab-overview" class="nav-toggle" checked />
-    <input type="radio" name="nav" id="tab-data" class="nav-toggle" />
-    <input type="radio" name="nav" id="tab-users" class="nav-toggle" />
-    <input type="radio" name="nav" id="tab-whitelist" class="nav-toggle" disabled />
-    <input type="radio" name="nav" id="tab-backups" class="nav-toggle" disabled />
-    <input type="radio" name="nav" id="tab-billing" class="nav-toggle" />
+    <input type="radio" name="nav" id="tabOverview" class="navToggle" checked />
+    <input type="radio" name="nav" id="tabData" class="navToggle" />
+    <input type="radio" name="nav" id="tabUsers" class="navToggle" />
+    <input type="radio" name="nav" id="tabWhitelist" class="navToggle" disabled />
+    <input type="radio" name="nav" id="tabBackups" class="navToggle" disabled />
+    <input type="radio" name="nav" id="tabBilling" class="navToggle" />
 
-    <div class="page-container">
-      <div class="content-wrapper">
-        <div class="manage-shell">
+    <div class="pageContainer">
+      <div class="contentWrapper">
+        <div class="manageShell">
           <div class="topbar">
             <a class="brand" href="/" aria-label="Back to XeonDB home">
               <img src="/logo.png" alt="XeonDB logo" />
               <span>XeonDB</span>
             </a>
-            <div class="topbar-right">
+            <div class="topbarRight">
               <a class="btn" href="/dashboard">Dashboard</a>
-              <details class="user-menu">
-                <summary class="user-avatar" aria-label="Open user menu"><%= name %></summary>
-                <div class="user-menu-pop" role="navigation" aria-label="User menu">
-                  <a class="user-menu-item" href="/settings">Settings</a>
-                  <a class="user-menu-item" href="/billing">Billing</a>
-                  <div class="user-menu-sep" aria-hidden="true"></div>
-                  <a class="user-menu-item" href="/logout">Logout</a>
+              <details class="userMenu">
+                <summary class="userAvatar" aria-label="Open user menu"><%= name %></summary>
+                <div class="userMenuPop" role="navigation" aria-label="User menu">
+                  <a class="userMenuItem" href="/settings">Settings</a>
+                  <a class="userMenuItem" href="/billing">Billing</a>
+                  <div class="userMenuSep" aria-hidden="true"></div>
+                  <a class="userMenuItem" href="/logout">Logout</a>
                 </div>
               </details>
             </div>
           </div>
 
-          <div class="db-header">
-            <h1 class="db-title">Instance: <%= (instance && (instance.name || instance.id)) ? (instance.name ||
+          <div class="dbHeader">
+            <h1 class="dbTitle">Instance: <%= (instance && (instance.name || instance.id)) ? (instance.name ||
                 instance.id) : 'Database' %>
             </h1>
             <% const st=(instance && instance.status ? String(instance.status) : 'online' ).toLowerCase(); %>
-              <span class="db-status <%= st === 'online' ? 'online' : 'offline' %>">
-                <span class="db-status-dot"></span>
+              <span class="dbStatus <%= st === 'online' ? 'online' : 'offline' %>">
+                <span class="dbStatusDot"></span>
                 <%= st==='online' ? 'Online' : 'Offline' %>
               </span>
           </div>
 
-          <div class="shell-grid">
+          <div class="shellGrid">
             <aside class="sidebar">
-              <div class="sidebar-header">
+              <div class="sidebarHeader">
                 <img src="/logo.png" alt="XeonDB logo" />
                 <span>Cloud DB: <%= (instance && (instance.name || instance.id)) ? (instance.name || instance.id)
                     : 'DB Cloud Portal' %></span>
               </div>
-              <nav class="sidebar-nav">
-                <label for="tab-overview" class="nav-item">
+              <nav class="sidebarNav">
+                <label for="tabOverview" class="navItem">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"></rect>
@@ -79,7 +79,7 @@
                   </svg>
                   Overview
                 </label>
-                <label for="tab-data" class="nav-item">
+                <label for="tabData" class="navItem">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
@@ -87,7 +87,7 @@
                   </svg>
                   Manage Data
                 </label>
-                <label for="tab-users" class="nav-item">
+                <label for="tabUsers" class="navItem">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -97,7 +97,7 @@
                   </svg>
                   Users
                 </label>
-                <label for="tab-whitelist" class="nav-item is-disabled" aria-disabled="true" title="Coming soon">
+                <label for="tabWhitelist" class="navItem isDisabled" aria-disabled="true" title="Coming soon">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -105,7 +105,7 @@
                   </svg>
                   Whitelist
                 </label>
-                <label for="tab-backups" class="nav-item is-disabled" aria-disabled="true" title="Coming soon">
+                <label for="tabBackups" class="navItem isDisabled" aria-disabled="true" title="Coming soon">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -114,7 +114,7 @@
                   </svg>
                   Backups
                 </label>
-                <label for="tab-billing" class="nav-item">
+                <label for="tabBilling" class="navItem">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -123,7 +123,7 @@
                   Billing
                 </label>
 
-                <button class="nav-item nav-danger open-delete-modal" type="button">
+                <button class="navItem navDanger openDeleteModal" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -137,44 +137,44 @@
               </nav>
             </aside>
 
-            <div class="shell-main">
-              <div class="overview-section">
-                <div id="quota-warning" class="quota-warning" hidden role="status" aria-live="polite">
-                  <div class="quota-warning-title" id="quota-warning-title"></div>
-                  <div class="quota-warning-text" id="quota-warning-text"></div>
+            <div class="shellMain">
+              <div class="overviewSection">
+                <div id="quotaWarning" class="quotaWarning" hidden role="status" aria-live="polite">
+                  <div class="quotaWarningTitle" id="quotaWarningTitle"></div>
+                  <div class="quotaWarningText" id="quotaWarningText"></div>
                 </div>
-              <div class="stats-grid">
-                <div class="stat-card">
-                  <div class="stat-header">
-                    <span class="stat-title">Connections</span>
+              <div class="statsGrid">
+                <div class="statCard">
+                  <div class="statHeader">
+                    <span class="statTitle">Connections</span>
                   </div>
-                <div class="stat-value" id="stat-connections">-- <span>active</span></div>
-                <div class="chart-container">
+                <div class="statValue" id="statConnections">-- <span>active</span></div>
+                <div class="chartContainer">
                   <canvas id="connectionsChart"></canvas>
                 </div>
               </div>
 
-              <div class="stat-card">
-                <div class="stat-header">
-                  <span class="stat-title">Queries</span>
+              <div class="statCard">
+                <div class="statHeader">
+                  <span class="statTitle">Queries</span>
                 </div>
-                <div class="stat-value" id="stat-queries">-- <span>/day</span></div>
-                <div class="chart-container">
+                <div class="statValue" id="statQueries">-- <span>/day</span></div>
+                <div class="chartContainer">
                   <canvas id="queriesChart"></canvas>
                 </div>
               </div>
             </div>
 
-            <div class="quick-connect">
-              <div class="qc-title">Quick Connect</div>
-              <div class="qc-row">
-                <div class="qc-col">
-                  <div class="qc-field">
-                    <span class="qc-label">Host</span>
-                    <div class="qc-input-group">
-                      <input id="qc-host" type="text" class="qc-input"
+            <div class="quickConnect">
+              <div class="qcTitle">Quick Connect</div>
+              <div class="qcRow">
+                <div class="qcCol">
+                  <div class="qcField">
+                    <span class="qcLabel">Host</span>
+                    <div class="qcInputGroup">
+                      <input id="qcHost" type="text" class="qcInput"
                         value="<%= instance && instance.host ? instance.host : '' %>" readonly />
-                      <button class="qc-copy-btn" type="button" data-copy="qc-host" aria-label="Copy host">
+                      <button class="qcCopyBtn" type="button" data-copy="qcHost" aria-label="Copy host">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -184,12 +184,12 @@
                     </div>
                   </div>
 
-                  <div class="qc-field">
-                    <span class="qc-label">Port</span>
-                    <div class="qc-input-group">
-                      <input id="qc-port" type="text" class="qc-input"
+                  <div class="qcField">
+                    <span class="qcLabel">Port</span>
+                    <div class="qcInputGroup">
+                      <input id="qcPort" type="text" class="qcInput"
                         value="<%= instance && instance.port ? instance.port : '' %>" readonly />
-                      <button class="qc-copy-btn" type="button" data-copy="qc-port" aria-label="Copy port">
+                      <button class="qcCopyBtn" type="button" data-copy="qcPort" aria-label="Copy port">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -200,12 +200,12 @@
                   </div>
 
                   <% if (instance && instance.keyspace) { %>
-                    <div class="qc-field">
-                      <span class="qc-label">Keyspace</span>
-                      <div class="qc-input-group">
-                        <input id="qc-keyspace" type="text" class="qc-input" value="<%= instance.keyspace %>"
+                    <div class="qcField">
+                      <span class="qcLabel">Keyspace</span>
+                      <div class="qcInputGroup">
+                        <input id="qcKeyspace" type="text" class="qcInput" value="<%= instance.keyspace %>"
                           readonly />
-                        <button class="qc-copy-btn" type="button" data-copy="qc-keyspace" aria-label="Copy keyspace">
+                        <button class="qcCopyBtn" type="button" data-copy="qcKeyspace" aria-label="Copy keyspace">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -217,13 +217,13 @@
                     <% } %>
                 </div>
 
-                <div class="qc-col">
-                  <div class="qc-field">
-                    <span class="qc-label">Username</span>
-                    <div class="qc-input-group">
-                      <input id="qc-username" type="text" class="qc-input"
+                <div class="qcCol">
+                  <div class="qcField">
+                    <span class="qcLabel">Username</span>
+                    <div class="qcInputGroup">
+                      <input id="qcUsername" type="text" class="qcInput"
                         value="<%= instance && instance.db_username ? instance.db_username : '' %>" readonly />
-                      <button class="qc-copy-btn" type="button" data-copy="qc-username" aria-label="Copy username">
+                      <button class="qcCopyBtn" type="button" data-copy="qcUsername" aria-label="Copy username">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -233,15 +233,15 @@
                     </div>
                   </div>
 
-                  <div class="qc-field">
-                    <span class="qc-label">Password</span>
-                    <div class="qc-input-group">
-                      <input id="qc-password" type="password" class="qc-input" value="**************" readonly />
-                      <button class="qc-copy-btn" id="qc-reveal" type="button" aria-label="Reveal password"
+                  <div class="qcField">
+                    <span class="qcLabel">Password</span>
+                    <div class="qcInputGroup">
+                      <input id="qcPassword" type="password" class="qcInput" value="**************" readonly />
+                      <button class="qcCopyBtn" id="qcReveal" type="button" aria-label="Reveal password"
                         title="Reveal password" style="border-radius: 0; border-left: 1px solid var(--stroke);">
                         Reveal
                       </button>
-                      <button class="qc-copy-btn" type="button" data-copy-secret="password" aria-label="Copy password">
+                      <button class="qcCopyBtn" type="button" data-copy-secret="password" aria-label="Copy password">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -251,9 +251,9 @@
                     </div>
                   </div>
 
-                  <div class="qc-field">
-                    <span class="qc-label"></span>
-                    <div class="qc-input-group">
+                  <div class="qcField">
+                    <span class="qcLabel"></span>
+                    <div class="qcInputGroup">
                     </div>
                   </div>
 
@@ -262,126 +262,126 @@
             </div>
           </div>
 
-              <div class="main-panel">
-            <div class="panel panel-data">
-              <div class="panel-header">
-                <h2 class="panel-title">Query Editor</h2>
+              <div class="mainPanel">
+            <div class="panel panelData">
+              <div class="panelHeader">
+                <h2 class="panelTitle">Query Editor</h2>
               </div>
-              <div class="query-editor">
+              <div class="queryEditor">
                 <% if (!(instance && instance.keyspace)) { %>
-                  <input id="keyspace" class="add-user-input" placeholder="Keyspace (e.g. myapp)"
+                  <input id="keyspace" class="addUserInput" placeholder="Keyspace (e.g. myapp)"
                     style="margin-bottom: 10px;" />
                   <% } %>
-                    <textarea id="query" class="query-textarea"
+                    <textarea id="query" class="queryTextarea"
                       placeholder="SELECT * FROM users WHERE id = 1;"></textarea>
-                    <div class="query-actions">
-                      <button class="query-btn" id="run-query" type="button">Run Query</button>
+                    <div class="queryActions">
+                      <button class="queryBtn" id="runQuery" type="button">Run Query</button>
                     </div>
               </div>
-              <div class="results-table-wrap">
-                <table class="results-table">
-                  <thead id="results-head"></thead>
-                  <tbody id="results-body"></tbody>
+              <div class="resultsTableWrap">
+                <table class="resultsTable">
+                  <thead id="resultsHead"></thead>
+                  <tbody id="resultsBody"></tbody>
                 </table>
               </div>
             </div>
 
-            <div class="panel panel-users">
-              <div class="panel-header">
-                <h2 class="panel-title">Database Users</h2>
+            <div class="panel panelUsers">
+              <div class="panelHeader">
+                <h2 class="panelTitle">Database Users</h2>
               </div>
-              <div class="user-list" id="db-users-list"></div>
-              <div class="add-user-form" id="db-users-form">
-                <input id="db-new-username" type="text" class="add-user-input" placeholder="New username..." autocomplete="off" />
-                <input id="db-new-password" type="text" class="add-user-input" placeholder="Password (optional)" autocomplete="off" />
-                <button class="add-user-btn" id="db-add-user" type="button">Add User</button>
+              <div class="userList" id="dbUsersList"></div>
+              <div class="addUserForm" id="dbUsersForm">
+                <input id="dbNewUsername" type="text" class="addUserInput" placeholder="New username..." autocomplete="off" />
+                <input id="dbNewPassword" type="text" class="addUserInput" placeholder="Password (optional)" autocomplete="off" />
+                <button class="addUserBtn" id="dbAddUser" type="button">Add User</button>
               </div>
             </div>
 
-            <div class="panel panel-whitelist">
-              <div class="panel-header">
-                <h2 class="panel-title">IP Whitelist</h2>
+            <div class="panel panelWhitelist">
+              <div class="panelHeader">
+                <h2 class="panelTitle">IP Whitelist</h2>
               </div>
-              <div class="whitelist-info">
+              <div class="whitelistInfo">
                 <strong>Security Notice:</strong> Only whitelisted IPs can connect. 0.0.0.0/0 allows all.
               </div>
-              <div id="whitelist-list" class="whitelist-list"></div>
-              <div class="add-ip-form">
-                <input id="add-ip-input" type="text" class="add-ip-input" placeholder="e.g. 203.0.113.50/32" />
-                <button id="add-ip-btn" class="add-ip-btn" type="button">Add IP</button>
+              <div id="whitelistList" class="whitelistList"></div>
+              <div class="addIpForm">
+                <input id="addIpInput" type="text" class="addIpInput" placeholder="e.g. 203.0.113.50/32" />
+                <button id="addIpBtn" class="addIpBtn" type="button">Add IP</button>
               </div>
             </div>
 
-            <div class="panel panel-backups">
-              <div class="panel-header">
-                <h2 class="panel-title">Database Backups</h2>
-                <button class="query-btn" id="create-backup" type="button">Create Backup</button>
+            <div class="panel panelBackups">
+              <div class="panelHeader">
+                <h2 class="panelTitle">Database Backups</h2>
+                <button class="queryBtn" id="createBackup" type="button">Create Backup</button>
               </div>
-              <div id="backup-list" class="backup-list"></div>
+              <div id="backupList" class="backupList"></div>
             </div>
 
-            <div class="panel panel-billing">
-              <div class="panel-header">
-                <h2 class="panel-title">Billing & Plan</h2>
+            <div class="panel panelBilling">
+              <div class="panelHeader">
+                <h2 class="panelTitle">Billing & Plan</h2>
               </div>
-              <div class="billing-current">
-                <div class="current-plan">
-                  <div class="plan-info">
+              <div class="billingCurrent">
+                <div class="currentPlan">
+                  <div class="planInfo">
                     <% const plan=(instance && instance.plan ? String(instance.plan) : 'free' ).toLowerCase(); %>
-                      <span class="plan-name">
+                      <span class="planName">
                         <%= plan==='pro' ? 'Pro Plan' : 'Free Plan' %>
                       </span>
-                      <span class="plan-price">
+                      <span class="planPrice">
                         <%= plan==='pro' ? '$5/month' : '$0/month' %>
                       </span>
                   </div>
-                  <span class="plan-badge <%= plan === 'pro' ? 'pro' : 'free' %>">Active</span>
+                  <span class="planBadge <%= plan === 'pro' ? 'pro' : 'free' %>">Active</span>
                 </div>
               </div>
-              <div class="usage-section">
-                <h3 class="usage-title">Current Usage</h3>
-                <div class="usage-bar">
-                  <div class="usage-fill" id="usage-fill" style="width: 0%;"></div>
+              <div class="usageSection">
+                <h3 class="usageTitle">Current Usage</h3>
+                <div class="usageBar">
+                  <div class="usageFill" id="usageFill" style="width: 0%;"></div>
                 </div>
-                <div class="usage-labels">
-                  <span id="usage-used">-- used</span>
-                  <span id="usage-total">-- total</span>
+                <div class="usageLabels">
+                  <span id="usageUsed">-- used</span>
+                  <span id="usageTotal">-- total</span>
                 </div>
               </div>
-              <div class="upgrade-section">
-                <h3 class="usage-title">Upgrade to Pro</h3>
-                <div class="plan-option disabled">
-                  <div class="plan-header">
-                    <span class="plan-name">Pro</span>
-                    <span class="plan-price">$5<span>/month</span></span>
+              <div class="upgradeSection">
+                <h3 class="usageTitle">Upgrade to Pro</h3>
+                <div class="planOption disabled">
+                  <div class="planHeader">
+                    <span class="planName">Pro</span>
+                    <span class="planPrice">$5<span>/month</span></span>
                   </div>
-                  <div class="plan-features">
-                    <div class="plan-feature">
+                  <div class="planFeatures">
+                    <div class="planFeature">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                       </svg>
                       150 GB storage
                     </div>
-                    <div class="plan-feature">
+                    <div class="planFeature">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                       </svg>
                       Unlimited connections
                     </div>
-                    <div class="plan-feature">
+                    <div class="planFeature">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                       </svg>
                       Priority support
                     </div>
                   </div>
-                  <span class="plan-badge coming">Coming Soon</span>
+                  <span class="planBadge coming">Coming Soon</span>
                 </div>
               </div>
 
-             <div class="danger-zone">
-                <h3 class="usage-title">Danger Zone</h3>
-                <button class="danger-btn open-delete-modal" type="button">Delete Database</button>
+             <div class="dangerZone">
+                <h3 class="usageTitle">Danger Zone</h3>
+                <button class="dangerBtn openDeleteModal" type="button">Delete Database</button>
               </div>
             </div>
           </div>
@@ -391,38 +391,38 @@
       </div>
     </div>
 
-    <div class="delete-backdrop" id="delete-backdrop" hidden>
-      <div class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-title">
-        <div class="delete-modal-header">
-          <h2 class="delete-modal-title" id="delete-title">Delete Database</h2>
-          <button class="delete-close" id="delete-cancel-x" type="button" aria-label="Close">×</button>
+    <div class="deleteBackdrop" id="deleteBackdrop" hidden>
+      <div class="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+        <div class="deleteModalHeader">
+          <h2 class="deleteModalTitle" id="deleteTitle">Delete Database</h2>
+          <button class="deleteClose" id="deleteCancelX" type="button" aria-label="Close">×</button>
         </div>
 
-        <div class="delete-modal-body">
-          <div class="delete-warning">
+        <div class="deleteModalBody">
+          <div class="deleteWarning">
             This will delete this database forever. Please make sure you have a backup if you think you might need the
             data later.
           </div>
 
-          <div class="delete-confirm-row">
-            <div class="delete-confirm-label">Type this to confirm</div>
-            <div class="confirm-token" id="delete-confirm-token" tabindex="-1" aria-hidden="true">
+          <div class="deleteConfirmRow">
+            <div class="deleteConfirmLabel">Type this to confirm</div>
+            <div class="confirmToken" id="deleteConfirmToken" tabindex="-1" aria-hidden="true">
               <%= (instance && (instance.name || instance.id)) ? (instance.name || instance.id) : 'Database' %>
             </div>
           </div>
 
-          <input class="delete-input" id="delete-input" type="text" autocomplete="off"
+          <input class="deleteInput" id="deleteInput" type="text" autocomplete="off"
             placeholder="Enter database name" />
 
-          <label class="delete-ack">
-            <input id="delete-ack" type="checkbox" />
+          <label class="deleteAck">
+            <input id="deleteAck" type="checkbox" />
             <span>I understand this can't be undone</span>
           </label>
         </div>
 
-        <div class="delete-modal-footer">
-          <button class="btn" id="delete-cancel" type="button">Cancel</button>
-          <button class="danger-btn" id="delete-confirm" type="button" disabled>Delete</button>
+        <div class="deleteModalFooter">
+          <button class="btn" id="deleteCancel" type="button">Cancel</button>
+          <button class="dangerBtn" id="deleteConfirm" type="button" disabled>Delete</button>
         </div>
       </div>
     </div>
@@ -611,14 +611,14 @@
           if (typeof alert === 'function') alert(msg);
         }
 
-        const statConnectionsEl = document.getElementById('stat-connections');
-        const statQueriesEl = document.getElementById('stat-queries');
-        const usageFillEl = document.getElementById('usage-fill');
-        const usageUsedEl = document.getElementById('usage-used');
-        const usageTotalEl = document.getElementById('usage-total');
-        const quotaWarnEl = document.getElementById('quota-warning');
-        const quotaWarnTitleEl = document.getElementById('quota-warning-title');
-        const quotaWarnTextEl = document.getElementById('quota-warning-text');
+        const statConnectionsEl = document.getElementById('statConnections');
+        const statQueriesEl = document.getElementById('statQueries');
+        const usageFillEl = document.getElementById('usageFill');
+        const usageUsedEl = document.getElementById('usageUsed');
+        const usageTotalEl = document.getElementById('usageTotal');
+        const quotaWarnEl = document.getElementById('quotaWarning');
+        const quotaWarnTitleEl = document.getElementById('quotaWarningTitle');
+        const quotaWarnTextEl = document.getElementById('quotaWarningText');
 
         const planLower = String(instancePlan || 'free').trim().toLowerCase();
         const quotaBytes = planLower === 'pro'
@@ -690,8 +690,8 @@
           }
 
           quotaWarnEl.hidden = false;
-          quotaWarnEl.classList.toggle('is-danger', over);
-          quotaWarnEl.classList.toggle('is-warn', !over);
+          quotaWarnEl.classList.toggle('isDanger', over);
+          quotaWarnEl.classList.toggle('isWarn', !over);
 
           if (over) {
             quotaWarnTitleEl.textContent = 'Storage quota exceeded';
@@ -781,8 +781,8 @@
           });
         });
 
-        const revealBtn = document.getElementById('qc-reveal');
-        const pwInput = document.getElementById('qc-password');
+        const revealBtn = document.getElementById('qcReveal');
+        const pwInput = document.getElementById('qcPassword');
         if (revealBtn && pwInput) {
           revealBtn.addEventListener('click', async () => {
             try {
@@ -806,9 +806,9 @@
 
         const keyspaceEl = document.getElementById('keyspace');
         const queryEl = document.getElementById('query');
-        const runBtn = document.getElementById('run-query');
-        const headEl = document.getElementById('results-head');
-        const bodyEl = document.getElementById('results-body');
+        const runBtn = document.getElementById('runQuery');
+        const headEl = document.getElementById('resultsHead');
+        const bodyEl = document.getElementById('resultsBody');
 
         const keyspaceStorageKey = 'xeondb:keyspace:' + instanceId;
         if (keyspaceEl && !instanceKeyspace) {
@@ -942,10 +942,10 @@
           return data;
         }
 
-        const dbUsersListEl = document.getElementById('db-users-list');
-        const addDbUserBtn = document.getElementById('db-add-user');
-        const newDbUsernameEl = document.getElementById('db-new-username');
-        const newDbPasswordEl = document.getElementById('db-new-password');
+        const dbUsersListEl = document.getElementById('dbUsersList');
+        const addDbUserBtn = document.getElementById('dbAddUser');
+        const newDbUsernameEl = document.getElementById('dbNewUsername');
+        const newDbPasswordEl = document.getElementById('dbNewPassword');
 
         function initials(s) {
           const t = String(s || '').trim();
@@ -963,8 +963,8 @@
           const users = Array.isArray(list) ? list : [];
           if (users.length === 0) {
             const empty = document.createElement('div');
-            empty.className = 'user-item';
-            empty.innerHTML = '<div class="user-info"><div class="user-avatar-sm">--</div><div><div class="user-name">No users</div><div class="user-role">Create one to grant access to this keyspace</div></div></div>';
+            empty.className = 'userItem';
+            empty.innerHTML = '<div class="userInfo"><div class="userAvatarSm">--</div><div><div class="userName">No users</div><div class="userRole">Create one to grant access to this keyspace</div></div></div>';
             dbUsersListEl.appendChild(empty);
             return;
           }
@@ -976,21 +976,21 @@
             const isOwner = access === 'owner';
 
             const row = document.createElement('div');
-            row.className = 'user-item';
+            row.className = 'userItem';
 
             const info = document.createElement('div');
-            info.className = 'user-info';
-            info.innerHTML = '<div class="user-avatar-sm"></div><div><div class="user-name"></div><div class="user-role"></div></div>';
-            info.querySelector('.user-avatar-sm').textContent = initials(username);
-            info.querySelector('.user-name').textContent = username;
+            info.className = 'userInfo';
+            info.innerHTML = '<div class="userAvatarSm"></div><div><div class="userName"></div><div class="userRole"></div></div>';
+            info.querySelector('.userAvatarSm').textContent = initials(username);
+            info.querySelector('.userName').textContent = username;
 
             let role = isOwner ? 'Owner' : 'Granted';
             if (enabled === false) role += ' (disabled)';
-            info.querySelector('.user-role').textContent = role;
+            info.querySelector('.userRole').textContent = role;
 
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'user-remove-btn';
+            btn.className = 'userRemoveBtn';
             btn.textContent = isOwner ? 'Owner' : 'Remove';
             if (isOwner) {
               btn.disabled = true;
@@ -1070,9 +1070,9 @@
           });
         }
 
-        const wlListEl = document.getElementById('whitelist-list');
-        const addIpInput = document.getElementById('add-ip-input');
-        const addIpBtn = document.getElementById('add-ip-btn');
+        const wlListEl = document.getElementById('whitelistList');
+        const addIpInput = document.getElementById('addIpInput');
+        const addIpBtn = document.getElementById('addIpBtn');
 
         function renderWhitelist(items, clientCidr) {
           if (!wlListEl) return;
@@ -1093,29 +1093,29 @@
             const isYourIp = !!clientCidr && cidr === clientCidr && !isDefault;
 
             const row = document.createElement('div');
-            row.className = 'whitelist-item';
+            row.className = 'whitelistItem';
 
             const ipSpan = document.createElement('span');
-            ipSpan.className = 'whitelist-ip';
+            ipSpan.className = 'whitelistIp';
             ipSpan.textContent = cidr;
 
             const badge = document.createElement('span');
             if (isDefault) {
-              badge.className = 'whitelist-badge default';
+              badge.className = 'whitelistBadge default';
               badge.textContent = 'Allow All';
             } else if (isYourIp) {
-              badge.className = 'whitelist-badge auto';
+              badge.className = 'whitelistBadge auto';
               badge.textContent = 'Your IP';
             } else if (kind === 'auto') {
-              badge.className = 'whitelist-badge auto';
+              badge.className = 'whitelistBadge auto';
               badge.textContent = 'Auto';
             } else {
-              badge.className = 'whitelist-badge custom';
+              badge.className = 'whitelistBadge custom';
               badge.textContent = 'Custom';
             }
 
             const btn = document.createElement('button');
-            btn.className = 'whitelist-remove-btn' + (isDefault ? ' disabled' : '');
+            btn.className = 'whitelistRemoveBtn' + (isDefault ? ' disabled' : '');
             btn.type = 'button';
             btn.textContent = 'Remove';
             if (!isDefault) {
@@ -1167,8 +1167,8 @@
           });
         }
 
-        const backupListEl = document.getElementById('backup-list');
-        const createBackupBtn = document.getElementById('create-backup');
+        const backupListEl = document.getElementById('backupList');
+        const createBackupBtn = document.getElementById('createBackup');
 
         function renderBackups(items) {
           if (!backupListEl) return;
@@ -1176,8 +1176,8 @@
           const list = Array.isArray(items) ? items : [];
           if (list.length === 0) {
             const empty = document.createElement('div');
-            empty.className = 'backup-item';
-            empty.innerHTML = '<div class="backup-info"><div class="backup-icon">-</div><div><div class="backup-name">No backups yet</div><div class="backup-date">Create one when you need it</div></div></div>';
+            empty.className = 'backupItem';
+            empty.innerHTML = '<div class="backupInfo"><div class="backupIcon">-</div><div><div class="backupName">No backups yet</div><div class="backupDate">Create one when you need it</div></div></div>';
             backupListEl.appendChild(empty);
             return;
           }
@@ -1188,28 +1188,28 @@
             const dateStr = Number.isFinite(createdAt) ? new Date(createdAt).toLocaleString() : '';
 
             const row = document.createElement('div');
-            row.className = 'backup-item';
+            row.className = 'backupItem';
 
             const info = document.createElement('div');
-            info.className = 'backup-info';
+            info.className = 'backupInfo';
             info.innerHTML =
-              '<div class="backup-icon">' +
+              '<div class="backupIcon">' +
               '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
               '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>' +
               '<polyline points="17 8 12 3 7 8"></polyline>' +
               '<line x1="12" y1="3" x2="12" y2="15"></line>' +
               '</svg>' +
               '</div>' +
-              '<div><div class="backup-name"></div><div class="backup-date"></div></div>';
-            info.querySelector('.backup-name').textContent = dir;
-            info.querySelector('.backup-date').textContent = dateStr;
+              '<div><div class="backupName"></div><div class="backupDate"></div></div>';
+            info.querySelector('.backupName').textContent = dir;
+            info.querySelector('.backupDate').textContent = dateStr;
 
             const actions = document.createElement('div');
-            actions.className = 'backup-actions';
+            actions.className = 'backupActions';
 
             const del = document.createElement('button');
             del.type = 'button';
-            del.className = 'whitelist-remove-btn';
+            del.className = 'whitelistRemoveBtn';
             del.textContent = 'Delete';
             del.addEventListener('click', async () => {
               try {
@@ -1258,14 +1258,14 @@
         refreshMetrics();
         setInterval(refreshMetrics, 60000);
 
-        const deleteBackdrop = document.getElementById('delete-backdrop');
-        const openDeleteBtns = document.querySelectorAll('.open-delete-modal');
-        const deleteCancelBtn = document.getElementById('delete-cancel');
-        const deleteCancelX = document.getElementById('delete-cancel-x');
-        const deleteInput = document.getElementById('delete-input');
-        const deleteAck = document.getElementById('delete-ack');
-        const deleteConfirm = document.getElementById('delete-confirm');
-        const deleteToken = document.getElementById('delete-confirm-token');
+        const deleteBackdrop = document.getElementById('deleteBackdrop');
+        const openDeleteBtns = document.querySelectorAll('.openDeleteModal');
+        const deleteCancelBtn = document.getElementById('deleteCancel');
+        const deleteCancelX = document.getElementById('deleteCancelX');
+        const deleteInput = document.getElementById('deleteInput');
+        const deleteAck = document.getElementById('deleteAck');
+        const deleteConfirm = document.getElementById('deleteConfirm');
+        const deleteToken = document.getElementById('deleteConfirmToken');
 
         function openDeleteModal() {
           if (!deleteBackdrop) return;

@@ -92,7 +92,7 @@ body::after {
   font-size: 22px;
 }
 
-.topbar-right {
+.topbarRight {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -124,12 +124,12 @@ body::after {
 
 .btn:active { transform: translateY(0); }
 
-.btn.btn-small {
+.btn.btnSmall {
   padding: 8px 12px;
   font-size: 12px;
 }
 
-.user-avatar {
+.userAvatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -143,11 +143,11 @@ body::after {
   color: var(--accent);
 }
 
-.user-menu { position: relative; }
-.user-menu > summary { list-style: none; cursor: pointer; user-select: none; }
-.user-menu > summary::-webkit-details-marker { display: none; }
+.userMenu { position: relative; }
+.userMenu > summary { list-style: none; cursor: pointer; user-select: none; }
+.userMenu > summary::-webkit-details-marker { display: none; }
 
-.user-menu-pop {
+.userMenuPop {
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
@@ -163,7 +163,7 @@ body::after {
   backdrop-filter: blur(10px);
 }
 
-.user-menu-item {
+.userMenuItem {
   padding: 10px 10px;
   border-radius: 12px;
   border: 1px solid transparent;
@@ -174,12 +174,12 @@ body::after {
   background: transparent;
 }
 
-.user-menu-item:hover {
+.userMenuItem:hover {
   border-color: var(--stroke2);
   background: rgba(15, 23, 51, 0.70);
 }
 
-.user-menu-sep { height: 1px; background: var(--stroke2); margin: 4px 6px; }
+.userMenuSep { height: 1px; background: var(--stroke2); margin: 4px 6px; }
 
 .header {
   display: flex;
@@ -218,7 +218,7 @@ body::after {
   min-width: 0;
 }
 
-.card-title {
+.cardTitle {
   font-weight: 850;
   letter-spacing: 0.08px;
   font-size: 14px;
@@ -245,19 +245,19 @@ body::after {
   gap: 4px;
 }
 
-.stat-num {
+.statNum {
   font-weight: 900;
   font-size: 18px;
   letter-spacing: 0.02em;
 }
 
-.stat-label {
+.statLabel {
   font-weight: 700;
   font-size: 13px;
   color: var(--muted);
 }
 
-.table-wrap {
+.tableWrap {
   overflow: auto;
   border-radius: 16px;
   border: 1px solid rgba(233, 230, 218, 0.10);
@@ -285,8 +285,8 @@ body::after {
 
 .actions { text-align: right; }
 
-.db-name { font-weight: 850; letter-spacing: 0.04px; }
-.db-sub { margin-top: 2px; color: var(--muted); font-size: 12px; }
+.dbName { font-weight: 850; letter-spacing: 0.04px; }
+.dbSub { margin-top: 2px; color: var(--muted); font-size: 12px; }
 
 .pill {
   display: inline-flex;

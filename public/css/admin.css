@@ -71,14 +71,14 @@ code {
   color: rgba(233, 230, 218, 0.92);
 }
 
-.admin-page {
+.adminPage {
   position: relative;
   z-index: 1;
   min-height: 100vh;
   padding: 28px 18px;
 }
 
-.admin-shell {
+.adminShell {
   width: min(1280px, 100%);
   margin: 0 auto;
   display: grid;
@@ -113,7 +113,7 @@ code {
   font-size: 22px;
 }
 
-.topbar-right {
+.topbarRight {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -133,7 +133,7 @@ code {
   transition: border-color 160ms var(--ease-out), background 160ms var(--ease-out), transform 160ms var(--ease-out);
 }
 
-.btn.btn-small {
+.btn.btnSmall {
   padding: 8px 10px;
   font-size: 12px;
   border-radius: 12px;
@@ -190,13 +190,13 @@ code {
   background: rgba(11, 16, 32, 0.55);
 }
 
-.stat-num {
+.statNum {
   font-family: var(--mono);
   font-weight: 700;
   font-size: 18px;
 }
 
-.stat-label {
+.statLabel {
   color: var(--muted);
   font-size: 12px;
   margin-top: 3px;
@@ -210,14 +210,14 @@ code {
   overflow: hidden;
 }
 
-.card-title {
+.cardTitle {
   padding: 14px 16px;
   border-bottom: 1px solid var(--stroke2);
   font-weight: 850;
   letter-spacing: 0.2px;
 }
 
-.card-header {
+.cardHeader {
   padding: 16px;
   border-bottom: 1px solid var(--stroke2);
 }
@@ -230,12 +230,12 @@ code {
   text-transform: uppercase;
 }
 
-.card-header h1 {
+.cardHeader h1 {
   margin: 8px 0 0;
   font-size: 26px;
 }
 
-.card-header p {
+.cardHeader p {
   margin: 8px 0 0;
   color: var(--muted);
 }
@@ -283,7 +283,7 @@ code {
   color: rgba(246, 109, 109, 0.98);
 }
 
-.table-wrap {
+.tableWrap {
   overflow: auto;
 }
 
@@ -351,14 +351,14 @@ code {
   padding: 12px;
 }
 
-.user-group {
+.userGroup {
   border: 1px solid rgba(233, 230, 218, 0.10);
   border-radius: 16px;
   background: rgba(11, 16, 32, 0.35);
   overflow: hidden;
 }
 
-.user-summary {
+.userSummary {
   list-style: none;
   cursor: pointer;
   display: flex;
@@ -369,23 +369,23 @@ code {
   border-bottom: 1px solid rgba(233, 230, 218, 0.08);
 }
 
-.user-summary::-webkit-details-marker {
+.userSummary::-webkit-details-marker {
   display: none;
 }
 
-.user-summary::marker {
+.userSummary::marker {
   content: "";
 }
 
-.user-main {
+.userMain {
   min-width: 0;
 }
 
-.user-email {
+.userEmail {
   font-weight: 850;
 }
 
-.user-meta {
+.userMeta {
   margin-top: 4px;
   display: flex;
   flex-wrap: wrap;
@@ -394,11 +394,11 @@ code {
   font-size: 12px;
 }
 
-.user-meta .sep {
+.userMeta .sep {
   opacity: 0.65;
 }
 
-.user-right {
+.userRight {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -410,7 +410,7 @@ code {
   font-size: 12px;
 }
 
-.user-body {
+.userBody {
   padding: 0 0 8px;
 }
 
@@ -451,7 +451,7 @@ code {
   }
 }
 
-.site-footer {
+.siteFooter {
   border-top: 1px solid var(--stroke2);
   padding: 18px 0 0;
   margin-top: 22px;
@@ -460,43 +460,43 @@ code {
   line-height: 1.6;
 }
 
-.site-footer a {
+.siteFooter a {
   text-decoration: underline;
   text-underline-offset: 3px;
   opacity: 0.9;
 }
 
-.site-footer a:hover {
+.siteFooter a:hover {
   opacity: 1;
 }
 
-.site-footer-inner {
+.siteFooterInner {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) 2fr;
   gap: 16px;
   align-items: start;
 }
 
-.footer-cols {
+.footerCols {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
-.footer-col {
+.footerCol {
   display: grid;
   gap: 8px;
   align-content: start;
 }
 
-.footer-title {
+.footerTitle {
   color: rgba(233, 230, 218, 0.86);
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.footer-bottom {
+.footerBottom {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -507,7 +507,7 @@ code {
   bottom: 10px;
 }
 
-.footer-sep {
+.footerSep {
   opacity: 0.55;
 }
 
@@ -535,17 +535,17 @@ code {
 }
 
 @media (max-width: 900px) {
-  .site-footer-inner {
+  .siteFooterInner {
     grid-template-columns: 1fr;
   }
 
-  .footer-cols {
+  .footerCols {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 520px) {
-  .footer-cols {
+  .footerCols {
     grid-template-columns: 1fr;
   }
 }

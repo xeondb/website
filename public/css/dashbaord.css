@@ -67,14 +67,14 @@
       border-radius: 10px;
   }
 
-  .dash-page {
+  .dashPage {
       position: relative;
       z-index: 1;
       min-height: 100vh;
       padding: 28px 18px;
   }
 
-  .dash-shell {
+  .dashShell {
       width: min(1200px, 100%);
       margin: 0 auto;
       display: grid;
@@ -109,7 +109,7 @@
       font-size: 22px;
   }
 
-  .topbar-right {
+  .topbarRight {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -153,7 +153,7 @@
       background: rgba(57, 198, 255, 0.14);
   }
 
-  .user-avatar {
+  .userAvatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -167,21 +167,21 @@
       color: var(--accent);
   }
 
-  .user-menu {
+  .userMenu {
       position: relative;
   }
 
-  .user-menu > summary {
+  .userMenu > summary {
       list-style: none;
       cursor: pointer;
       user-select: none;
   }
 
-  .user-menu > summary::-webkit-details-marker {
+  .userMenu > summary::-webkit-details-marker {
       display: none;
   }
 
-  .user-menu-pop {
+  .userMenuPop {
       position: absolute;
       right: 0;
       top: calc(100% + 10px);
@@ -197,7 +197,7 @@
       backdrop-filter: blur(10px);
   }
 
-  .user-menu-item {
+  .userMenuItem {
       padding: 10px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
@@ -208,51 +208,51 @@
       background: transparent;
   }
 
-  .user-menu-item:hover {
+  .userMenuItem:hover {
       border-color: var(--stroke2);
       background: rgba(15, 23, 51, 0.70);
   }
 
-  .user-menu-sep {
+  .userMenuSep {
       height: 1px;
       background: var(--stroke2);
       margin: 4px 6px;
   }
 
-  .page-header {
+  .pageHeader {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
   }
 
-  .page-actions {
+  .pageActions {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
   }
 
-  .page-title {
+  .pageTitle {
       margin: 0;
       font-size: clamp(20px, 2.5vw, 28px);
       font-weight: 850;
       letter-spacing: 0.06px;
   }
 
-  .page-subtitle {
+  .pageSubtitle {
       margin: 4px 0 0;
       color: var(--muted);
       font-size: 14px;
   }
 
-  .dbs-grid {
+  .dbsGrid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 16px;
   }
 
-  .db-card {
+  .dbCard {
       border: 1px solid var(--stroke2);
       border-radius: calc(var(--radius) + 6px);
       background: rgba(11, 16, 32, 0.70);
@@ -262,19 +262,19 @@
       transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out);
   }
 
-  .db-card:hover {
+  .dbCard:hover {
       transform: translateY(-2px);
       border-color: var(--stroke);
   }
 
-  .db-card-header {
+  .dbCardHeader {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
   }
 
-  .db-name {
+  .dbName {
       font-weight: 700;
       font-size: 16px;
       letter-spacing: 0.08px;
@@ -284,7 +284,7 @@
       font-family: var(--mono);
   }
 
-  .db-meta {
+  .dbMeta {
       display: grid;
       gap: 10px;
       padding: 12px;
@@ -293,7 +293,7 @@
       background: rgba(4, 5, 13, 0.35);
   }
 
-  .db-endpoint {
+  .dbEndpoint {
       font-family: var(--mono);
       font-size: 13px;
       letter-spacing: 0.02em;
@@ -303,14 +303,14 @@
       white-space: nowrap;
   }
 
-  .db-pills {
+  .dbPills {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
   }
 
-  .db-pill {
+  .dbPill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -325,21 +325,21 @@
       text-transform: uppercase;
   }
 
-  .db-pill .mono {
+  .dbPill .mono {
       font-size: 11px;
       letter-spacing: 0;
       text-transform: none;
       opacity: 0.92;
   }
 
-  .db-expand {
+  .dbExpand {
       border-radius: 14px;
       border: 1px solid rgba(233, 230, 218, 0.10);
       background: rgba(7, 10, 20, 0.36);
       overflow: hidden;
   }
 
-  .db-expand summary {
+  .dbExpand summary {
       padding: 12px 12px;
       cursor: pointer;
       user-select: none;
@@ -354,11 +354,11 @@
       list-style: none;
   }
 
-  .db-expand summary::-webkit-details-marker {
+  .dbExpand summary::-webkit-details-marker {
       display: none;
   }
 
-  .db-expand summary::after {
+  .dbExpand summary::after {
       content: "";
       width: 10px;
       height: 10px;
@@ -370,26 +370,26 @@
       margin-top: -2px;
   }
 
-  .db-expand[open] summary::after {
+  .dbExpand[open] summary::after {
       transform: rotate(225deg);
       margin-top: 4px;
   }
 
-  .db-detail {
+  .dbDetail {
       padding: 12px 12px 14px;
       border-top: 1px solid rgba(233, 230, 218, 0.08);
       display: grid;
       gap: 8px;
   }
 
-  .db-detail-hint {
+  .dbDetailHint {
       margin-top: 4px;
       color: rgba(233, 230, 218, 0.62);
       font-size: 12px;
       line-height: 1.5;
   }
 
-  .db-status {
+  .dbStatus {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -401,29 +401,29 @@
       text-transform: uppercase;
   }
 
-  .db-status.online {
+  .dbStatus.online {
       background: rgba(46, 211, 161, 0.12);
       color: var(--ok);
   }
 
-  .db-status.offline {
+  .dbStatus.offline {
       background: rgba(246, 193, 119, 0.12);
       color: var(--warn);
   }
 
-  .db-status-dot {
+  .dbStatusDot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: currentColor;
   }
 
-  .db-info {
+  .dbInfo {
       display: grid;
       gap: 8px;
   }
 
-  .db-info-row {
+  .dbInfoRow {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -431,22 +431,22 @@
       font-size: 13px;
   }
 
-  .db-info-label {
+  .dbInfoLabel {
       color: var(--muted);
   }
 
-  .db-info-value {
+  .dbInfoValue {
       font-family: var(--mono);
       font-size: 12px;
   }
 
-  .db-actions {
+  .dbActions {
       display: flex;
       gap: 8px;
       margin-top: 4px;
   }
 
-  .db-action-btn {
+  .dbActionBtn {
       flex: 1;
       padding: 8px 12px;
       border-radius: 10px;
@@ -459,7 +459,7 @@
       transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
   }
 
-  .db-action-btn.primary {
+  .dbActionBtn.primary {
       border-color: rgba(57, 198, 255, 0.48);
       background: rgba(57, 198, 255, 0.10);
       font-weight: 850;
@@ -469,13 +469,13 @@
       justify-content: center;
   }
 
-  .db-action-btn:hover {
+  .dbActionBtn:hover {
       transform: translateY(-1px);
       border-color: var(--stroke);
       background: var(--surface2);
   }
 
-  .create-card {
+  .createCard {
       border: 1px dashed rgba(57, 198, 255, 0.30);
       border-radius: calc(var(--radius) + 6px);
       background: rgba(57, 198, 255, 0.04);
@@ -490,13 +490,13 @@
       transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
   }
 
-  .create-card:hover {
+  .createCard:hover {
       transform: translateY(-2px);
       border-color: rgba(57, 198, 255, 0.50);
       background: rgba(57, 198, 255, 0.08);
   }
 
-  .create-card-label {
+  .createCardLabel {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -506,7 +506,7 @@
       height: 100%;
   }
 
-  .create-icon {
+  .createIcon {
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -519,25 +519,25 @@
       font-weight: 300;
   }
 
-  .create-text {
+  .createText {
       font-weight: 700;
       font-size: 14px;
       color: rgba(57, 198, 255, 0.90);
   }
 
-  .create-hint {
+  .createHint {
       font-size: 12px;
       color: var(--muted);
       text-align: center;
   }
 
-  .modal-toggle {
+  .modalToggle {
       position: absolute;
       opacity: 0;
       pointer-events: none;
   }
 
-  .modal-backdrop {
+  .modalBackdrop {
       position: fixed;
       inset: 0;
       z-index: 100;
@@ -552,7 +552,7 @@
       transition: opacity 200ms var(--ease-out);
   }
 
-  .modal-toggle:checked~.modal-backdrop {
+  .modalToggle:checked~.modalBackdrop {
       opacity: 1;
       pointer-events: auto;
   }
@@ -570,36 +570,36 @@
       transition: transform 200ms var(--ease-out);
   }
 
-  .modal[data-view="plan"] .setup-view {
+  .modal[data-view="plan"] .setupView {
       display: none;
   }
 
-  .modal[data-view="setup"] .plan-view {
+  .modal[data-view="setup"] .planView {
       display: none;
   }
 
-  .modal[data-view="setup"][data-state="running"] .modal-close {
+  .modal[data-view="setup"][data-state="running"] .modalClose {
       display: none;
   }
 
-  .modal[data-view="setup"][data-state="error"] .modal-close {
+  .modal[data-view="setup"][data-state="error"] .modalClose {
       display: flex;
   }
 
-  .setup-view {
+  .setupView {
       padding: 20px 22px 20px;
       display: grid;
       gap: 16px;
   }
 
-  .setup-title {
+  .setupTitle {
       margin: 0;
       font-size: 20px;
       font-weight: 850;
       letter-spacing: 0.08px;
   }
 
-  .setup-sub {
+  .setupSub {
       margin: 6px 0 0;
       color: var(--muted);
       font-size: 13px;
@@ -607,7 +607,7 @@
       font-family: var(--mono);
   }
 
-  .setup-spark {
+  .setupSpark {
       height: 18px;
       display: flex;
       align-items: flex-end;
@@ -615,7 +615,7 @@
       padding: 0;
   }
 
-  .setup-spark span {
+  .setupSpark span {
       flex: 1 1 0;
       height: 65%;
       border-radius: 999px;
@@ -625,16 +625,16 @@
       animation: setupPulse 950ms var(--ease-out) infinite;
   }
 
-  .setup-spark span:nth-child(1) { animation-delay: 0ms; }
-  .setup-spark span:nth-child(2) { animation-delay: 60ms; }
-  .setup-spark span:nth-child(3) { animation-delay: 120ms; }
-  .setup-spark span:nth-child(4) { animation-delay: 180ms; }
-  .setup-spark span:nth-child(5) { animation-delay: 240ms; }
-  .setup-spark span:nth-child(6) { animation-delay: 300ms; }
-  .setup-spark span:nth-child(7) { animation-delay: 360ms; }
-  .setup-spark span:nth-child(8) { animation-delay: 420ms; }
-  .setup-spark span:nth-child(9) { animation-delay: 480ms; }
-  .setup-spark span:nth-child(10) { animation-delay: 540ms; }
+  .setupSpark span:nth-child(1) { animation-delay: 0ms; }
+  .setupSpark span:nth-child(2) { animation-delay: 60ms; }
+  .setupSpark span:nth-child(3) { animation-delay: 120ms; }
+  .setupSpark span:nth-child(4) { animation-delay: 180ms; }
+  .setupSpark span:nth-child(5) { animation-delay: 240ms; }
+  .setupSpark span:nth-child(6) { animation-delay: 300ms; }
+  .setupSpark span:nth-child(7) { animation-delay: 360ms; }
+  .setupSpark span:nth-child(8) { animation-delay: 420ms; }
+  .setupSpark span:nth-child(9) { animation-delay: 480ms; }
+  .setupSpark span:nth-child(10) { animation-delay: 540ms; }
 
   @keyframes setupPulse {
       0%,
@@ -649,13 +649,13 @@
       }
   }
 
-  .setup-steps {
+  .setupSteps {
       display: grid;
       gap: 10px;
       padding-top: 6px;
   }
 
-  .setup-step {
+  .setupStep {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -665,7 +665,7 @@
       background: rgba(4, 5, 13, 0.35);
   }
 
-  .setup-icon {
+  .setupIcon {
       width: 18px;
       height: 18px;
       border-radius: 50%;
@@ -673,12 +673,12 @@
       position: relative;
   }
 
-  .setup-step.pending .setup-icon {
+  .setupStep.pending .setupIcon {
       border: 2px solid rgba(233, 230, 218, 0.24);
       background: transparent;
   }
 
-  .setup-step.active .setup-icon {
+  .setupStep.active .setupIcon {
       border: 2px solid rgba(233, 230, 218, 0.18);
       border-top-color: rgba(57, 198, 255, 0.92);
       animation: setupSpin 700ms linear infinite;
@@ -691,12 +691,12 @@
       }
   }
 
-  .setup-step.done .setup-icon {
+  .setupStep.done .setupIcon {
       border: 2px solid rgba(46, 211, 161, 0.55);
       background: rgba(46, 211, 161, 0.12);
   }
 
-  .setup-step.done .setup-icon::after {
+  .setupStep.done .setupIcon::after {
       content: "";
       position: absolute;
       left: 5px;
@@ -708,13 +708,13 @@
       transform: rotate(45deg);
   }
 
-  .setup-label {
+  .setupLabel {
       font-size: 13px;
       color: rgba(233, 230, 218, 0.86);
       letter-spacing: 0.04px;
   }
 
-  .setup-error {
+  .setupError {
       border: 1px solid rgba(246, 193, 119, 0.22);
       background: rgba(246, 193, 119, 0.10);
       color: rgba(246, 193, 119, 0.92);
@@ -724,7 +724,7 @@
       line-height: 1.55;
   }
 
-  .setup-actions {
+  .setupActions {
       display: flex;
       gap: 10px;
       align-items: center;
@@ -732,7 +732,7 @@
       padding-top: 2px;
   }
 
-  .setup-back {
+  .setupBack {
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid var(--stroke2);
@@ -743,12 +743,12 @@
       cursor: pointer;
   }
 
-  .setup-back:hover {
+  .setupBack:hover {
       border-color: var(--stroke);
       background: var(--surface2);
   }
 
-  .setup-close {
+  .setupClose {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -762,12 +762,12 @@
       cursor: pointer;
   }
 
-  .setup-close:hover {
+  .setupClose:hover {
       border-color: var(--stroke);
       background: rgba(15, 23, 51, 0.55);
   }
 
-  .modal-toggle:checked~.modal-backdrop .modal {
+  .modalToggle:checked~.modalBackdrop .modal {
       transform: scale(1) translateY(0);
   }
 
@@ -782,31 +782,31 @@
       z-index: -1;
   }
 
-  .modal-header {
+  .modalHeader {
       padding: 20px 22px 16px;
       border-bottom: 1px solid var(--stroke2);
   }
 
-  .modal-title {
+  .modalTitle {
       margin: 0;
       font-size: 20px;
       font-weight: 850;
       letter-spacing: 0.08px;
   }
 
-  .modal-subtitle {
+  .modalSubtitle {
       margin: 4px 0 0;
       color: var(--muted);
       font-size: 13px;
   }
 
-  .modal-body {
+  .modalBody {
       padding: 20px 22px;
       display: grid;
       gap: 14px;
   }
 
-  .plan-option {
+  .planOption {
       border: 1px solid var(--stroke2);
       border-radius: var(--radius2);
       background: var(--surface1);
@@ -817,46 +817,46 @@
       transition: border-color 160ms var(--ease-out), background 160ms var(--ease-out);
   }
 
-  .plan-option:hover:not(.disabled) {
+  .planOption:hover:not(.disabled) {
       border-color: var(--stroke);
       background: var(--surface2);
   }
 
-  .plan-option.disabled {
+  .planOption.disabled {
       opacity: 0.50;
       cursor: not-allowed;
   }
 
-  .plan-header {
+  .planHeader {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
   }
 
-  .plan-name {
+  .planName {
       font-weight: 700;
       font-size: 15px;
   }
 
-  .plan-price {
+  .planPrice {
       font-family: var(--mono);
       font-size: 14px;
       font-weight: 600;
   }
 
-  .plan-price span {
+  .planPrice span {
       font-size: 11px;
       font-weight: 400;
       color: var(--muted);
   }
 
-  .plan-features {
+  .planFeatures {
       display: grid;
       gap: 6px;
   }
 
-  .plan-feature {
+  .planFeature {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -864,14 +864,14 @@
       color: var(--muted);
   }
 
-  .plan-feature svg {
+  .planFeature svg {
       width: 14px;
       height: 14px;
       flex: 0 0 auto;
       color: var(--ok);
   }
 
-  .plan-badge {
+  .planBadge {
       display: inline-flex;
       padding: 3px 8px;
       border-radius: 6px;
@@ -881,17 +881,17 @@
       text-transform: uppercase;
   }
 
-  .plan-badge.free {
+  .planBadge.free {
       background: rgba(46, 211, 161, 0.14);
       color: var(--ok);
   }
 
-  .plan-badge.coming {
+  .planBadge.coming {
       background: rgba(246, 193, 119, 0.14);
       color: var(--warn);
   }
 
-  .modal-close {
+  .modalClose {
       position: absolute;
       top: 16px;
       right: 16px;
@@ -908,17 +908,17 @@
       transition: border-color 160ms var(--ease-out), background 160ms var(--ease-out);
   }
 
-  .modal-close:hover {
+  .modalClose:hover {
       border-color: var(--stroke);
       background: var(--surface2);
   }
 
-  .modal-footer {
+  .modalFooter {
       padding: 16px 22px 20px;
       border-top: 1px solid var(--stroke2);
   }
 
-  .modal-btn {
+  .modalBtn {
       width: 100%;
       padding: 12px 14px;
       border-radius: 14px;
@@ -932,19 +932,19 @@
       transition: transform 160ms var(--ease-out), background 160ms var(--ease-out), border-color 160ms var(--ease-out);
   }
 
-  .modal-btn:hover {
+  .modalBtn:hover {
       transform: translateY(-1px);
       background: rgba(57, 198, 255, 0.16);
       border-color: rgba(57, 198, 255, 0.72);
   }
 
-  .empty-state {
+  .emptyState {
       text-align: center;
       padding: 60px 20px;
       color: var(--muted);
   }
 
-  .empty-state-icon {
+  .emptyStateIcon {
       width: 64px;
       height: 64px;
       margin: 0 auto 16px;
@@ -957,14 +957,14 @@
       font-size: 28px;
   }
 
-  .empty-state h3 {
+  .emptyState h3 {
       margin: 0 0 8px;
       font-size: 16px;
       font-weight: 700;
       color: var(--text);
   }
 
-  .empty-state p {
+  .emptyState p {
       margin: 0;
       font-size: 13px;
   }
@@ -979,18 +979,18 @@
           min-width: 0;
       }
 
-      .topbar-right {
+      .topbarRight {
           width: 100%;
           flex-wrap: wrap;
           justify-content: flex-start;
           gap: 10px;
       }
 
-      .dbs-grid {
+      .dbsGrid {
           grid-template-columns: 1fr;
       }
 
-      .page-header {
+      .pageHeader {
           flex-direction: column;
           align-items: flex-start;
       }
@@ -999,15 +999,15 @@
   @media (prefers-reduced-motion: reduce) {
 
       .btn,
-      .db-card,
-      .create-card,
-      .db-action-btn,
-      .modal-btn,
-      .modal-close,
-      .modal-backdrop,
+      .dbCard,
+      .createCard,
+      .dbActionBtn,
+      .modalBtn,
+      .modalClose,
+      .modalBackdrop,
       .modal,
-      .setup-spark span,
-      .setup-step.active .setup-icon {
+      .setupSpark span,
+      .setupStep.active .setupIcon {
           transition: none !important;
           animation: none !important;
       }

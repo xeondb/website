@@ -24,8 +24,8 @@
   <a id="signin" class="route" aria-hidden="true"></a>
   <a id="signup" class="route" aria-hidden="true"></a>
 
-  <main class="auth-page">
-    <div class="auth-shell">
+  <main class="authPage">
+    <div class="authShell">
       <div class="topbar">
         <a class="brand" href="/" aria-label="Back to XeonDB home">
           <img src="logo.png" alt="XeonDB logo" />
@@ -34,66 +34,66 @@
         <a class="btn" href="/">Back to site</a>
       </div>
 
-      <div class="auth-grid" aria-label="Authentication">
-        <section class="hero-panel" aria-label="Welcome">
+      <div class="authGrid" aria-label="Authentication">
+        <section class="heroPanel" aria-label="Welcome">
           <div class="kicker">Cloud access</div>
           <h1>Sign in to manage your XeonDB deployment</h1>
-          <p class="hero-copy">Log in to access the XeonDB Cloud Dashboard and manage your databases in one place: create
+          <p class="heroCopy">Log in to access the XeonDB Cloud Dashboard and manage your databases in one place: create
             clusters, control access, and monitor performance.</p>
-          <div class="hero-points" aria-label="Notes">
-            <div class="hero-point">
+          <div class="heroPoints" aria-label="Notes">
+            <div class="heroPoint">
               <strong>Cloud dashboard</strong>
               <span>Provision clusters, manage keyspaces and tables, and rotate credentials.</span>
             </div>
-            <div class="hero-point">
+            <div class="heroPoint">
               <strong>Metrics and health</strong>
               <span>Track latency, throughput, storage, and background work like compaction.</span>
             </div>
-            <div class="hero-point">
+            <div class="heroPoint">
               <strong>Safer operations</strong>
               <span>Review configuration and activity before applying changes to production.</span>
             </div>
           </div>
         </section>
 
-        <section class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root loginbox-fe-root-1l6jey6"
+        <section class="MuiPaperRoot MuiPaperElevation MuiPaperRounded MuiPaperElevation1 MuiCardRoot loginboxFeRoot1l6jey6"
           aria-label="Login box">
-          <div class="auth-card-inner">
-            <div class="MuiBox-root loginbox-fe-root-1kwa1lw">
-              <img class="MuiCompanyLogo-img" src="logo.png" alt="company-logo" data-test-id="company-logo" />
+          <div class="authCardInner">
+            <div class="MuiBoxRoot loginboxFeRoot1kwa1lw">
+              <img class="MuiCompanyLogoImg" src="logo.png" alt="companyLogo" data-test-id="companyLogo" />
             </div>
 
-            <div class="view view-signin" data-test-id="login-page">
+            <div class="view viewSignin" data-test-id="loginPage">
               <div class="subline" data-test-it="signup-message">Don't have an account?
-                <a href="#signup" data-test-id="redirect-to-signup" aria-label="Sign up">Sign up</a>
+                <a href="#signup" data-test-id="redirectToSignup" aria-label="Sign up">Sign up</a>
               </div>
 
-              <form id="signin-form" action="#" autocomplete="on" aria-label="Sign in form">
-                <div class="field" data-test-id="input-box-identifier">
-                  <label for="signin-email"><span>Email</span></label>
-                  <input id="signin-email" class="input" autocomplete="email" name="identifier"
-                    placeholder="name@example.com" type="email" autocapitalize="none" data-test-id="input-identifier" />
+              <form id="signinForm" action="#" autocomplete="on" aria-label="Sign in form">
+                <div class="field" data-test-id="inputBoxIdentifier">
+                  <label for="signinEmail"><span>Email</span></label>
+                  <input id="signinEmail" class="input" autocomplete="email" name="identifier"
+                    placeholder="name@example.com" type="email" autocapitalize="none" data-test-id="inputIdentifier" />
                 </div>
 
-                <div class="field" style="margin-top: 12px;" data-test-id="input-box-password">
-                  <label for="signin-password">
+                <div class="field" style="margin-top: 12px;" data-test-id="inputBoxPassword">
+                  <label for="signinPassword">
                     <span>Password</span>
-                    <a href="#" aria-label="Forgot password?" data-test-id="forgot-password-btn">Forgot password?</a>
+                    <a href="#" aria-label="Forgot password?" data-test-id="forgotPasswordBtn">Forgot password?</a>
                   </label>
-                  <input id="signin-password" class="input" autocomplete="current-password" name="password"
-                    placeholder="Enter your password" type="password" data-test-id="input-password" />
+                  <input id="signinPassword" class="input" autocomplete="current-password" name="password"
+                    placeholder="Enter your password" type="password" data-test-id="inputPassword" />
                 </div>
 
-                <button class="primary-btn" type="submit" aria-label="Continue" data-test-id="submit-btn"
+                <button class="primaryBtn" type="submit" aria-label="Continue" data-test-id="submitBtn"
                   style="margin-top: 14px;">Continue</button>
 
-                <div id="signin-error" class="disclaimer" style="display:none; margin-top: 10px; color: rgba(255, 120, 120, 0.95);" role="alert"></div>
+                <div id="signinError" class="disclaimer" style="display:none; margin-top: 10px; color: rgba(255, 120, 120, 0.95);" role="alert"></div>
               </form>
 
-              <div class="social-divider" aria-hidden="true">or sign in with</div>
-              <div class="social-row" data-test-id="social-position-bottom">
-                <button class="social-btn" type="button" aria-label="continue with google" provider="google"
-                  data-test-id="google-btn">
+              <div class="socialDivider" aria-hidden="true">or sign in with</div>
+              <div class="socialRow" data-test-id="socialPositionBottom">
+                <button class="socialBtn" type="button" aria-label="continue with google" provider="google"
+                  data-test-id="googleBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
                     <path fill="#FFC107"
                       d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
@@ -107,8 +107,8 @@
                   Google
                 </button>
 
-                <button class="social-btn" type="button" aria-label="continue with github" provider="github"
-                  data-test-id="github-btn">
+                <button class="socialBtn" type="button" aria-label="continue with github" provider="github"
+                  data-test-id="githubBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" fill="none" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M8.50001 -0.0010302C6.55044 -0.00301169 4.66389 0.689346 3.17843 1.95197C1.69296 3.2146 0.705689 4.96496 0.39354 6.88938C0.0813902 8.81379 0.464767 10.7865 1.47496 12.4539C2.48515 14.1213 4.05613 15.3745 5.90637 15.9889C6.3143 16.0644 6.46539 15.8076 6.46539 15.591C6.46539 15.3745 6.46539 14.8809 6.46539 14.196C4.18399 14.6996 3.70051 13.0981 3.70051 13.0981C3.54849 12.6018 3.22554 12.1753 2.78896 11.8945C2.04864 11.3908 2.84939 11.3908 2.84939 11.3908C3.10891 11.4275 3.35668 11.5227 3.57394 11.6693C3.7912 11.8159 3.97227 12.01 4.10341 12.2369C4.21484 12.439 4.36507 12.617 4.54548 12.7609C4.7259 12.9047 4.93294 13.0115 5.15474 13.0752C5.37653 13.1388 5.6087 13.158 5.83794 13.1317C6.06717 13.1054 6.28896 13.0341 6.49056 12.9219C6.52217 12.5076 6.70078 12.1182 6.99418 11.824C5.17108 11.6175 3.25732 10.9124 3.25732 7.76982C3.24481 6.95546 3.54594 6.16747 4.09837 5.569C3.85183 4.861 3.8806 4.08618 4.17895 3.3984C4.17895 3.3984 4.86891 3.17681 6.43516 4.23945C7.78012 3.87017 9.19974 3.87017 10.5447 4.23945C12.111 3.17681 12.7959 3.3984 12.7959 3.3984C13.0974 4.0852 13.1279 4.8606 12.8815 5.569C13.4339 6.16747 13.7351 6.95546 13.7225 7.76982C13.7225 10.9225 11.8038 11.6124 9.97561 11.7988C10.1716 11.9958 10.323 12.2327 10.4195 12.4934C10.5159 12.7541 10.5552 13.0324 10.5346 13.3096C10.5346 14.4075 10.5346 15.2939 10.5346 15.5608C10.5346 15.8277 10.6807 16.0342 11.0987 15.9587C12.9431 15.3385 14.5072 14.0833 15.5121 12.417C16.517 10.7507 16.8973 8.78157 16.5852 6.86089C16.273 4.94021 15.2887 3.19286 13.8079 1.93051C12.327 0.668166 10.4459 -0.027091 8.50001 -0.03125V-0.0010302Z"
@@ -117,8 +117,8 @@
                   GitHub
                 </button>
 
-                <button class="social-btn" type="button" disabled aria-label="continue with linkedin" provider="linkedin"
-                  data-test-id="linkedin-btn">
+                <button class="socialBtn" type="button" disabled aria-label="continue with linkedin" provider="linkedin"
+                  data-test-id="linkedinBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     aria-hidden="true">
                     <path
@@ -143,50 +143,50 @@
                </div>
             </div>
 
-            <div class="view view-signup" data-test-id="signup-page">
-              <div class="subline" data-test-id="login-message">Already have an account?
-                <a href="#signin" data-test-id="redirect-to-login" aria-label="Sign in">Sign in</a>
+            <div class="view viewSignup" data-test-id="signupPage">
+              <div class="subline" data-test-id="loginMessage">Already have an account?
+                <a href="#signin" data-test-id="redirectToLogin" aria-label="Sign in">Sign in</a>
               </div>
               
-              <form id="signup-form" action="#" autocomplete="on" aria-label="Sign up form" style="display: flex; flex-direction: column;">
-                <div class="field" data-test-id="input-box-email">
-                  <label for="signup-email"><span>Company Email Only</span></label>
-                  <input id="signup-email" class="input" name="email" placeholder="Enter your email" type="email"
+              <form id="signupForm" action="#" autocomplete="on" aria-label="Sign up form" style="display: flex; flex-direction: column;">
+                <div class="field" data-test-id="inputBoxEmail">
+                  <label for="signupEmail"><span>Company Email Only</span></label>
+                  <input id="signupEmail" class="input" name="email" placeholder="Enter your email" type="email"
                     maxlength="200" aria-label="Company Email Only" />
                 </div>
 
-                <div class="field" style="margin-top: 12px;" data-test-id="input-box-firstName">
-                  <label for="signup-first"><span>First Name</span></label>
-                  <input id="signup-first" class="input" name="firstName" placeholder="Enter your first name" type="text"
+                <div class="field" style="margin-top: 12px;" data-test-id="inputBoxFirstName">
+                  <label for="signupFirst"><span>First Name</span></label>
+                  <input id="signupFirst" class="input" name="firstName" placeholder="Enter your first name" type="text"
                     maxlength="200" aria-label="First Name" />
                 </div>
 
-                <div class="field" style="margin-top: 12px;" data-test-id="input-box-lastName">
-                  <label for="signup-last"><span>Last Name</span></label>
-                  <input id="signup-last" class="input" name="lastName" placeholder="Enter your last name" type="text"
+                <div class="field" style="margin-top: 12px;" data-test-id="inputBoxLastName">
+                  <label for="signupLast"><span>Last Name</span></label>
+                  <input id="signupLast" class="input" name="lastName" placeholder="Enter your last name" type="text"
                     maxlength="200" aria-label="Last Name" />
                 </div>
 
-                <div class="field" style="margin-top: 12px;" data-test-id="input-box-companyName">
-                  <label for="signup-company"><span>Company Name</span></label>
-                  <input id="signup-company" class="input" name="companyName" placeholder="Set company name" type="text"
+                <div class="field" style="margin-top: 12px;" data-test-id="inputBoxCompanyName">
+                  <label for="signupCompany"><span>Company Name</span></label>
+                  <input id="signupCompany" class="input" name="companyName" placeholder="Set company name" type="text"
                     maxlength="200" aria-label="Company Name" />
                 </div>
 
-                <div class="field" style="margin-top: 12px;" data-test-id="input-box-password">
-                  <label for="signup-password"><span>Password</span></label>
-                  <input id="signup-password" class="input" name="password" placeholder="Create a password" type="password"
+                <div class="field" style="margin-top: 12px;" data-test-id="inputBoxPassword">
+                  <label for="signupPassword"><span>Password</span></label>
+                  <input id="signupPassword" class="input" name="password" placeholder="Create a password" type="password"
                     minlength="8" maxlength="200" aria-label="Password" autocomplete="new-password" />
                 </div>
 
-                <div class="field" style="margin-top: 12px;" data-test-id="input-box-password-confirm">
-                  <label for="signup-password-confirm"><span>Confirm Password</span></label>
-                  <input id="signup-password-confirm" class="input" name="passwordConfirm" placeholder="Confirm your password" type="password"
+                <div class="field" style="margin-top: 12px;" data-test-id="inputBoxPasswordConfirm">
+                  <label for="signupPasswordConfirm"><span>Confirm Password</span></label>
+                  <input id="signupPasswordConfirm" class="input" name="passwordConfirm" placeholder="Confirm your password" type="password"
                     minlength="8" maxlength="200" aria-label="Confirm Password" autocomplete="new-password" />
                 </div>
 
                 <div style="margin-top: 12px; display: flex; gap: 10px; align-items: flex-start;">
-                  <input id="signup-consent" type="checkbox" style="margin-top: 3px;" />
+                  <input id="signupConsent" type="checkbox" style="margin-top: 3px;" />
                   <div style="color: rgba(233,230,218,0.76); font-size: 13px; line-height: 1.55;">
                     Yes, I wish to receive future informational and marketing communications.
                     I understand and agree to the
@@ -198,16 +198,16 @@
                   </div>
                 </div>
 
-                <button class="primary-btn" type="submit" aria-label="Sign up" data-test-id="signupSubmit-btn"
+                <button class="primaryBtn" type="submit" aria-label="Sign up" data-test-id="signupSubmitBtn"
                   style="margin-top: 14px;">Sign up</button>
 
-                <div id="signup-error" class="disclaimer" style="display:none; margin-top: 10px; color: rgba(255, 120, 120, 0.95);" role="alert"></div>
+                <div id="signupError" class="disclaimer" style="display:none; margin-top: 10px; color: rgba(255, 120, 120, 0.95);" role="alert"></div>
               </form>
 
-              <div class="social-divider" aria-hidden="true">or sign up with</div>
-              <div class="social-row" data-test-id="social-logins-bottom-layout">
-                <button class="social-btn" type="button" aria-label="continue with google" provider="google"
-                  data-test-id="google-btn">
+              <div class="socialDivider" aria-hidden="true">or sign up with</div>
+              <div class="socialRow" data-test-id="socialLoginsBottomLayout">
+                <button class="socialBtn" type="button" aria-label="continue with google" provider="google"
+                  data-test-id="googleBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
                     <path fill="#FFC107"
                       d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
@@ -221,8 +221,8 @@
                   Google
                 </button>
 
-                <button class="social-btn" type="button" aria-label="continue with github" provider="github"
-                  data-test-id="github-btn">
+                <button class="socialBtn" type="button" aria-label="continue with github" provider="github"
+                  data-test-id="githubBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" fill="none" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M8.50001 -0.0010302C6.55044 -0.00301169 4.66389 0.689346 3.17843 1.95197C1.69296 3.2146 0.705689 4.96496 0.39354 6.88938C0.0813902 8.81379 0.464767 10.7865 1.47496 12.4539C2.48515 14.1213 4.05613 15.3745 5.90637 15.9889C6.3143 16.0644 6.46539 15.8076 6.46539 15.591C6.46539 15.3745 6.46539 14.8809 6.46539 14.196C4.18399 14.6996 3.70051 13.0981 3.70051 13.0981C3.54849 12.6018 3.22554 12.1753 2.78896 11.8945C2.04864 11.3908 2.84939 11.3908 2.84939 11.3908C3.10891 11.4275 3.35668 11.5227 3.57394 11.6693C3.7912 11.8159 3.97227 12.01 4.10341 12.2369C4.21484 12.439 4.36507 12.617 4.54548 12.7609C4.7259 12.9047 4.93294 13.0115 5.15474 13.0752C5.37653 13.1388 5.6087 13.158 5.83794 13.1317C6.06717 13.1054 6.28896 13.0341 6.49056 12.9219C6.52217 12.5076 6.70078 12.1182 6.99418 11.824C5.17108 11.6175 3.25732 10.9124 3.25732 7.76982C3.24481 6.95546 3.54594 6.16747 4.09837 5.569C3.85183 4.861 3.8806 4.08618 4.17895 3.3984C4.17895 3.3984 4.86891 3.17681 6.43516 4.23945C7.78012 3.87017 9.19974 3.87017 10.5447 4.23945C12.111 3.17681 12.7959 3.3984 12.7959 3.3984C13.0974 4.0852 13.1279 4.8606 12.8815 5.569C13.4339 6.16747 13.7351 6.95546 13.7225 7.76982C13.7225 10.9225 11.8038 11.6124 9.97561 11.7988C10.1716 11.9958 10.323 12.2327 10.4195 12.4934C10.5159 12.7541 10.5552 13.0324 10.5346 13.3096C10.5346 14.4075 10.5346 15.2939 10.5346 15.5608C10.5346 15.8277 10.6807 16.0342 11.0987 15.9587C12.9431 15.3385 14.5072 14.0833 15.5121 12.417C16.517 10.7507 16.8973 8.78157 16.5852 6.86089C16.273 4.94021 15.2887 3.19286 13.8079 1.93051C12.327 0.668166 10.4459 -0.027091 8.50001 -0.03125V-0.0010302Z"
@@ -231,8 +231,8 @@
                   GitHub
                 </button>
 
-                <button class="social-btn" type="button" disabled aria-label="continue with linkedin" provider="linkedin"
-                  data-test-id="linkedin-btn">
+                <button class="socialBtn" type="button" disabled aria-label="continue with linkedin" provider="linkedin"
+                  data-test-id="linkedinBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     aria-hidden="true">
                     <path
@@ -306,14 +306,14 @@
         return data;
       }
 
-      const signinForm = document.getElementById('signin-form');
-      const signinError = document.getElementById('signin-error');
+      const signinForm = document.getElementById('signinForm');
+      const signinError = document.getElementById('signinError');
       if (signinForm) {
         signinForm.addEventListener('submit', async function (e) {
           e.preventDefault();
           clearError(signinError);
-          const email = (document.getElementById('signin-email') || {}).value || '';
-          const password = (document.getElementById('signin-password') || {}).value || '';
+          const email = (document.getElementById('signinEmail') || {}).value || '';
+          const password = (document.getElementById('signinPassword') || {}).value || '';
           try {
             await postData('/api/auth/login', { email: email, password: password });
             window.location.href = '/dashboard';
@@ -323,19 +323,19 @@
         });
       }
 
-      const signupForm = document.getElementById('signup-form');
-      const signupError = document.getElementById('signup-error');
+      const signupForm = document.getElementById('signupForm');
+      const signupError = document.getElementById('signupError');
       if (signupForm) {
         signupForm.addEventListener('submit', async function (e) {
           e.preventDefault();
           clearError(signupError);
-          const email = (document.getElementById('signup-email') || {}).value || '';
-          const firstName = (document.getElementById('signup-first') || {}).value || '';
-          const lastName = (document.getElementById('signup-last') || {}).value || '';
-          const companyName = (document.getElementById('signup-company') || {}).value || '';
-          const password = (document.getElementById('signup-password') || {}).value || '';
-          const passwordConfirm = (document.getElementById('signup-password-confirm') || {}).value || '';
-          const marketingOptIn = !!((document.getElementById('signup-consent') || {}).checked);
+          const email = (document.getElementById('signupEmail') || {}).value || '';
+          const firstName = (document.getElementById('signupFirst') || {}).value || '';
+          const lastName = (document.getElementById('signupLast') || {}).value || '';
+          const companyName = (document.getElementById('signupCompany') || {}).value || '';
+          const password = (document.getElementById('signupPassword') || {}).value || '';
+          const passwordConfirm = (document.getElementById('signupPasswordConfirm') || {}).value || '';
+          const marketingOptIn = !!((document.getElementById('signupConsent') || {}).checked);
           if (password !== passwordConfirm) {
             showError('error', 'Passwords do not match');
             return;
@@ -356,7 +356,7 @@
         });
       }
 
-      const socialButtons = document.querySelectorAll('button.social-btn[provider]');
+      const socialButtons = document.querySelectorAll('button.socialBtn[provider]');
       for (const btn of socialButtons) {
         btn.addEventListener('click', function () {
           const provider = (btn.getAttribute('provider') || '').toLowerCase();

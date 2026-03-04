@@ -19,16 +19,16 @@
 <body>
   <%- include('alert.ejs') %>
 
-  <main class="admin-page">
-    <div class="admin-shell">
+  <main class="adminPage">
+    <div class="adminShell">
       <div class="topbar">
         <a class="brand" href="/" aria-label="Back to XeonDB home">
           <img src="/logo.png" alt="XeonDB logo" />
           <span>XeonDB</span>
         </a>
-        <div class="topbar-right">
+        <div class="topbarRight">
           <a class="btn" href="/">Back to site</a>
-          <button class="btn" id="btn-logout" type="button">Logout</button>
+          <button class="btn" id="btnLogout" type="button">Logout</button>
           <div class="badge">ADMIN<% if (adminName) { %>: <%= adminName %><% } %></div>
         </div>
       </div>
@@ -40,19 +40,19 @@
         </div>
         <div class="stats">
           <div class="stat">
-            <div class="stat-num"><%= (users && users.length) ? users.length : 0 %></div>
-            <div class="stat-label">Users</div>
+            <div class="statNum"><%= (users && users.length) ? users.length : 0 %></div>
+            <div class="statLabel">Users</div>
           </div>
           <div class="stat">
-            <div class="stat-num"><%= (typeof totalInstances !== 'undefined') ? totalInstances : 0 %></div>
-            <div class="stat-label">Instances</div>
+            <div class="statNum"><%= (typeof totalInstances !== 'undefined') ? totalInstances : 0 %></div>
+            <div class="statLabel">Instances</div>
           </div>
         </div>
       </header>
 
 
       <section class="card">
-        <div class="card-title">Users</div>
+        <div class="cardTitle">Users</div>
 
         <div class="groups">
           <% if (users && users.length) { %>
@@ -60,11 +60,11 @@
               <% const email = String(u.email || '').trim(); %>
               <% const emailKey = String(email || '').trim().toLowerCase(); %>
               <% const userInstances = (instancesByEmail && instancesByEmail[emailKey]) ? instancesByEmail[emailKey] : []; %>
-              <details class="user-group">
-                <summary class="user-summary">
-                  <div class="user-main">
-                    <div class="user-email mono"><%= email %></div>
-                    <div class="user-meta">
+              <details class="userGroup">
+                <summary class="userSummary">
+                  <div class="userMain">
+                    <div class="userEmail mono"><%= email %></div>
+                    <div class="userMeta">
                       <span><%= [u.first_name, u.last_name].filter(Boolean).join(' ') || '-' %></span>
                       <span class="sep">•</span>
                       <span><%= u.company || '-' %></span>
@@ -72,14 +72,14 @@
                       <span class="mono"><%= u.created_at ? new Date(Number(u.created_at)).toISOString() : '-' %></span>
                     </div>
                   </div>
-                  <div class="user-right">
+                  <div class="userRight">
                     <div class="count mono"><%= (userInstances && userInstances.length) ? userInstances.length : 0 %> instances</div>
                     <button class="danger" type="button" data-delete-user="1" data-email="<%= email %>">Delete account</button>
                   </div>
                 </summary>
 
-                <div class="user-body">
-                  <div class="table-wrap">
+                <div class="userBody">
+                  <div class="tableWrap">
                     <table class="table">
                       <thead>
                         <tr>
@@ -110,7 +110,7 @@
                                 <span data-storage-for="<%= inst.id %>">Not loaded</span>
                               </td>
                               <td class="actions">
-                                <button class="btn btn-small" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
+                                <button class="btn btnSmall" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
                                 <button class="danger" type="button" data-delete-instance="1" data-id="<%= inst.id %>" data-keyspace="<%= inst.keyspace || '' %>">Delete DB</button>
                               </td>
                             </tr>
@@ -129,20 +129,20 @@
           <% } %>
 
           <% if (orphanInstances && orphanInstances.length) { %>
-            <details class="user-group">
-              <summary class="user-summary">
-                <div class="user-main">
-                  <div class="user-email mono">Orphaned instances</div>
-                  <div class="user-meta">
+            <details class="userGroup">
+              <summary class="userSummary">
+                <div class="userMain">
+                  <div class="userEmail mono">Orphaned instances</div>
+                  <div class="userMeta">
                     <span>Instances with no matching user row</span>
                   </div>
                 </div>
-                <div class="user-right">
+                <div class="userRight">
                   <div class="count mono"><%= orphanInstances.length %> instances</div>
                 </div>
               </summary>
-              <div class="user-body">
-                <div class="table-wrap">
+              <div class="userBody">
+                <div class="tableWrap">
                   <table class="table">
                     <thead>
                       <tr>
@@ -170,7 +170,7 @@
                           <td><span class="pill <%= st === 'online' ? 'ok' : 'warn' %>"><%= st %></span></td>
                           <td class="mono"><span data-storage-for="<%= inst.id %>">Not loaded</span></td>
                           <td class="actions">
-                            <button class="btn btn-small" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
+                            <button class="btn btnSmall" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
                             <button class="danger" type="button" data-delete-instance="1" data-id="<%= inst.id %>" data-keyspace="<%= inst.keyspace || '' %>">Delete DB</button>
                           </td>
                         </tr>
@@ -199,7 +199,7 @@
         return data;
       }
 
-      var logout = document.getElementById('btn-logout');
+      var logout = document.getElementById('btnLogout');
       if (logout) {
         logout.addEventListener('click', async function () {
           try {

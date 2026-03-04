@@ -90,7 +90,7 @@ body::after {
   font-size: 22px;
 }
 
-.topbar-right {
+.topbarRight {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -132,7 +132,7 @@ body::after {
   background: rgba(57, 198, 255, 0.14);
 }
 
-.user-avatar {
+.userAvatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -146,11 +146,11 @@ body::after {
   color: var(--accent);
 }
 
-.user-menu { position: relative; }
-.user-menu > summary { list-style: none; cursor: pointer; user-select: none; }
-.user-menu > summary::-webkit-details-marker { display: none; }
+.userMenu { position: relative; }
+.userMenu > summary { list-style: none; cursor: pointer; user-select: none; }
+.userMenu > summary::-webkit-details-marker { display: none; }
 
-.user-menu-pop {
+.userMenuPop {
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
@@ -166,7 +166,7 @@ body::after {
   backdrop-filter: blur(10px);
 }
 
-.user-menu-item {
+.userMenuItem {
   padding: 10px 10px;
   border-radius: 12px;
   border: 1px solid transparent;
@@ -177,12 +177,12 @@ body::after {
   background: transparent;
 }
 
-.user-menu-item:hover {
+.userMenuItem:hover {
   border-color: var(--stroke2);
   background: rgba(15, 23, 51, 0.70);
 }
 
-.user-menu-sep { height: 1px; background: var(--stroke2); margin: 4px 6px; }
+.userMenuSep { height: 1px; background: var(--stroke2); margin: 4px 6px; }
 
 .header {
   display: flex;
@@ -221,7 +221,7 @@ body::after {
   min-width: 0;
 }
 
-.card-title {
+.cardTitle {
   font-weight: 850;
   letter-spacing: 0.08px;
   font-size: 14px;
@@ -273,13 +273,13 @@ body::after {
   height: 16px;
 }
 
-.form-actions {
+.formActions {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.save-status {
+.saveStatus {
   color: var(--muted);
   font-weight: 800;
   font-size: 13px;

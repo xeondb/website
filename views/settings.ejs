@@ -28,15 +28,15 @@
           <img src="/logo.png" alt="XeonDB logo" />
           <span>XeonDB</span>
         </a>
-        <div class="topbar-right">
+        <div class="topbarRight">
           <a class="btn" href="/dashboard">Dashboard</a>
-          <details class="user-menu">
-            <summary class="user-avatar" aria-label="Open user menu"><%= name %></summary>
-            <div class="user-menu-pop" role="navigation" aria-label="User menu">
-              <a class="user-menu-item" href="/settings" aria-current="page">Settings</a>
-              <a class="user-menu-item" href="/billing">Billing</a>
-              <div class="user-menu-sep" aria-hidden="true"></div>
-              <a class="user-menu-item" href="/logout">Logout</a>
+          <details class="userMenu">
+            <summary class="userAvatar" aria-label="Open user menu"><%= name %></summary>
+            <div class="userMenuPop" role="navigation" aria-label="User menu">
+              <a class="userMenuItem" href="/settings" aria-current="page">Settings</a>
+              <a class="userMenuItem" href="/billing">Billing</a>
+              <div class="userMenuSep" aria-hidden="true"></div>
+              <a class="userMenuItem" href="/logout">Logout</a>
             </div>
           </details>
         </div>
@@ -51,19 +51,19 @@
 
       <section class="grid">
         <div class="card">
-          <div class="card-title">Email</div>
-          <form class="form" id="settings-form">
+          <div class="cardTitle">Email</div>
+          <form class="form" id="settingsForm">
             <div class="row">
               <div class="value mono"><%= email %></div>
             </div>
 
             <div class="field">
-              <label class="label" for="first-name">First name</label>
-              <input class="input" id="first-name" name="firstName" type="text" autocomplete="given-name" required value="<%= user && user.first_name ? user.first_name : '' %>" />
+              <label class="label" for="firstName">First name</label>
+              <input class="input" id="firstName" name="firstName" type="text" autocomplete="given-name" required value="<%= user && user.first_name ? user.first_name : '' %>" />
             </div>
             <div class="field">
-              <label class="label" for="last-name">Last name</label>
-              <input class="input" id="last-name" name="lastName" type="text" autocomplete="family-name" required value="<%= user && user.last_name ? user.last_name : '' %>" />
+              <label class="label" for="lastName">Last name</label>
+              <input class="input" id="lastName" name="lastName" type="text" autocomplete="family-name" required value="<%= user && user.last_name ? user.last_name : '' %>" />
             </div>
             <div class="field">
               <label class="label" for="company">Company</label>
@@ -80,23 +80,23 @@
               <div class="value mono"><%= (user && user.created_at) ? new Date(Number(user.created_at)).toISOString() : '-' %></div>
             </div>
 
-            <div class="form-actions">
-              <button class="btn primary" id="btn-save" type="submit">Save changes</button>
-              <span class="save-status" id="save-status" aria-live="polite"></span>
+            <div class="formActions">
+              <button class="btn primary" id="btnSave" type="submit">Save changes</button>
+              <span class="saveStatus" id="saveStatus" aria-live="polite"></span>
             </div>
           </form>
         </div>
 
         <div class="card">
-          <div class="card-title">Security</div>
+          <div class="cardTitle">Security</div>
           <div class="hint">Update your password. Leave blank to keep it unchanged.</div>
           <div class="field">
-            <label class="label" for="pw-current">Current password</label>
-            <input class="input" id="pw-current" type="password" autocomplete="current-password" placeholder="Required to change password" />
+            <label class="label" for="pwCurrent">Current password</label>
+            <input class="input" id="pwCurrent" type="password" autocomplete="current-password" placeholder="Required to change password" />
           </div>
           <div class="field">
-            <label class="label" for="pw-new">New password</label>
-            <input class="input" id="pw-new" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" />
+            <label class="label" for="pwNew">New password</label>
+            <input class="input" id="pwNew" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" />
           </div>
           <a class="btn" href="/logout">Sign out</a>
         </div>
@@ -106,9 +106,9 @@
 
   <script>
     (function () {
-      var form = document.getElementById('settings-form');
-      var statusEl = document.getElementById('save-status');
-      var btn = document.getElementById('btn-save');
+      var form = document.getElementById('settingsForm');
+      var statusEl = document.getElementById('saveStatus');
+      var btn = document.getElementById('btnSave');
 
       function toast(type, msg) {
         if (typeof window.showToast === 'function') {
@@ -143,13 +143,13 @@
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        var firstName = String((document.getElementById('first-name') || {}).value || '').trim();
-        var lastName = String((document.getElementById('last-name') || {}).value || '').trim();
+        var firstName = String((document.getElementById('firstName') || {}).value || '').trim();
+        var lastName = String((document.getElementById('lastName') || {}).value || '').trim();
         var companyName = String((document.getElementById('company') || {}).value || '').trim();
         var marketingOptIn = !!((document.getElementById('marketing') || {}).checked);
 
-        var passwordCurrent = String((document.getElementById('pw-current') || {}).value || '');
-        var passwordNew = String((document.getElementById('pw-new') || {}).value || '');
+        var passwordCurrent = String((document.getElementById('pwCurrent') || {}).value || '');
+        var passwordNew = String((document.getElementById('pwNew') || {}).value || '');
 
         if (btn) btn.disabled = true;
         if (statusEl) statusEl.textContent = 'Saving...';
@@ -166,8 +166,8 @@
           if (statusEl) statusEl.textContent = 'Saved';
           toast('success', 'Settings saved');
           if (passwordNew) {
-            var el1 = document.getElementById('pw-current');
-            var el2 = document.getElementById('pw-new');
+            var el1 = document.getElementById('pwCurrent');
+            var el2 = document.getElementById('pwNew');
             if (el1) el1.value = '';
             if (el2) el2.value = '';
           }

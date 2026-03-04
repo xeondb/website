@@ -19,210 +19,210 @@
 </head>
 
 <body>
-  <input type="checkbox" id="modal-toggle" class="modal-toggle" />
+  <input type="checkbox" id="modalToggle" class="modalToggle" />
 
-  <div class="modal-backdrop">
+  <div class="modalBackdrop">
     <div class="modal" data-view="plan" data-state="idle">
-      <label for="modal-toggle" class="modal-close" aria-label="Close modal">
+      <label for="modalToggle" class="modalClose" aria-label="Close modal">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </label>
 
-      <div class="plan-view" aria-label="Create database">
-        <div class="modal-header">
-          <h2 class="modal-title">Create a Database</h2>
-          <p class="modal-subtitle">Choose a plan to get started</p>
+      <div class="planView" aria-label="Create database">
+        <div class="modalHeader">
+          <h2 class="modalTitle">Create a Database</h2>
+          <p class="modalSubtitle">Choose a plan to get started</p>
         </div>
 
-        <div class="modal-body">
-          <label class="plan-option" data-plan="free">
-            <div class="plan-header">
-              <span class="plan-name">Free</span>
-              <span class="plan-price">$0<span>/month</span></span>
+        <div class="modalBody">
+          <label class="planOption" data-plan="free">
+            <div class="planHeader">
+              <span class="planName">Free</span>
+              <span class="planPrice">$0<span>/month</span></span>
             </div>
-            <div class="plan-features">
-              <div class="plan-feature">
+            <div class="planFeatures">
+              <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
                 Sharded node architecture
               </div>
-              <div class="plan-feature">
+              <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
                 500 MB storage
               </div>
-              <div class="plan-feature">
+              <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
                 Community support
               </div>
             </div>
-            <span class="plan-badge free">Available</span>
+            <span class="planBadge free">Available</span>
           </label>
 
-          <div class="plan-option disabled" data-plan="pro">
-            <div class="plan-header">
-              <span class="plan-name">Pro</span>
-              <span class="plan-price">$5<span>/month</span></span>
+          <div class="planOption disabled" data-plan="pro">
+            <div class="planHeader">
+              <span class="planName">Pro</span>
+              <span class="planPrice">$5<span>/month</span></span>
             </div>
-            <div class="plan-features">
-              <div class="plan-feature">
+            <div class="planFeatures">
+              <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
                 Dedicated node
               </div>
-              <div class="plan-feature">
+              <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
                 150 GB storage
               </div>
-              <div class="plan-feature">
+              <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
                 Priority support
               </div>
             </div>
-            <span class="plan-badge coming">Coming Soon</span>
+            <span class="planBadge coming">Coming Soon</span>
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button class="modal-btn" id="create-db" type="button">Create Database</button>
+        <div class="modalFooter">
+          <button class="modalBtn" id="createDb" type="button">Create Database</button>
         </div>
       </div>
 
-      <div class="setup-view" aria-label="Provisioning" aria-live="polite">
-        <div class="setup-header">
-          <h2 class="setup-title">Setting up the environment</h2>
-          <p class="setup-sub" id="setup-sub">// This usually takes around 1-2 mins</p>
+      <div class="setupView" aria-label="Provisioning" aria-live="polite">
+        <div class="setupHeader">
+          <h2 class="setupTitle">Setting up the environment</h2>
+          <p class="setupSub" id="setupSub">// This usually takes around 1-2 mins</p>
         </div>
 
-        <div class="setup-spark" aria-hidden="true">
+        <div class="setupSpark" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span>
           <span></span><span></span><span></span><span></span><span></span>
         </div>
 
-        <div class="setup-steps" aria-label="Setup steps">
-          <div class="setup-step pending" data-step="0">
-            <span class="setup-icon" aria-hidden="true"></span>
-            <span class="setup-label">Initializing Cloud environment</span>
+        <div class="setupSteps" aria-label="Setup steps">
+          <div class="setupStep pending" data-step="0">
+            <span class="setupIcon" aria-hidden="true"></span>
+            <span class="setupLabel">Initializing Cloud environment</span>
           </div>
-          <div class="setup-step pending" data-step="1">
-            <span class="setup-icon" aria-hidden="true"></span>
-            <span class="setup-label">Provisioning resources</span>
+          <div class="setupStep pending" data-step="1">
+            <span class="setupIcon" aria-hidden="true"></span>
+            <span class="setupLabel">Provisioning resources</span>
           </div>
-          <div class="setup-step pending" data-step="2">
-            <span class="setup-icon" aria-hidden="true"></span>
-            <span class="setup-label">Configuring environment</span>
+          <div class="setupStep pending" data-step="2">
+            <span class="setupIcon" aria-hidden="true"></span>
+            <span class="setupLabel">Configuring environment</span>
           </div>
-          <div class="setup-step pending" data-step="3">
-            <span class="setup-icon" aria-hidden="true"></span>
-            <span class="setup-label">Starting the instance</span>
+          <div class="setupStep pending" data-step="3">
+            <span class="setupIcon" aria-hidden="true"></span>
+            <span class="setupLabel">Starting the instance</span>
           </div>
         </div>
 
-        <div class="setup-error" id="setup-error" style="display:none;"></div>
-        <div class="setup-actions" id="setup-actions" style="display:none;">
-          <button class="setup-back" id="setup-back" type="button">Back</button>
-          <label for="modal-toggle" class="setup-close">Close</label>
+        <div class="setupError" id="setupError" style="display:none;"></div>
+        <div class="setupActions" id="setupActions" style="display:none;">
+          <button class="setupBack" id="setupBack" type="button">Back</button>
+          <label for="modalToggle" class="setupClose">Close</label>
         </div>
       </div>
     </div>
   </div>
 
-  <main class="dash-page">
-    <div class="dash-shell">
+  <main class="dashPage">
+    <div class="dashShell">
       <div class="topbar">
         <a class="brand" href="/" aria-label="Back to XeonDB home">
           <img src="/logo.png" alt="XeonDB logo" />
           <span>XeonDB</span>
         </a>
-        <div class="topbar-right">
+        <div class="topbarRight">
           <a class="btn" href="/">Back to site</a>
-          <details class="user-menu">
-            <summary class="user-avatar" aria-label="Open user menu"><%= name %></summary>
-            <div class="user-menu-pop" role="navigation" aria-label="User menu">
-              <a class="user-menu-item" href="/settings">Settings</a>
-              <a class="user-menu-item" href="/billing">Billing</a>
-              <div class="user-menu-sep" aria-hidden="true"></div>
-              <a class="user-menu-item" href="/logout">Logout</a>
+          <details class="userMenu">
+            <summary class="userAvatar" aria-label="Open user menu"><%= name %></summary>
+            <div class="userMenuPop" role="navigation" aria-label="User menu">
+              <a class="userMenuItem" href="/settings">Settings</a>
+              <a class="userMenuItem" href="/billing">Billing</a>
+              <div class="userMenuSep" aria-hidden="true"></div>
+              <a class="userMenuItem" href="/logout">Logout</a>
             </div>
           </details>
         </div>
       </div>
 
-      <div class="page-header">
+      <div class="pageHeader">
         <div>
-          <h1 class="page-title">Your Databases</h1>
-          <p class="page-subtitle">Manage and monitor your database clusters</p>
+          <h1 class="pageTitle">Your Databases</h1>
+          <p class="pageSubtitle">Manage and monitor your database clusters</p>
         </div>
-        <div class="page-actions">
-          <label for="modal-toggle" class="btn primary">Create database</label>
+        <div class="pageActions">
+          <label for="modalToggle" class="btn primary">Create database</label>
         </div>
       </div>
 
       <% if (instances && instances.length) { %>
-        <div class="dbs-grid">
+        <div class="dbsGrid">
           <% instances.forEach(function(inst) { %>
-            <div class="db-card">
-              <div class="db-card-header">
-                <div class="db-name"><%= inst.name || inst.id %></div>
+            <div class="dbCard">
+              <div class="dbCardHeader">
+                <div class="dbName"><%= inst.name || inst.id %></div>
                 <% const st = (inst.status || 'online').toLowerCase(); %>
-                <span class="db-status <%= st === 'online' ? 'online' : 'offline' %>">
-                  <span class="db-status-dot"></span>
+                <span class="dbStatus <%= st === 'online' ? 'online' : 'offline' %>">
+                  <span class="dbStatusDot"></span>
                   <%= st === 'online' ? 'Online' : 'Offline' %>
                 </span>
               </div>
 
-              <div class="db-meta">
-                <div class="db-endpoint"><%= inst.host %>:<%= inst.port %></div>
-                <div class="db-pills" aria-label="Database attributes">
-                  <span class="db-pill"><%= (inst.plan || 'free').toUpperCase() %></span>
+              <div class="dbMeta">
+                <div class="dbEndpoint"><%= inst.host %>:<%= inst.port %></div>
+                <div class="dbPills" aria-label="Database attributes">
+                  <span class="dbPill"><%= (inst.plan || 'free').toUpperCase() %></span>
                   <% if (inst.keyspace) { %>
-                    <span class="db-pill">Keyspace: <span class="mono"><%= inst.keyspace %></span></span>
+                    <span class="dbPill">Keyspace: <span class="mono"><%= inst.keyspace %></span></span>
                   <% } %>
                 </div>
               </div>
 
-              <details class="db-expand">
+              <details class="dbExpand">
                 <summary>Connection details</summary>
-                <div class="db-detail" aria-label="Connection details">
-                  <div class="db-info-row">
-                    <span class="db-info-label">Host</span>
-                    <span class="db-info-value"><%= inst.host %></span>
+                <div class="dbDetail" aria-label="Connection details">
+                  <div class="dbInfoRow">
+                    <span class="dbInfoLabel">Host</span>
+                    <span class="dbInfoValue"><%= inst.host %></span>
                   </div>
-                  <div class="db-info-row">
-                    <span class="db-info-label">Port</span>
-                    <span class="db-info-value"><%= inst.port %></span>
+                  <div class="dbInfoRow">
+                    <span class="dbInfoLabel">Port</span>
+                    <span class="dbInfoValue"><%= inst.port %></span>
                   </div>
                   <% if (inst.keyspace) { %>
-                    <div class="db-info-row">
-                      <span class="db-info-label">Keyspace</span>
-                      <span class="db-info-value"><%= inst.keyspace %></span>
+                    <div class="dbInfoRow">
+                      <span class="dbInfoLabel">Keyspace</span>
+                      <span class="dbInfoValue"><%= inst.keyspace %></span>
                     </div>
                   <% } %>
-                  <div class="db-info-row">
-                    <span class="db-info-label">Username</span>
-                    <span class="db-info-value"><%= inst.db_username %></span>
+                  <div class="dbInfoRow">
+                    <span class="dbInfoLabel">Username</span>
+                    <span class="dbInfoValue"><%= inst.db_username %></span>
                   </div>
-                  <div class="db-info-row">
-                    <span class="db-info-label">Password</span>
-                    <span class="db-info-value">**************</span>
+                  <div class="dbInfoRow">
+                    <span class="dbInfoLabel">Password</span>
+                    <span class="dbInfoValue">**************</span>
                   </div>
-                  <div class="db-detail-hint">Use <span class="mono">Copy connection</span> to copy credentials.</div>
+                  <div class="dbDetailHint">Use <span class="mono">Copy connection</span> to copy credentials.</div>
                 </div>
               </details>
 
-              <div class="db-actions">
-                <button class="db-action-btn js-connect" type="button"
+              <div class="dbActions">
+                <button class="dbActionBtn jsConnect" type="button"
                   data-host="<%= inst.host %>"
                   data-port="<%= inst.port %>"
                   data-keyspace="<%= inst.keyspace ? inst.keyspace : '' %>"
@@ -230,17 +230,17 @@
                   data-password="<%= inst.db_password %>">
                   Copy connection
                 </button>
-                <a class="db-action-btn primary" href="/dashboard/<%= inst.id %>">Manage</a>
+                <a class="dbActionBtn primary" href="/dashboard/<%= inst.id %>">Manage</a>
               </div>
             </div>
           <% }); %>
         </div>
       <% } else { %>
-        <div class="empty-state" aria-label="No databases">
-          <div class="empty-state-icon">+</div>
+        <div class="emptyState" aria-label="No databases">
+          <div class="emptyStateIcon">+</div>
           <h3>No databases yet</h3>
           <p>Create a database to get an endpoint and credentials.</p>
-          <label for="modal-toggle" class="btn primary" style="margin: 10px;">Create database</label>
+          <label for="modalToggle" class="btn primary" style="margin: 10px;">Create database</label>
         </div>
       <% } %>
     </div>
@@ -272,7 +272,7 @@
         return data;
       }
 
-      document.querySelectorAll('.js-connect').forEach(function (btn) {
+      document.querySelectorAll('.jsConnect').forEach(function (btn) {
         btn.addEventListener('click', async function () {
           const host = btn.getAttribute('data-host') || '';
           const port = btn.getAttribute('data-port') || '';
@@ -293,20 +293,20 @@
         });
       });
 
-      var createBtn = document.getElementById('create-db');
-      var modalToggle = document.getElementById('modal-toggle');
+      var createBtn = document.getElementById('createDb');
+      var modalToggle = document.getElementById('modalToggle');
       var modalEl = document.querySelector('.modal');
-      var setupSubEl = document.getElementById('setup-sub');
-      var setupErrEl = document.getElementById('setup-error');
-      var setupActionsEl = document.getElementById('setup-actions');
-      var setupBackBtn = document.getElementById('setup-back');
+      var setupSubEl = document.getElementById('setupSub');
+      var setupErrEl = document.getElementById('setupError');
+      var setupActionsEl = document.getElementById('setupActions');
+      var setupBackBtn = document.getElementById('setupBack');
       var selectedPlan = 'free';
 
       function setSelectedPlan(plan) {
         selectedPlan = plan === 'pro' ? 'pro' : 'free';
       }
 
-      document.querySelectorAll('.plan-option[data-plan]').forEach(function (el) {
+      document.querySelectorAll('.planOption[data-plan]').forEach(function (el) {
         el.addEventListener('click', function () {
           if (el.classList.contains('disabled')) return;
           setSelectedPlan(el.getAttribute('data-plan'));
@@ -319,7 +319,7 @@
       }
 
       function setStep(i, state) {
-        var el = document.querySelector('.setup-step[data-step="' + String(i) + '"]');
+        var el = document.querySelector('.setupStep[data-step="' + String(i) + '"]');
         if (!el) return;
         el.classList.remove('pending', 'active', 'done');
         el.classList.add(state);
