@@ -93,6 +93,73 @@
       </div>
     </section>
 
+    <section class="section" aria-label="Performance">
+      <h2><img class="octoMini" src="logo.png" alt="" aria-hidden="true" />Performance</h2>
+      <p class="sub">A modern database environment: ACID guarantees, plus deployable stored procedures so your app does
+        more work where the data lives.</p>
+
+      <div class="perfCard">
+        <div class="perfGrid">
+          <div class="perfCopy">
+            <h3 class="perfTitle">Bring compute to the data</h3>
+            <div class="perfBadges" aria-label="Key properties">
+              <span class="perfBadge">ACID transactions</span>
+              <span class="perfBadge">Deployable procedures</span>
+              <span class="perfBadge">Fewer round trips</span>
+            </div>
+            <p class="perfText">XeonDB is a general-purpose relational database with ACID guarantees and a first-class
+              stored procedure workflow. Push validation, workflows, and performance-critical logic into the database to
+              cut round trips, reduce latency, and keep your app code simple.</p>
+
+            <ul class="perfFeatures" aria-label="Performance highlights">
+              <li class="perfFeature">
+                <span class="perfFeatureTitle">ACID by default</span>
+                <span class="perfFeatureText">Transactions and consistency guarantees you can build on.</span>
+              </li>
+              <li class="perfFeature">
+                <span class="perfFeatureTitle">Server-side logic</span>
+                <span class="perfFeatureText">Deploy procedures into the database to reduce network hops and
+                  overhead.</span>
+              </li>
+              <li class="perfFeature">
+                <span class="perfFeatureTitle">Fewer moving parts</span>
+                <span class="perfFeatureText">Keep business logic close to storage, with a dead-simple developer
+                  experience.</span>
+              </li>
+            </ul>
+
+            <div class="sectionCta">
+              <a class="btn primary" href="https://docs.xeondb.com/" target="_blank" rel="noreferrer">Read the docs</a>
+              <a class="btn" href="./login#signup">Start free</a>
+            </div>
+          </div>
+
+          <div class="perfMedia">
+            <figure class="perfArtifact">
+              <div class="perfArtHead">
+                <span class="perfArtTitle">Database-first workflow</span>
+                <span class="perfArtPill">Stored procedures</span>
+              </div>
+
+              <div class="perfFrame">
+                <img class="perfImg" src="/img/data.png" alt="XeonDB database environment diagram" loading="lazy" />
+                <pre class="perfCode" aria-hidden="true">procedure validate_order(user_id, payload) {
+  begin transaction;
+  assert quota_ok(user_id);
+  write audit_log(user_id, payload);
+  commit;
+}</pre>
+              </div>
+
+              <figcaption class="perfCaption">Move validation and critical workflows next to storage to reduce latency
+                and simplify app code.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     <section id="capabilities" class="section" aria-label="Why XeonDB">
       <h2><img class="octoMini" src="logo.png" alt="" aria-hidden="true" />Why XeonDB</h2>
       <p class="sub">Built for user-facing features: predictable latency, durable writes, and clear operations without a
@@ -248,69 +315,10 @@ limits:
 
     </section>
 
-    <section class="section" aria-label="Performance">
-      <h2><img class="octoMini" src="logo.png" alt="" aria-hidden="true" />Performance</h2>
-      <p class="sub">A modern database environment: ACID guarantees, plus deployable stored procedures so your app does more work where the data lives.</p>
-
-      <div class="perfCard">
-        <div class="perfGrid">
-          <div class="perfCopy">
-            <h3 class="perfTitle">Bring compute to the data</h3>
-            <div class="perfBadges" aria-label="Key properties">
-              <span class="perfBadge">ACID transactions</span>
-              <span class="perfBadge">Deployable procedures</span>
-              <span class="perfBadge">Fewer round trips</span>
-            </div>
-            <p class="perfText">XeonDB is a general-purpose relational database with ACID guarantees and a first-class stored procedure workflow. Push validation, workflows, and performance-critical logic into the database to cut round trips, reduce latency, and keep your app code simple.</p>
-
-            <ul class="perfFeatures" aria-label="Performance highlights">
-              <li class="perfFeature">
-                <span class="perfFeatureTitle">ACID by default</span>
-                <span class="perfFeatureText">Transactions and consistency guarantees you can build on.</span>
-              </li>
-              <li class="perfFeature">
-                <span class="perfFeatureTitle">Server-side logic</span>
-                <span class="perfFeatureText">Deploy procedures into the database to reduce network hops and overhead.</span>
-              </li>
-              <li class="perfFeature">
-                <span class="perfFeatureTitle">Fewer moving parts</span>
-                <span class="perfFeatureText">Keep business logic close to storage, with a dead-simple developer experience.</span>
-              </li>
-            </ul>
-
-            <div class="sectionCta">
-              <a class="btn primary" href="https://docs.xeondb.com/" target="_blank" rel="noreferrer">Read the docs</a>
-              <a class="btn" href="./login#signup">Start free</a>
-            </div>
-          </div>
-
-          <div class="perfMedia">
-            <figure class="perfArtifact">
-              <div class="perfArtHead">
-                <span class="perfArtTitle">Database-first workflow</span>
-                <span class="perfArtPill">Stored procedures</span>
-              </div>
-
-              <div class="perfFrame">
-                <img class="perfImg" src="/img/data.png" alt="XeonDB database environment diagram" loading="lazy" />
-                <pre class="perfCode" aria-hidden="true">procedure validate_order(user_id, payload) {
-  begin transaction;
-  assert quota_ok(user_id);
-  write audit_log(user_id, payload);
-  commit;
-}</pre>
-              </div>
-
-              <figcaption class="perfCaption">Move validation and critical workflows next to storage to reduce latency and simplify app code.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section" aria-label="Schemas">
       <h2><img class="octoMini" src="logo.png" alt="" aria-hidden="true" />Schemas</h2>
-      <p class="sub">Define keyspaces and tables in minutes. Introspect schema with simple commands and predictable JSON responses.</p>
+      <p class="sub">Define keyspaces and tables in minutes. Introspect schema with simple commands and predictable JSON
+        responses.</p>
 
       <div class="schemaCard">
         <div class="schemaGrid">
@@ -323,7 +331,8 @@ limits:
 
               <div class="schemaFrame">
                 <img class="schemaImg" src="/img/schema.png" alt="XeonDB schema diagram" loading="lazy" />
-                <pre class="schemaCode" aria-hidden="true">CREATE KEYSPACE IF NOT EXISTS myapp;
+                <pre class="schemaCode"
+                  aria-hidden="true">CREATE KEYSPACE IF NOT EXISTS myapp;
 CREATE TABLE IF NOT EXISTS myapp.users (
   id int64,
   name varchar,
@@ -335,7 +344,8 @@ DESCRIBE TABLE myapp.users;
 {"ok":true,"keyspace":"myapp","table":"users","primaryKey":"id","columns":[{"name":"id","type":"int64"},{"name":"name","type":"varchar"}]}</pre>
               </div>
 
-              <figcaption class="schemaCaption">Create, list, and inspect schema with a small set of commands and consistent response shapes.</figcaption>
+              <figcaption class="schemaCaption">Create, list, and inspect schema with a small set of commands and
+                consistent response shapes.</figcaption>
             </figure>
           </div>
 
@@ -348,7 +358,8 @@ DESCRIBE TABLE myapp.users;
               <span class="schemaBadge">Fast iteration</span>
             </div>
 
-            <p class="schemaText">Use a small set of familiar commands to create keyspaces and tables, list what exists, and inspect definitions. Keep your model explicit and easy to reason about as the app grows.</p>
+            <p class="schemaText">Use a small set of familiar commands to create keyspaces and tables, list what exists,
+              and inspect definitions. Keep your model explicit and easy to reason about as the app grows.</p>
 
             <ul class="schemaFeatures" aria-label="Schema highlights">
               <li class="schemaFeature">
