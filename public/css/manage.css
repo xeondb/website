@@ -684,8 +684,8 @@
   .queryBtn {
       padding: 10px 16px;
       border-radius: 10px;
-      border: 1px solid rgba(57, 198, 255, 0.48);
-      background: rgba(57, 198, 255, 0.12);
+      border: 1px solid rgba(160, 154, 154, 0.59);
+      background: rgb(10, 10, 11);
       color: var(--text);
       font-weight: 800;
       font-size: 13px;
@@ -694,9 +694,8 @@
   }
 
   .queryBtn:hover {
-      transform: translateY(-1px);
-      background: rgba(57, 198, 255, 0.18);
-      border-color: rgba(57, 198, 255, 0.72);
+      background: rgba(52, 55, 56, 0.16);
+      border-color: rgba(54, 52, 52, 0.72);
   }
 
   .resultsTableWrap {

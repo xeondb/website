@@ -144,13 +144,13 @@
   }
 
   .btn.primary {
-      border-color: rgba(57, 198, 255, 0.48);
-      background: rgba(57, 198, 255, 0.10);
+      border: 1px solid rgba(160, 154, 154, 0.59);
+      background: rgb(10, 10, 11);
   }
 
   .btn.primary:hover {
-      border-color: rgba(57, 198, 255, 0.72);
-      background: rgba(57, 198, 255, 0.14);
+      background: rgba(52, 55, 56, 0.16);
+      border-color: rgba(54, 52, 52, 0.72);
   }
 
   .userAvatar {
@@ -171,13 +171,13 @@
       position: relative;
   }
 
-  .userMenu > summary {
+  .userMenu>summary {
       list-style: none;
       cursor: pointer;
       user-select: none;
   }
 
-  .userMenu > summary::-webkit-details-marker {
+  .userMenu>summary::-webkit-details-marker {
       display: none;
   }
 
@@ -460,8 +460,8 @@
   }
 
   .dbActionBtn.primary {
-      border-color: rgba(57, 198, 255, 0.48);
-      background: rgba(57, 198, 255, 0.10);
+      border: 1px solid rgba(160, 154, 154, 0.59);
+      background: rgb(10, 10, 11);
       font-weight: 850;
       text-align: center;
       display: inline-flex;
@@ -625,18 +625,48 @@
       animation: setupPulse 950ms var(--ease-out) infinite;
   }
 
-  .setupSpark span:nth-child(1) { animation-delay: 0ms; }
-  .setupSpark span:nth-child(2) { animation-delay: 60ms; }
-  .setupSpark span:nth-child(3) { animation-delay: 120ms; }
-  .setupSpark span:nth-child(4) { animation-delay: 180ms; }
-  .setupSpark span:nth-child(5) { animation-delay: 240ms; }
-  .setupSpark span:nth-child(6) { animation-delay: 300ms; }
-  .setupSpark span:nth-child(7) { animation-delay: 360ms; }
-  .setupSpark span:nth-child(8) { animation-delay: 420ms; }
-  .setupSpark span:nth-child(9) { animation-delay: 480ms; }
-  .setupSpark span:nth-child(10) { animation-delay: 540ms; }
+  .setupSpark span:nth-child(1) {
+      animation-delay: 0ms;
+  }
+
+  .setupSpark span:nth-child(2) {
+      animation-delay: 60ms;
+  }
+
+  .setupSpark span:nth-child(3) {
+      animation-delay: 120ms;
+  }
+
+  .setupSpark span:nth-child(4) {
+      animation-delay: 180ms;
+  }
+
+  .setupSpark span:nth-child(5) {
+      animation-delay: 240ms;
+  }
+
+  .setupSpark span:nth-child(6) {
+      animation-delay: 300ms;
+  }
+
+  .setupSpark span:nth-child(7) {
+      animation-delay: 360ms;
+  }
+
+  .setupSpark span:nth-child(8) {
+      animation-delay: 420ms;
+  }
+
+  .setupSpark span:nth-child(9) {
+      animation-delay: 480ms;
+  }
+
+  .setupSpark span:nth-child(10) {
+      animation-delay: 540ms;
+  }
 
   @keyframes setupPulse {
+
       0%,
       100% {
           opacity: 0.6;
@@ -922,8 +952,8 @@
       width: 100%;
       padding: 12px 14px;
       border-radius: 14px;
-      border: 1px solid rgba(57, 198, 255, 0.48);
-      background: rgba(57, 198, 255, 0.12);
+      border: 1px solid rgba(160, 154, 154, 0.59);
+      background: rgb(10, 10, 11);
       color: rgba(233, 230, 218, 0.96);
       font-weight: 850;
       letter-spacing: 0.10px;
@@ -933,9 +963,8 @@
   }
 
   .modalBtn:hover {
-      transform: translateY(-1px);
-      background: rgba(57, 198, 255, 0.16);
-      border-color: rgba(57, 198, 255, 0.72);
+      background: rgba(52, 55, 56, 0.16);
+      border-color: rgba(54, 52, 52, 0.72);
   }
 
   .emptyState {

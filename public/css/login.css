@@ -382,9 +382,8 @@
    }
 
    .primaryBtn:hover {
-       transform: translateY(-1px);
-       background: rgba(57, 198, 255, 0.16);
-       border-color: rgba(57, 198, 255, 0.72);
+       background: rgba(52, 55, 56, 0.16);
+       border-color: rgba(54, 52, 52, 0.72);
    }
 
    .primaryBtn:active {
