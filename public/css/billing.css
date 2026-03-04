@@ -1,7 +1,8 @@
 :root {
-  --bg: #04050d;
-  --surface1: #0b1020;
-  --surface2: #0f1733;
+  --bg: #060606;
+  --surface1: #0d0d0e;
+  --surface2: #101012;
+  --surface3: #0a0a0b;
 
   --text: #e9e6da;
   --muted: rgba(233, 230, 218, 0.74);
@@ -154,7 +155,7 @@ body::after {
   min-width: 190px;
   border: 1px solid var(--stroke2);
   border-radius: 14px;
-  background: rgba(11, 16, 32, 0.92);
+  background: rgba(13, 13, 14, 0.92);
   box-shadow: var(--shadow);
   padding: 8px;
   display: grid;
@@ -176,7 +177,7 @@ body::after {
 
 .userMenuItem:hover {
   border-color: var(--stroke2);
-  background: rgba(15, 23, 51, 0.70);
+  background: rgba(16, 16, 18, 0.70);
 }
 
 .userMenuSep { height: 1px; background: var(--stroke2); margin: 4px 6px; }
@@ -211,7 +212,7 @@ body::after {
   grid-column: span 12;
   border: 1px solid var(--stroke2);
   border-radius: calc(var(--radius) + 6px);
-  background: rgba(11, 16, 32, 0.70);
+  background: rgba(13, 13, 14, 0.70);
   padding: 18px;
   display: grid;
   gap: 12px;
@@ -238,7 +239,7 @@ body::after {
 
 .stat {
   border: 1px solid rgba(233, 230, 218, 0.10);
-  background: rgba(4, 5, 13, 0.32);
+  background: rgba(6, 6, 6, 0.32);
   border-radius: 16px;
   padding: 12px;
   display: grid;
@@ -308,7 +309,7 @@ body::after {
   padding: 14px;
   border-radius: 16px;
   border: 1px solid rgba(233, 230, 218, 0.10);
-  background: rgba(4, 5, 13, 0.32);
+  background: rgba(6, 6, 6, 0.32);
   color: var(--muted);
 }
 
