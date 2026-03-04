@@ -163,7 +163,6 @@
    }
 
    .btn:hover {
-       transform: translateY(-1px);
        border-color: var(--stroke);
        background: var(--surface2);
    }
@@ -173,13 +172,13 @@
    }
 
    .btn.primary {
-       border-color: rgba(172, 212, 228, 0.3);
-       background: rgba(36, 48, 53, 0.1);
+       border: 1px solid rgba(160, 154, 154, 0.59);
+       background: rgb(10, 10, 11);
    }
 
    .btn.primary:hover {
-       border-color: rgba(57, 198, 255, 0.72);
-       background: rgba(57, 198, 255, 0.14);
+       background: rgba(52, 55, 56, 0.16);
+       border-color: rgba(54, 52, 52, 0.72);
    }
 
    .btn svg {
@@ -771,53 +770,426 @@
    .perfCard {
        border: 1px solid var(--stroke2);
        border-radius: calc(var(--radius) + 6px);
-       background: radial-gradient(1200px 520px at 24% 10%, rgba(0, 0, 0, 0.16), transparent 55%), radial-gradient(900px 440px at 84% 70%, rgba(31, 53, 59, 0.1), transparent 58%), linear-gradient(180deg, rgba(16, 16, 18, 0.70), rgba(13, 13, 14, 0.70));
+       background: #0c0e0f;
        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
        overflow: hidden;
-   }
-
-   .perfGrid {
-       padding: 22px;
-       display: grid;
-       grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-       gap: 18px;
-       align-items: center;
-   }
-
-   .perfTitle {
-       margin: 0;
-       font-size: 22px;
-       letter-spacing: 0.10px;
-   }
-
-   .perfText {
-       margin: 10px 0 0;
-       color: rgba(233, 230, 218, 0.76);
-       line-height: 1.65;
-       font-size: 14px;
-       max-width: 72ch;
-   }
-
-   .perfMedia {
-       padding: 14px;
        position: relative;
-       overflow: hidden;
    }
 
-   .perfMedia::after {
+   .perfCard::after {
        content: "";
        position: absolute;
        inset: 0;
        pointer-events: none;
-       opacity: 0.35;
+       box-shadow:
+           inset 0 0 0 1px rgba(233, 230, 218, 0.04),
+           inset 0 1px 0 rgba(233, 230, 218, 0.04);
+       opacity: 0.9;
    }
 
-   .perfImg {
-       width: 80%;
-       height: auto;
-       display: block;
-       border-radius: 12px;
+      .perfGrid {
+          padding: 14px;
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+          gap: 12px;
+          align-items: center;
+      }
+
+    .perfTitle {
+        margin: 0;
+        font-size: 19px;
+        letter-spacing: 0.10px;
+    }
+
+     .perfBadges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+         margin-top: 6px;
+     }
+
+   .perfBadge {
+       font-family: var(--mono);
+       font-size: 11px;
+       padding: 4px 8px;
+       border-radius: 999px;
+       border: 1px solid rgba(233, 230, 218, 0.12);
+       background: rgba(6, 6, 6, 0.42);
+       color: rgba(233, 230, 218, 0.90);
+       letter-spacing: 0.06em;
+       text-transform: uppercase;
+       white-space: nowrap;
    }
+
+      .perfText {
+         margin: 6px 0 0;
+         color: rgba(233, 230, 218, 0.76);
+         line-height: 1.65;
+         font-size: 14px;
+         max-width: 72ch;
+         display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+      }
+
+     .perfFeatures {
+         margin: 10px 0 0;
+         padding: 0;
+         list-style: none;
+         display: grid;
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+         gap: 8px;
+         max-width: 72ch;
+     }
+
+      .perfFeature {
+        border-radius: 14px;
+        border: 1px solid rgba(233, 230, 218, 0.10);
+        background: rgba(13, 13, 14, 0.42);
+          padding: 9px 10px;
+          display: grid;
+          gap: 4px;
+          transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
+      }
+
+   .perfFeature:hover {
+       transform: translateY(-1px);
+       border-color: rgba(233, 230, 218, 0.16);
+       background: rgba(16, 16, 18, 0.55);
+   }
+
+   .perfFeatureTitle {
+       font-size: 12px;
+       font-weight: 900;
+       letter-spacing: 0.10px;
+       color: rgba(233, 230, 218, 0.94);
+   }
+
+   .perfFeatureText {
+       font-size: 13px;
+       line-height: 1.45;
+       color: rgba(233, 230, 218, 0.70);
+   }
+
+   .perfMedia {
+       position: relative;
+       min-width: 0;
+   }
+
+   .perfArtifact {
+       margin: 0;
+       border-radius: 18px;
+       border: 1px solid rgba(233, 230, 218, 0.14);
+       background: rgba(10, 10, 11, 0.55);
+       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+       overflow: hidden;
+       position: relative;
+   }
+
+   .perfArtifact::after {
+       content: "";
+       position: absolute;
+       inset: 0;
+       pointer-events: none;
+       opacity: 0.45;
+       background: radial-gradient(520px 280px at 18% 18%, rgba(57, 198, 255, 0.12), transparent 62%);
+       -webkit-mask-image: radial-gradient(70% 60% at 30% 22%, #000 0%, rgba(0, 0, 0, 0) 72%);
+       mask-image: radial-gradient(70% 60% at 30% 22%, #000 0%, rgba(0, 0, 0, 0) 72%);
+   }
+
+      .perfArtHead {
+          padding: 9px 12px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+       border-bottom: 1px solid rgba(233, 230, 218, 0.08);
+       position: relative;
+       z-index: 1;
+       background: rgba(13, 13, 14, 0.38);
+       backdrop-filter: blur(6px);
+   }
+
+   .perfArtTitle {
+       font-size: 12px;
+       font-weight: 850;
+       letter-spacing: 0.14em;
+       text-transform: uppercase;
+       opacity: 0.86;
+       white-space: nowrap;
+   }
+
+   .perfArtPill {
+       font-family: var(--mono);
+       font-size: 11px;
+       padding: 4px 8px;
+       border-radius: 999px;
+       border: 1px solid rgba(57, 198, 255, 0.28);
+       background: rgba(57, 198, 255, 0.08);
+       color: rgba(57, 198, 255, 0.92);
+       white-space: nowrap;
+   }
+
+      .perfFrame {
+          position: relative;
+          padding: 12px;
+          z-index: 1;
+      }
+
+     .perfImg {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+        border: 1px solid rgba(233, 230, 218, 0.10);
+        background: rgba(6, 6, 6, 0.32);
+         max-height: 260px;
+         object-fit: contain;
+     }
+
+      .perfCode {
+          position: absolute;
+          left: 14px;
+          right: 14px;
+          bottom: 14px;
+          margin: 0;
+          padding: 8px 10px;
+          border-radius: 14px;
+          border: 1px solid rgba(233, 230, 218, 0.10);
+          background: rgba(6, 6, 6, 0.72);
+       color: rgba(233, 230, 218, 0.86);
+       font-family: var(--mono);
+       font-size: 11px;
+       line-height: 1.5;
+       white-space: pre;
+       overflow: hidden;
+       text-overflow: ellipsis;
+       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+       -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 75%, rgba(0, 0, 0, 0) 100%);
+       mask-image: linear-gradient(180deg, #000 0%, #000 75%, rgba(0, 0, 0, 0) 100%);
+   }
+
+      .perfCaption {
+          padding: 0 12px 12px;
+          font-size: 12px;
+          line-height: 1.55;
+          color: rgba(233, 230, 218, 0.72);
+          position: relative;
+          z-index: 1;
+      }
+
+   .schemaCard {
+       border: 1px solid var(--stroke2);
+       border-radius: calc(var(--radius) + 6px);
+       background: #0c0e0f;
+       box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
+       overflow: hidden;
+       position: relative;
+   }
+
+   .schemaCard::after {
+       content: "";
+       position: absolute;
+       inset: 0;
+       pointer-events: none;
+       box-shadow:
+           inset 0 0 0 1px rgba(233, 230, 218, 0.04),
+           inset 0 1px 0 rgba(233, 230, 218, 0.04);
+       opacity: 0.9;
+   }
+
+      .schemaGrid {
+          padding: 14px;
+          display: grid;
+          grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+          gap: 12px;
+          align-items: center;
+      }
+
+    .schemaTitle {
+        margin: 0;
+        font-size: 19px;
+        letter-spacing: 0.10px;
+    }
+
+     .schemaBadges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+         margin-top: 6px;
+     }
+
+   .schemaBadge {
+       font-family: var(--mono);
+       font-size: 11px;
+       padding: 4px 8px;
+       border-radius: 999px;
+       border: 1px solid rgba(233, 230, 218, 0.12);
+       background: rgba(6, 6, 6, 0.42);
+       color: rgba(233, 230, 218, 0.90);
+       letter-spacing: 0.06em;
+       text-transform: uppercase;
+       white-space: nowrap;
+   }
+
+      .schemaText {
+         margin: 6px 0 0;
+         color: rgba(233, 230, 218, 0.76);
+         line-height: 1.65;
+         font-size: 14px;
+         max-width: 72ch;
+         display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+      }
+
+     .schemaFeatures {
+         margin: 10px 0 0;
+         padding: 0;
+         list-style: none;
+         display: grid;
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+         gap: 8px;
+         max-width: 72ch;
+     }
+
+      .schemaFeature {
+         border-radius: 14px;
+         border: 1px solid rgba(233, 230, 218, 0.10);
+         background: rgba(13, 13, 14, 0.42);
+         padding: 9px 10px;
+          display: grid;
+          gap: 4px;
+          transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
+      }
+
+   .schemaFeature:hover {
+       transform: translateY(-1px);
+       border-color: rgba(233, 230, 218, 0.16);
+       background: rgba(16, 16, 18, 0.55);
+   }
+
+   .schemaFeatureTitle {
+       font-size: 12px;
+       font-weight: 900;
+       letter-spacing: 0.10px;
+       color: rgba(233, 230, 218, 0.94);
+   }
+
+   .schemaFeatureText {
+       font-size: 13px;
+       line-height: 1.45;
+       color: rgba(233, 230, 218, 0.70);
+   }
+
+   .schemaMedia {
+       position: relative;
+       min-width: 0;
+   }
+
+   .schemaArtifact {
+       margin: 0;
+       border-radius: 18px;
+       border: 1px solid rgba(233, 230, 218, 0.14);
+       background: rgba(10, 10, 11, 0.55);
+       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+       overflow: hidden;
+       position: relative;
+   }
+
+   .schemaArtifact::after {
+       content: "";
+       position: absolute;
+       inset: 0;
+       pointer-events: none;
+       opacity: 0.45;
+       background: radial-gradient(520px 280px at 18% 18%, rgba(57, 198, 255, 0.10), transparent 62%);
+       -webkit-mask-image: radial-gradient(70% 60% at 30% 22%, #000 0%, rgba(0, 0, 0, 0) 72%);
+       mask-image: radial-gradient(70% 60% at 30% 22%, #000 0%, rgba(0, 0, 0, 0) 72%);
+   }
+
+     .schemaArtHead {
+         padding: 9px 12px;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         gap: 10px;
+       border-bottom: 1px solid rgba(233, 230, 218, 0.08);
+       position: relative;
+       z-index: 1;
+       background: rgba(13, 13, 14, 0.38);
+       backdrop-filter: blur(6px);
+   }
+
+   .schemaArtTitle {
+       font-size: 12px;
+       font-weight: 850;
+       letter-spacing: 0.14em;
+       text-transform: uppercase;
+       opacity: 0.86;
+       white-space: nowrap;
+   }
+
+   .schemaArtPill {
+       font-family: var(--mono);
+       font-size: 11px;
+       padding: 4px 8px;
+       border-radius: 999px;
+       border: 1px solid rgba(127, 226, 255, 0.26);
+       background: rgba(127, 226, 255, 0.08);
+       color: rgba(127, 226, 255, 0.92);
+       white-space: nowrap;
+   }
+
+      .schemaFrame {
+          position: relative;
+          padding: 12px;
+          z-index: 1;
+      }
+
+     .schemaImg {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+        border: 1px solid rgba(233, 230, 218, 0.10);
+        background: rgba(6, 6, 6, 0.32);
+         max-height: 260px;
+         object-fit: contain;
+     }
+
+      .schemaCode {
+          position: absolute;
+          left: 14px;
+          right: 14px;
+          bottom: 14px;
+          margin: 0;
+          padding: 8px 10px;
+          border-radius: 14px;
+          border: 1px solid rgba(233, 230, 218, 0.10);
+          background: rgba(6, 6, 6, 0.72);
+       color: rgba(233, 230, 218, 0.86);
+       font-family: var(--mono);
+       font-size: 11px;
+       line-height: 1.5;
+       white-space: pre;
+       overflow: hidden;
+       text-overflow: ellipsis;
+       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+       -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 75%, rgba(0, 0, 0, 0) 100%);
+       mask-image: linear-gradient(180deg, #000 0%, #000 75%, rgba(0, 0, 0, 0) 100%);
+   }
+
+      .schemaCaption {
+          padding: 0 12px 12px;
+          font-size: 12px;
+          line-height: 1.55;
+          color: rgba(233, 230, 218, 0.72);
+          position: relative;
+          z-index: 1;
+      }
 
    .whyUi {
        position: relative;
@@ -1821,7 +2193,7 @@
        border-radius: 10px;
    }
 
-   @media (max-width: 1000px) {
+    @media (max-width: 1000px) {
        .heroInner {
            grid-template-columns: 1fr;
            padding: 26px;
@@ -1842,9 +2214,13 @@
            grid-template-columns: 1fr;
        }
 
-       .perfGrid {
-           grid-template-columns: 1fr;
-       }
+        .perfGrid {
+            grid-template-columns: 1fr;
+        }
+
+        .perfFeatures {
+            grid-template-columns: 1fr;
+        }
 
        .perfMedia {
            grid-row: 1;
@@ -1852,6 +2228,34 @@
 
        .perfCopy {
            grid-row: 2;
+       }
+
+       .perfCode {
+           position: static;
+           left: auto;
+           right: auto;
+           bottom: auto;
+           margin-top: 12px;
+           -webkit-mask-image: none;
+           mask-image: none;
+       }
+
+        .schemaGrid {
+            grid-template-columns: 1fr;
+        }
+
+        .schemaFeatures {
+            grid-template-columns: 1fr;
+        }
+
+       .schemaCode {
+           position: static;
+           left: auto;
+           right: auto;
+           bottom: auto;
+           margin-top: 12px;
+           -webkit-mask-image: none;
+           mask-image: none;
        }
 
        .whyPanels {
@@ -1926,13 +2330,25 @@
        }
    }
 
-   @media (max-width: 640px) {
+     @media (max-width: 640px) {
        .wrap {
            padding: 20px 14px 64px;
        }
 
-       .perfGrid {
-           padding: 16px;
+         .perfGrid {
+             padding: 13px;
+         }
+
+       .perfCode {
+           display: none;
+       }
+
+         .schemaGrid {
+             padding: 13px;
+         }
+
+       .schemaCode {
+           display: none;
        }
 
        .nav {
