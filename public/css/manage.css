@@ -363,12 +363,51 @@
   .dbHeader {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 14px;
   }
+
+   .dbTitleGroup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+   }
 
   .dbTitle {
       font-size: clamp(20px, 2.5vw, 28px);
       font-weight: 850;
+      letter-spacing: -0.02em;
+  }
+
+   .dbPremiumBadge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(246, 193, 119, 0.30);
+      background: linear-gradient(135deg, rgba(246, 193, 119, 0.22), rgba(255, 233, 184, 0.08));
+      color: #ffe7ae;
+      box-shadow: 0 10px 24px rgba(246, 193, 119, 0.10), inset 0 0 0 1px rgba(255, 231, 174, 0.06);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+  }
+
+   .dbPremiumIcon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255, 231, 174, 0.12);
+      color: #fff1c9;
+      font-size: 12px;
+      line-height: 1;
   }
 
   .dbStatus {
@@ -696,9 +735,20 @@
       margin-bottom: 10px;
   }
 
+   .tablesIntro {
+      margin-bottom: 12px;
+      color: rgba(233, 230, 218, 0.62);
+      font-size: 13px;
+      line-height: 1.5;
+   }
+
   .tablesList {
       display: grid;
       gap: 8px;
+      padding: 10px;
+      border: 1px solid rgba(233, 230, 218, 0.08);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(16, 16, 18, 0.62), rgba(10, 10, 11, 0.38));
   }
 
   .tablesEmpty {
@@ -729,24 +779,49 @@
   }
 
   .tablesItem:hover {
-      transform: translateX(2px);
+      transform: translateX(3px);
       border-color: rgba(57, 198, 255, 0.35);
-      background: rgba(16, 16, 18, 0.80);
+      background: linear-gradient(135deg, rgba(25, 35, 42, 0.9), rgba(16, 16, 18, 0.86));
   }
 
   .tablesItem.isActive {
       border-color: rgba(57, 198, 255, 0.55);
-      background: linear-gradient(135deg, rgba(57, 198, 255, 0.14), rgba(46, 211, 161, 0.06));
+      background: linear-gradient(135deg, rgba(57, 198, 255, 0.18), rgba(46, 211, 161, 0.10));
+      box-shadow: inset 0 0 0 1px rgba(57, 198, 255, 0.14), 0 10px 24px rgba(14, 28, 36, 0.28);
+  }
+
+   .tablesSelectedCard {
+      padding: 16px;
+      border: 1px solid rgba(57, 198, 255, 0.16);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top right, rgba(57, 198, 255, 0.12), transparent 42%),
+        linear-gradient(180deg, rgba(17, 23, 28, 0.88), rgba(10, 10, 11, 0.68));
+      margin-bottom: 12px;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26);
+  }
+
+   .tablesSelectedLabel {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(57, 198, 255, 0.82);
+      margin-bottom: 8px;
   }
 
   .tablesSelected {
-      padding: 12px;
-      border: 1px solid var(--stroke2);
-      border-radius: 12px;
-      background: rgba(10, 10, 11, 0.35);
       color: var(--text);
       font-weight: 800;
-      margin-bottom: 12px;
+      font-size: 18px;
+      line-height: 1.25;
+      margin-bottom: 8px;
+  }
+
+   .tablesSelectedHint {
+      color: rgba(233, 230, 218, 0.62);
+      font-size: 13px;
+      line-height: 1.5;
   }
 
   .tablesSubTitle {
@@ -765,7 +840,22 @@
       gap: 10px;
   }
 
+   .tablesCardWrap {
+      border: 1px solid rgba(233, 230, 218, 0.08);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(15, 15, 17, 0.8), rgba(10, 10, 11, 0.56));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+   }
+
   @media (max-width: 860px) {
+      .dbHeader {
+          align-items: flex-start;
+      }
+
+      .dbTitleGroup {
+          align-items: flex-start;
+      }
+
       .tablesGrid {
           grid-template-columns: 1fr;
       }

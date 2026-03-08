@@ -40,7 +40,9 @@
             <div class="topbarRight">
               <a class="btn" href="/dashboard">Dashboard</a>
               <details class="userMenu">
-                <summary class="userAvatar" aria-label="Open user menu"><%= name %></summary>
+                <summary class="userAvatar" aria-label="Open user menu">
+                  <%= name %>
+                </summary>
                 <div class="userMenuPop" role="navigation" aria-label="User menu">
                   <a class="userMenuItem" href="/settings">Settings</a>
                   <a class="userMenuItem" href="/billing">Billing</a>
@@ -52,14 +54,28 @@
           </div>
 
           <div class="dbHeader">
-            <h1 class="dbTitle">Instance: <%= (instance && (instance.name || instance.id)) ? (instance.name ||
-                instance.id) : 'Database' %>
-            </h1>
-            <% const st=(instance && instance.status ? String(instance.status) : 'online' ).toLowerCase(); %>
-              <span class="dbStatus <%= st === 'online' ? 'online' : 'offline' %>">
-                <span class="dbStatusDot"></span>
-                <%= st==='online' ? 'Online' : 'Offline' %>
-              </span>
+            <% const headerPlan=(instance && instance.plan ? String(instance.plan) : 'free' ).toLowerCase(); %>
+              <div class="dbTitleGroup">
+                <h1 class="dbTitle">Instance: <%= (instance && (instance.name || instance.id)) ? (instance.name ||
+                    instance.id) : 'Database' %>
+                </h1>
+                <% if (headerPlan==='pro' ) { %>
+                  <span class="dbPremiumBadge">
+                    <span class="dbPremiumIcon"><svg width="800px" height="800px" viewBox="0 0 28 28" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M20.75 3C21.0557 3 21.3421 3.13962 21.5303 3.3746L21.6048 3.48102L25.8548 10.481C26.0556 10.8118 26.0459 11.2249 25.8395 11.5435L25.7634 11.6459L14.7634 24.6459C14.3906 25.0865 13.7317 25.1159 13.3207 24.7341L13.2366 24.6459L2.23662 11.6459C1.98663 11.3505 1.93182 10.941 2.08605 10.5941L2.14522 10.481L6.39522 3.48102C6.55388 3.21969 6.82182 3.04741 7.1204 3.00842L7.25001 3H20.75ZM17.515 12H10.484L13.999 20.672L17.515 12ZM22.844 12H19.673L16.756 19.195L22.844 12ZM8.326 12H5.155L11.242 19.193L8.326 12ZM9.674 5H7.81101L4.775 10H8.245L9.674 5ZM16.246 5H11.753L10.324 10H17.675L16.246 5ZM20.188 5H18.325L19.754 10H23.224L20.188 5Z"
+                          fill="#fff" />
+                      </svg></span>
+                    Premium
+                  </span>
+                  <% } %>
+              </div>
+              <% const st=(instance && instance.status ? String(instance.status) : 'online' ).toLowerCase(); %>
+                <span class="dbStatus <%= st === 'online' ? 'online' : 'offline' %>">
+                  <span class="dbStatusDot"></span>
+                  <%= st==='online' ? 'Online' : 'Offline' %>
+                </span>
           </div>
 
           <div class="shellGrid">
@@ -156,325 +172,337 @@
                   <div class="quotaWarningTitle" id="quotaWarningTitle"></div>
                   <div class="quotaWarningText" id="quotaWarningText"></div>
                 </div>
-              <div class="statsGrid">
-                <div class="statCard">
-                  <div class="statHeader">
-                    <span class="statTitle">Connections</span>
-                  </div>
-                <div class="statValue" id="statConnections">-- <span>active</span></div>
-                <div class="chartContainer">
-                  <canvas id="connectionsChart"></canvas>
-                </div>
-              </div>
-
-              <div class="statCard">
-                <div class="statHeader">
-                  <span class="statTitle">Queries</span>
-                </div>
-                <div class="statValue" id="statQueries">-- <span>/day</span></div>
-                <div class="chartContainer">
-                  <canvas id="queriesChart"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <div class="quickConnect">
-              <div class="qcTitle">Quick Connect</div>
-              <div class="qcRow">
-                <div class="qcCol">
-                  <div class="qcField">
-                    <span class="qcLabel">Host</span>
-                    <div class="qcInputGroup">
-                      <input id="qcHost" type="text" class="qcInput"
-                        value="<%= instance && instance.host ? instance.host : '' %>" readonly />
-                      <button class="qcCopyBtn" type="button" data-copy="qcHost" aria-label="Copy host">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
+                <div class="statsGrid">
+                  <div class="statCard">
+                    <div class="statHeader">
+                      <span class="statTitle">Connections</span>
+                    </div>
+                    <div class="statValue" id="statConnections">-- <span>active</span></div>
+                    <div class="chartContainer">
+                      <canvas id="connectionsChart"></canvas>
                     </div>
                   </div>
 
-                  <div class="qcField">
-                    <span class="qcLabel">Port</span>
-                    <div class="qcInputGroup">
-                      <input id="qcPort" type="text" class="qcInput"
-                        value="<%= instance && instance.port ? instance.port : '' %>" readonly />
-                      <button class="qcCopyBtn" type="button" data-copy="qcPort" aria-label="Copy port">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
+                  <div class="statCard">
+                    <div class="statHeader">
+                      <span class="statTitle">Queries</span>
+                    </div>
+                    <div class="statValue" id="statQueries">-- <span>/day</span></div>
+                    <div class="chartContainer">
+                      <canvas id="queriesChart"></canvas>
                     </div>
                   </div>
+                </div>
 
-                  <% if (instance && instance.keyspace) { %>
-                    <div class="qcField">
-                      <span class="qcLabel">Keyspace</span>
-                      <div class="qcInputGroup">
-                        <input id="qcKeyspace" type="text" class="qcInput" value="<%= instance.keyspace %>"
-                          readonly />
-                        <button class="qcCopyBtn" type="button" data-copy="qcKeyspace" aria-label="Copy keyspace">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                          </svg>
-                        </button>
+                <div class="quickConnect">
+                  <div class="qcTitle">Quick Connect</div>
+                  <div class="qcRow">
+                    <div class="qcCol">
+                      <div class="qcField">
+                        <span class="qcLabel">Host</span>
+                        <div class="qcInputGroup">
+                          <input id="qcHost" type="text" class="qcInput"
+                            value="<%= instance && instance.host ? instance.host : '' %>" readonly />
+                          <button class="qcCopyBtn" type="button" data-copy="qcHost" aria-label="Copy host">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <% } %>
-                </div>
 
-                <div class="qcCol">
-                  <div class="qcField">
-                    <span class="qcLabel">Username</span>
-                    <div class="qcInputGroup">
-                      <input id="qcUsername" type="text" class="qcInput"
-                        value="<%= instance && instance.db_username ? instance.db_username : '' %>" readonly />
-                      <button class="qcCopyBtn" type="button" data-copy="qcUsername" aria-label="Copy username">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
+                      <div class="qcField">
+                        <span class="qcLabel">Port</span>
+                        <div class="qcInputGroup">
+                          <input id="qcPort" type="text" class="qcInput"
+                            value="<%= instance && instance.port ? instance.port : '' %>" readonly />
+                          <button class="qcCopyBtn" type="button" data-copy="qcPort" aria-label="Copy port">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <% if (instance && instance.keyspace) { %>
+                        <div class="qcField">
+                          <span class="qcLabel">Keyspace</span>
+                          <div class="qcInputGroup">
+                            <input id="qcKeyspace" type="text" class="qcInput" value="<%= instance.keyspace %>"
+                              readonly />
+                            <button class="qcCopyBtn" type="button" data-copy="qcKeyspace" aria-label="Copy keyspace">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <% } %>
+                    </div>
+
+                    <div class="qcCol">
+                      <div class="qcField">
+                        <span class="qcLabel">Username</span>
+                        <div class="qcInputGroup">
+                          <input id="qcUsername" type="text" class="qcInput"
+                            value="<%= instance && instance.db_username ? instance.db_username : '' %>" readonly />
+                          <button class="qcCopyBtn" type="button" data-copy="qcUsername" aria-label="Copy username">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="qcField">
+                        <span class="qcLabel">Password</span>
+                        <div class="qcInputGroup">
+                          <input id="qcPassword" type="password" class="qcInput" value="**************" readonly />
+                          <button class="qcCopyBtn" id="qcReveal" type="button" aria-label="Reveal password"
+                            title="Reveal password" style="border-radius: 0; border-left: 1px solid var(--stroke);">
+                            Reveal
+                          </button>
+                          <button class="qcCopyBtn" type="button" data-copy-secret="password"
+                            aria-label="Copy password">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="qcField">
+                        <span class="qcLabel"></span>
+                        <div class="qcInputGroup">
+                        </div>
+                      </div>
+
                     </div>
                   </div>
-
-                  <div class="qcField">
-                    <span class="qcLabel">Password</span>
-                    <div class="qcInputGroup">
-                      <input id="qcPassword" type="password" class="qcInput" value="**************" readonly />
-                      <button class="qcCopyBtn" id="qcReveal" type="button" aria-label="Reveal password"
-                        title="Reveal password" style="border-radius: 0; border-left: 1px solid var(--stroke);">
-                        Reveal
-                      </button>
-                      <button class="qcCopyBtn" type="button" data-copy-secret="password" aria-label="Copy password">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="qcField">
-                    <span class="qcLabel"></span>
-                    <div class="qcInputGroup">
-                    </div>
-                  </div>
-
                 </div>
               </div>
-            </div>
-          </div>
 
               <div class="mainPanel">
-            <div class="panel panelData">
-              <div class="panelHeader">
-                <h2 class="panelTitle">Query Editor</h2>
-              </div>
-              <div class="queryEditor">
-                <% if (!(instance && instance.keyspace)) { %>
-                  <input id="keyspace" class="addUserInput" placeholder="Keyspace (e.g. myapp)"
-                    style="margin-bottom: 10px;" />
-                  <% } %>
-                    <textarea id="query" class="queryTextarea"
-                      placeholder="SELECT * FROM users WHERE id = 1;"></textarea>
-                    <div class="queryActions">
-                      <button class="queryBtn" id="runQuery" type="button">Run Query</button>
-                    </div>
-              </div>
-              <div class="resultsTableWrap">
-                <table class="resultsTable">
-                  <thead id="resultsHead"></thead>
-                  <tbody id="resultsBody"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="panel panelTables">
-              <div class="panelHeader">
-                <h2 class="panelTitle">Tables</h2>
-                <button class="queryBtn" id="tablesRefresh" type="button">Refresh</button>
-              </div>
-
-              <% if (!(instance && instance.keyspace)) { %>
-                <div class="tablesKeyspaceRow">
-                  <input id="tablesKeyspace" class="addUserInput" placeholder="Keyspace (e.g. myapp)" autocomplete="off" />
-                  <button class="queryBtn" id="tablesLoad" type="button">Load</button>
-                </div>
-              <% } %>
-
-              <div class="tablesGrid">
-                <div class="tablesLeft">
-                  <div class="tablesSectionTitle">Your tables</div>
-                  <div class="tablesList" id="tablesList"></div>
-                </div>
-
-                <div class="tablesRight">
-                  <div class="tablesSelected" id="tablesSelected">Select a table to view schema and data.</div>
-
-                  <div class="tablesSubTitle">Schema</div>
-                  <div class="resultsTableWrap">
-                    <table class="resultsTable">
-                      <thead id="tablesSchemaHead"></thead>
-                      <tbody id="tablesSchemaBody"></tbody>
-                    </table>
+                <div class="panel panelData">
+                  <div class="panelHeader">
+                    <h2 class="panelTitle">Query Editor</h2>
                   </div>
-
-                  <div class="tablesSubTitle tablesSubTitleRow">
-                    <span>Data (first 100 rows)</span>
-                    <button class="queryBtn" id="tablesReloadData" type="button" disabled>Reload</button>
+                  <div class="queryEditor">
+                    <% if (!(instance && instance.keyspace)) { %>
+                      <input id="keyspace" class="addUserInput" placeholder="Keyspace (e.g. myapp)"
+                        style="margin-bottom: 10px;" />
+                      <% } %>
+                        <textarea id="query" class="queryTextarea"
+                          placeholder="SELECT * FROM users WHERE id = 1;"></textarea>
+                        <div class="queryActions">
+                          <button class="queryBtn" id="runQuery" type="button">Run Query</button>
+                        </div>
                   </div>
                   <div class="resultsTableWrap">
                     <table class="resultsTable">
-                      <thead id="tablesDataHead"></thead>
-                      <tbody id="tablesDataBody"></tbody>
+                      <thead id="resultsHead"></thead>
+                      <tbody id="resultsBody"></tbody>
                     </table>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="panel panelUsers">
-              <div class="panelHeader">
-                <h2 class="panelTitle">Database Users</h2>
-              </div>
-              <div class="userList" id="dbUsersList"></div>
-              <div class="addUserForm" id="dbUsersForm">
-                <input id="dbNewUsername" type="text" class="addUserInput" placeholder="New username..." autocomplete="off" />
-                <input id="dbNewPassword" type="text" class="addUserInput" placeholder="Password (optional)" autocomplete="off" />
-                <button class="addUserBtn" id="dbAddUser" type="button">Add User</button>
-              </div>
-            </div>
-
-            <div class="panel panelWhitelist">
-              <div class="panelHeader">
-                <h2 class="panelTitle">IP Whitelist</h2>
-              </div>
-              <div class="whitelistInfo">
-                <strong>Security Notice:</strong> Only whitelisted IPs can connect. 0.0.0.0/0 allows all.
-              </div>
-              <div id="whitelistList" class="whitelistList"></div>
-              <div class="addIpForm">
-                <input id="addIpInput" type="text" class="addIpInput" placeholder="e.g. 203.0.113.50/32" />
-                <button id="addIpBtn" class="addIpBtn" type="button">Add IP</button>
-              </div>
-            </div>
-
-            <div class="panel panelBackups">
-              <div class="panelHeader">
-                <h2 class="panelTitle">Database Backups</h2>
-                <button class="queryBtn" id="createBackup" type="button">Create Backup</button>
-              </div>
-              <div id="backupList" class="backupList"></div>
-            </div>
-
-            <div class="panel panelBilling">
-              <div class="panelHeader">
-                <h2 class="panelTitle">Billing & Plan</h2>
-              </div>
-              <div class="billingCurrent">
-                <div class="currentPlan">
-                  <div class="planInfo">
-                    <% const plan=(instance && instance.plan ? String(instance.plan) : 'free' ).toLowerCase(); %>
-                      <span class="planName">
-                        <%= plan==='pro' ? 'Pro Plan' : 'Free Plan' %>
-                      </span>
-                      <span class="planPrice">
-                        <%= plan==='pro' ? '$5/month' : '$0/month' %>
-                      </span>
+                <div class="panel panelTables">
+                  <div class="panelHeader">
+                    <h2 class="panelTitle">Tables</h2>
+                    <button class="queryBtn" id="tablesRefresh" type="button">Refresh</button>
                   </div>
-                  <span class="planBadge <%= plan === 'pro' ? 'pro' : 'free' %>">Active</span>
+
+                  <% if (!(instance && instance.keyspace)) { %>
+                    <div class="tablesKeyspaceRow">
+                      <input id="tablesKeyspace" class="addUserInput" placeholder="Keyspace (e.g. myapp)"
+                        autocomplete="off" />
+                      <button class="queryBtn" id="tablesLoad" type="button">Load</button>
+                    </div>
+                    <% } %>
+
+                      <div class="tablesGrid">
+                        <div class="tablesLeft">
+                          <div class="tablesSectionTitle">Your tables</div>
+                          <div class="tablesIntro">Browse collections, inspect schema, and preview live rows without
+                            leaving the panel.</div>
+                          <div class="tablesList" id="tablesList"></div>
+                        </div>
+
+                        <div class="tablesRight">
+                          <div class="tablesSelectedCard">
+                            <div class="tablesSelectedLabel">Selected table</div>
+                            <div class="tablesSelected" id="tablesSelected">Select a table to view schema and data.
+                            </div>
+                            <div class="tablesSelectedHint">Choose a table from the left to inspect its columns and
+                              preview the first 100 rows.</div>
+                          </div>
+
+                          <div class="tablesSubTitle">Schema</div>
+                          <div class="resultsTableWrap tablesCardWrap">
+                            <table class="resultsTable">
+                              <thead id="tablesSchemaHead"></thead>
+                              <tbody id="tablesSchemaBody"></tbody>
+                            </table>
+                          </div>
+
+                          <div class="tablesSubTitle tablesSubTitleRow">
+                            <span>Data (first 100 rows)</span>
+                            <button class="queryBtn" id="tablesReloadData" type="button" disabled>Reload</button>
+                          </div>
+                          <div class="resultsTableWrap tablesCardWrap">
+                            <table class="resultsTable">
+                              <thead id="tablesDataHead"></thead>
+                              <tbody id="tablesDataBody"></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="panel panelUsers">
+                  <div class="panelHeader">
+                    <h2 class="panelTitle">Database Users</h2>
+                  </div>
+                  <div class="userList" id="dbUsersList"></div>
+                  <div class="addUserForm" id="dbUsersForm">
+                    <input id="dbNewUsername" type="text" class="addUserInput" placeholder="New username..."
+                      autocomplete="off" />
+                    <input id="dbNewPassword" type="text" class="addUserInput" placeholder="Password (optional)"
+                      autocomplete="off" />
+                    <button class="addUserBtn" id="dbAddUser" type="button">Add User</button>
+                  </div>
+                </div>
+
+                <div class="panel panelWhitelist">
+                  <div class="panelHeader">
+                    <h2 class="panelTitle">IP Whitelist</h2>
+                  </div>
+                  <div class="whitelistInfo">
+                    <strong>Security Notice:</strong> Only whitelisted IPs can connect. 0.0.0.0/0 allows all.
+                  </div>
+                  <div id="whitelistList" class="whitelistList"></div>
+                  <div class="addIpForm">
+                    <input id="addIpInput" type="text" class="addIpInput" placeholder="e.g. 203.0.113.50/32" />
+                    <button id="addIpBtn" class="addIpBtn" type="button">Add IP</button>
+                  </div>
+                </div>
+
+                <div class="panel panelBackups">
+                  <div class="panelHeader">
+                    <h2 class="panelTitle">Database Backups</h2>
+                    <button class="queryBtn" id="createBackup" type="button">Create Backup</button>
+                  </div>
+                  <div id="backupList" class="backupList"></div>
+                </div>
+
+                <div class="panel panelBilling">
+                  <div class="panelHeader">
+                    <h2 class="panelTitle">Billing & Plan</h2>
+                  </div>
+                  <div class="billingCurrent">
+                    <div class="currentPlan">
+                      <div class="planInfo">
+                        <% const plan=(instance && instance.plan ? String(instance.plan) : 'free' ).toLowerCase(); %>
+                          <span class="planName">
+                            <%= plan==='pro' ? 'Pro Plan' : 'Free Plan' %>
+                          </span>
+                          <span class="planPrice">
+                            <%= plan==='pro' ? '$5/month' : '$0/month' %>
+                          </span>
+                      </div>
+                      <span class="planBadge <%= plan === 'pro' ? 'pro' : 'free' %>">Active</span>
+                    </div>
+                  </div>
+                  <div class="usageSection">
+                    <h3 class="usageTitle">Current Usage</h3>
+                    <div class="usageBar">
+                      <div class="usageFill" id="usageFill" style="width: 0%;"></div>
+                    </div>
+                    <div class="usageLabels">
+                      <span id="usageUsed">-- used</span>
+                      <span id="usageTotal">-- total</span>
+                    </div>
+                  </div>
+                  <div class="upgradeSection">
+                    <% if (plan !=='pro' ) { %>
+                      <h3 class="usageTitle">Upgrade to Pro</h3>
+                      <div class="planOption">
+                        <div class="planHeader">
+                          <span class="planName">Pro</span>
+                          <span class="planPrice">$5<span>/month</span></span>
+                        </div>
+                        <div class="planFeatures">
+                          <div class="planFeature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg>
+                            100 GB storage
+                          </div>
+                          <div class="planFeature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg>
+                            Unlimited connections
+                          </div>
+                          <div class="planFeature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg>
+                            Priority support
+                          </div>
+                        </div>
+                        <div class="planActions">
+                          <button class="queryBtn" id="upgradeToProBtn" type="button">Upgrade to Pro</button>
+                        </div>
+                      </div>
+                      <% } else { %>
+                        <h3 class="usageTitle">Pro Benefits</h3>
+                        <div class="planOption">
+                          <div class="planHeader">
+                            <span class="planName">Pro</span>
+                            <span class="planPrice">$5<span>/month</span></span>
+                          </div>
+                          <div class="planFeatures">
+                            <div class="planFeature">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                              </svg>
+                              100 GB storage
+                            </div>
+                            <div class="planFeature">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                              </svg>
+                              Unlimited connections
+                            </div>
+                            <div class="planFeature">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                              </svg>
+                              Priority support
+                            </div>
+                          </div>
+                          <span class="planBadge pro">Current Plan</span>
+                        </div>
+                        <% } %>
+                  </div>
+
+                  <div class="dangerZone">
+                    <h3 class="usageTitle">Danger Zone</h3>
+                    <button class="dangerBtn openDeleteModal" type="button">Delete Database</button>
+                  </div>
                 </div>
               </div>
-              <div class="usageSection">
-                <h3 class="usageTitle">Current Usage</h3>
-                <div class="usageBar">
-                  <div class="usageFill" id="usageFill" style="width: 0%;"></div>
-                </div>
-                <div class="usageLabels">
-                  <span id="usageUsed">-- used</span>
-                  <span id="usageTotal">-- total</span>
-                </div>
-              </div>
-              <div class="upgradeSection">
-                <% if (plan !== 'pro') { %>
-                  <h3 class="usageTitle">Upgrade to Pro</h3>
-                  <div class="planOption">
-                    <div class="planHeader">
-                      <span class="planName">Pro</span>
-                      <span class="planPrice">$5<span>/month</span></span>
-                    </div>
-                    <div class="planFeatures">
-                      <div class="planFeature">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                        </svg>
-                        100 GB storage
-                      </div>
-                      <div class="planFeature">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                        </svg>
-                        Unlimited connections
-                      </div>
-                      <div class="planFeature">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                        </svg>
-                        Priority support
-                      </div>
-                    </div>
-                    <div class="planActions">
-                      <button class="queryBtn" id="upgradeToProBtn" type="button">Upgrade to Pro</button>
-                    </div>
-                  </div>
-                <% } else { %>
-                  <h3 class="usageTitle">Pro Benefits</h3>
-                  <div class="planOption">
-                    <div class="planHeader">
-                      <span class="planName">Pro</span>
-                      <span class="planPrice">$5<span>/month</span></span>
-                    </div>
-                    <div class="planFeatures">
-                      <div class="planFeature">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                        </svg>
-                        100 GB storage
-                      </div>
-                      <div class="planFeature">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                        </svg>
-                        Unlimited connections
-                      </div>
-                      <div class="planFeature">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                        </svg>
-                        Priority support
-                      </div>
-                    </div>
-                    <span class="planBadge pro">Current Plan</span>
-                  </div>
-                <% } %>
-              </div>
-
-             <div class="dangerZone">
-                <h3 class="usageTitle">Danger Zone</h3>
-                <button class="dangerBtn openDeleteModal" type="button">Delete Database</button>
-              </div>
-            </div>
-          </div>
             </div>
           </div>
         </div>
