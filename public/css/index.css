@@ -129,12 +129,20 @@
        justify-content: flex-end;
    }
 
-   .navlinks a {
-       font-size: 13px;
-       font-weight: 800;
-       letter-spacing: 0.12px;
-       color: rgba(233, 230, 218, 0.92);
-   }
+    .navlinks a {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.12px;
+        color: rgba(233, 230, 218, 0.92);
+    }
+
+    .navMobileCta {
+        order: 0;
+    }
+
+    .navDesktopOnly {
+        order: 4;
+    }
 
    .navlinks a.text {
        padding: 10px 10px;
@@ -2383,34 +2391,39 @@
            display: none;
        }
 
-       .nav {
-           padding: 12px 14px;
-           flex-wrap: wrap;
-           row-gap: 10px;
-       }
+        .nav {
+            padding: 12px 14px;
+            flex-wrap: nowrap;
+            row-gap: 0;
+        }
 
-       .brand {
-           min-width: 0;
-       }
+        .brand {
+            min-width: 0;
+        }
 
        .brand span {
            font-size: 20px;
        }
 
-       .navlinks {
-           width: 100%;
-           justify-content: flex-start;
-           gap: 8px;
-       }
+        .navlinks {
+            width: auto;
+            flex: 0 0 auto;
+            justify-content: flex-end;
+            gap: 8px;
+        }
 
-       .navlinks .btn {
-           padding: 9px 12px;
-           font-size: 12px;
-       }
+        .navlinks .btn {
+            padding: 9px 12px;
+            font-size: 12px;
+        }
 
-       .facts {
-           grid-template-columns: 1fr;
-       }
+        .navlinks a:not(.navMobileCta) {
+            display: none;
+        }
+    
+        .facts {
+            grid-template-columns: 1fr;
+        }
 
        .linkcard {
            grid-column: span 12;

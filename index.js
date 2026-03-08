@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const log = require("./lib/log");
+const jwt = require('jsonwebtoken');
 app.set('trust proxy', true);
 const cors = require("cors");
 const path = require("path");
@@ -73,7 +74,33 @@ app.get(
 );
 
 app.get("/", (req, res) => {
+  let isLoggedIn = false;
+  try {
+    const rawCookie = String((req.headers && req.headers.cookie) || '');
+    const pairs = rawCookie ? rawCookie.split(';') : [];
+    let token = '';
+    for (const pair of pairs) {
+      const idx = pair.indexOf('=');
+      if (idx === -1) continue;
+      const key = pair.slice(0, idx).trim();
+      if (key !== 'auth-token') continue;
+      token = decodeURIComponent(pair.slice(idx + 1).trim());
+      break;
+    }
+    if (!token) {
+      const authHeader = String(req.header('auth-token') || req.header('authorization') || '').trim();
+      token = authHeader.toLowerCase().startsWith('bearer ') ? authHeader.slice(7).trim() : authHeader;
+    }
+    if (token) {
+      jwt.verify(token, process.env.JWT_SECRET);
+      isLoggedIn = true;
+    }
+  } catch {
+    isLoggedIn = false;
+  }
+
   res.render("index", {
+    isLoggedIn
   });
 });
 

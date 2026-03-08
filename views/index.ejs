@@ -32,6 +32,7 @@
 </head>
 
 <body>
+  <% const loggedIn = !!isLoggedIn; %>
   <header>
     <div class="nav">
       <a class="brand" href="#top" aria-label="XeonDB Home">
@@ -40,8 +41,11 @@
       </a>
 
       <nav class="navlinks" aria-label="Primary">
-        <a class="btn primary" href="./login#signup" aria-label="Create a free database">Get Started Free</a>
-        <a class="btn" href="./dashboard" aria-label="Open Cloud Dashboard">Cloud Dashboard</a>
+        <% if (loggedIn) { %>
+          <a class="btn primary navMobileCta" href="./dashboard" aria-label="Open Cloud Dashboard">Cloud Dashboard</a>
+        <% } else { %>
+          <a class="btn primary navMobileCta" href="./login#signup" aria-label="Create a free database">Get Started Free</a>
+        <% } %>
         <a class="btn primary" href="https://docs.xeondb.com/" target="_blank" rel="noreferrer">
           Docs
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -59,6 +63,9 @@
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
+        <% if (!loggedIn) { %>
+          <a class="btn navDesktopOnly" href="./dashboard" aria-label="Open Cloud Dashboard">Cloud Dashboard</a>
+        <% } %>
       </nav>
     </div>
   </header>
