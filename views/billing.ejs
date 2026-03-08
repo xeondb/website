@@ -22,8 +22,16 @@
   <%- include('alert.ejs') %>
 
   <% const list = Array.isArray(instances) ? instances : []; %>
+  <% const invoiceList = Array.isArray(invoices) ? invoices : []; %>
   <% const freeCount = list.filter((x) => String((x && x.plan) ? x.plan : 'free').toLowerCase() !== 'pro').length; %>
   <% const proCount = list.filter((x) => String((x && x.plan) ? x.plan : 'free').toLowerCase() === 'pro').length; %>
+
+  <% function statusLabel(value) {
+    const raw = String(value || '').trim().toLowerCase();
+    if (!raw || raw === 'none') return 'No subscription';
+    if (raw === 'cancel_at_period_end') return 'Cancels at period end';
+    return raw.replace(/_/g, ' ');
+  } %>
 
   <main class="page">
     <div class="shell">
@@ -49,7 +57,7 @@
       <header class="header">
         <div>
           <h1 class="title">Billing</h1>
-          <p class="subtitle">Account-level overview. Payments and invoices are coming soon.</p>
+          <p class="subtitle">Account-level overview across database plans, subscription states, and paid invoices.</p>
         </div>
       </header>
 
@@ -82,6 +90,8 @@
                   <tr>
                     <th>Name</th>
                     <th>Plan</th>
+                    <th>Subscription</th>
+                    <th>Billing timeline</th>
                     <th>Keyspace</th>
                     <th></th>
                   </tr>
@@ -89,12 +99,33 @@
                 <tbody>
                   <% list.forEach(function(inst) { %>
                     <% const plan = String((inst && inst.plan) ? inst.plan : 'free').toLowerCase(); %>
+                    <% const billingStatus = String((inst && inst.billingStatus) ? inst.billingStatus : 'none').toLowerCase(); %>
                     <tr>
                       <td>
                         <div class="dbName"><%= (inst && (inst.name || inst.id)) ? (inst.name || inst.id) : '-' %></div>
                         <div class="dbSub mono"><%= inst && inst.id ? inst.id : '' %></div>
                       </td>
                       <td><span class="pill <%= plan === 'pro' ? 'pro' : 'free' %>"><%= plan === 'pro' ? 'pro' : 'free' %></span></td>
+                      <td>
+                        <span class="pill status <%= billingStatus %>"><%= statusLabel(billingStatus) %></span>
+                        <% if (inst && inst.subscriptionId) { %>
+                          <div class="dbSub mono">sub <%= inst.subscriptionId %></div>
+                        <% } %>
+                      </td>
+                      <td>
+                        <% if (inst && inst.endedAt) { %>
+                          <div class="timelineLabel">Ended</div>
+                          <div class="dbSub mono"><%= inst.endedAt %></div>
+                        <% } else if (inst && inst.canceledAt) { %>
+                          <div class="timelineLabel"><%= inst.cancelAtPeriodEnd ? 'Cancels end of period' : 'Canceled' %></div>
+                          <div class="dbSub mono"><%= inst.canceledAt %></div>
+                        <% } else if (inst && inst.currentPeriodEnd) { %>
+                          <div class="timelineLabel"><%= plan === 'pro' ? 'Renews / ends' : 'Current period end' %></div>
+                          <div class="dbSub mono"><%= inst.currentPeriodEnd %></div>
+                        <% } else { %>
+                          <div class="dbSub">No billing history yet.</div>
+                        <% } %>
+                      </td>
                       <td class="mono"><%= inst && inst.keyspace ? inst.keyspace : '-' %></td>
                       <td class="actions">
                         <a class="btn btnSmall" href="/dashboard/<%= inst.id %>">Open</a>
@@ -114,7 +145,46 @@
 
         <div class="card">
           <div class="cardTitle">Invoices</div>
-          <div class="hint">Not available yet.</div>
+          <% if (billingError) { %>
+            <div class="empty"><%= billingError %></div>
+          <% } else if (invoiceList.length) { %>
+            <div class="tableWrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Invoice</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% invoiceList.forEach(function(invoice) { %>
+                    <% const invoiceStatus = String((invoice && invoice.status) ? invoice.status : 'paid').toLowerCase(); %>
+                    <tr>
+                      <td class="mono"><%= invoice && invoice.createdAt ? invoice.createdAt : '-' %></td>
+                      <td>
+                        <div class="dbName"><%= invoice && invoice.description ? invoice.description : (invoice && invoice.productName ? invoice.productName : 'Polar order') %></div>
+                        <div class="dbSub mono"><%= invoice && invoice.invoiceNumber ? invoice.invoiceNumber : (invoice && invoice.id ? invoice.id : '') %></div>
+                      </td>
+                      <td class="mono"><%= invoice && invoice.amount ? invoice.amount : '0.00' %> <%= invoice && invoice.currency ? invoice.currency : 'USD' %></td>
+                      <td><span class="pill status <%= invoiceStatus %>"><%= statusLabel(invoiceStatus) %></span></td>
+                      <td>
+                        <% if (invoice && invoice.invoiceUrl) { %>
+                          <a class="invoiceLink" href="<%= invoice.invoiceUrl %>" target="_blank" rel="noreferrer">Open invoice</a>
+                        <% } else { %>
+                          <span class="hint">Unavailable</span>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <div class="empty">No paid invoices yet.</div>
+          <% } %>
         </div>
       </section>
     </div>

@@ -175,16 +175,7 @@
             <div class="dbCard">
               <div class="dbCardHeader">
                 <div class="dbName"><%= inst.name || inst.id %></div>
-                <% const st = (inst.status || 'online').toLowerCase(); %>
-                <span class="dbStatus <%= st === 'online' ? 'online' : 'offline' %>">
-                  <span class="dbStatusDot"></span>
-                  <%= st === 'online' ? 'Online' : 'Offline' %>
-                </span>
-              </div>
-
-              <div class="dbMeta">
-                <div class="dbEndpoint"><%= inst.host %>:<%= inst.port %></div>
-                <div class="dbPills" aria-label="Database attributes">
+                <div class="dbHeaderBadges">
                   <% const cardPlan = String(inst.plan || 'free').trim().toLowerCase(); %>
                   <% if (cardPlan === 'pro') { %>
                     <span class="dbPill dbPillPremium">
@@ -197,8 +188,19 @@
                       Premium
                     </span>
                   <% } else { %>
-                    <span class="dbPill">FREE</span>
+                    <span class="dbPill dbPillFree">Free</span>
                   <% } %>
+                  <% const st = (inst.status || 'online').toLowerCase(); %>
+                  <span class="dbStatus <%= st === 'online' ? 'online' : 'offline' %>">
+                    <span class="dbStatusDot"></span>
+                    <%= st === 'online' ? 'Online' : 'Offline' %>
+                  </span>
+                </div>
+              </div>
+
+              <div class="dbMeta">
+                <div class="dbEndpoint"><%= inst.host %>:<%= inst.port %></div>
+                <div class="dbPills" aria-label="Database attributes">
                   <% if (inst.keyspace) { %>
                     <span class="dbPill">Keyspace: <span class="mono"><%= inst.keyspace %></span></span>
                   <% } %>

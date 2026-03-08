@@ -16,9 +16,31 @@ const requireAdmin = require('./routes/requireAdmin');
 const { getUserByEmail } = require('./database/table/user');
 const { getInstancesByUser, getInstanceById, listInstances } = require('./database/table/instances');
 const { listUsers } = require('./database/table/user');
+const { getLatestInstanceSubscriptionsByInstances } = require('./database/table/instanceSubscriptions');
 const { cleanEmail, clearAuthCookie, getReqDb } = require('./lib/shared');
+const { listPolarOrdersByCustomerIds, getPolarInvoiceUrl } = require('./lib/polar');
 const oauthRoutes = require('./routes/oauth');
 const { Checkout } = require('@polar-sh/express');
+
+function formatBillingTimestamp(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toISOString();
+}
+
+function amountToMajorUnits(amount) {
+  const num = Number(amount || 0);
+  if (!Number.isFinite(num)) return '0.00';
+  return (num / 100).toFixed(2);
+}
+
+function normalizeBillingState(status) {
+  const value = String(status || '').trim().toLowerCase();
+  if (!value) return 'none';
+  if (value === 'revoked') return 'ended';
+  return value;
+}
 
 app.use(cors());
 app.use('/api/polar/webhook', express.raw({ type: 'application/json' }));
@@ -186,6 +208,9 @@ app.get('/billing', requireAuth, async (req, res) => {
 
   let user = null;
   let instances = [];
+  let subscriptions = [];
+  let invoices = [];
+  let billingError = '';
   try {
     user = await getUserByEmail(db, email);
   } catch {
@@ -197,8 +222,74 @@ app.get('/billing', requireAuth, async (req, res) => {
     instances = [];
   }
 
+  try {
+    const instanceIds = instances.map((instance) => String(instance && instance.id ? instance.id : '').trim()).filter(Boolean);
+    subscriptions = await getLatestInstanceSubscriptionsByInstances(db, instanceIds);
+  } catch {
+    subscriptions = [];
+  }
+
+  const subscriptionByInstanceId = new Map();
+  for (const row of subscriptions) {
+    const instanceId = String(row && row.instance_id ? row.instance_id : '').trim();
+    if (!instanceId) continue;
+    subscriptionByInstanceId.set(instanceId, row);
+  }
+
+  const billingInstances = instances.map((instance) => {
+    const sub = subscriptionByInstanceId.get(String(instance && instance.id ? instance.id : '').trim()) || null;
+    return {
+      ...(instance || {}),
+      billingStatus: normalizeBillingState(sub && sub.status),
+      subscriptionId: sub && sub.subscription_id ? String(sub.subscription_id).trim() : '',
+      customerId: sub && sub.customer_id ? String(sub.customer_id).trim() : '',
+      cancelAtPeriodEnd: !!(sub && sub.cancel_at_period_end === true),
+      currentPeriodEnd: formatBillingTimestamp(sub && sub.current_period_end),
+      canceledAt: formatBillingTimestamp(sub && sub.canceled_at),
+      endedAt: formatBillingTimestamp(sub && sub.ended_at)
+    };
+  });
+
+  try {
+    const customerIds = subscriptions
+      .map((row) => String(row && row.customer_id ? row.customer_id : '').trim())
+      .filter(Boolean);
+    const orders = await listPolarOrdersByCustomerIds(customerIds);
+    const paidOrders = orders.filter((order) => order && order.paid === true);
+
+    invoices = await Promise.all(
+      paidOrders.map(async (order) => {
+        let invoiceUrl = '';
+        try {
+          if (order && order.isInvoiceGenerated === true) {
+            invoiceUrl = await getPolarInvoiceUrl(order.id);
+          }
+        } catch {
+          invoiceUrl = '';
+        }
+
+        return {
+          id: String(order && order.id ? order.id : '').trim(),
+          createdAt: formatBillingTimestamp(order && order.createdAt),
+          status: normalizeBillingState(order && order.status),
+          paid: !!(order && order.paid === true),
+          amount: amountToMajorUnits(order && order.totalAmount),
+          currency: String(order && order.currency ? order.currency : 'usd').trim().toUpperCase(),
+          invoiceNumber: String(order && order.invoiceNumber ? order.invoiceNumber : '').trim(),
+          description: String(order && order.description ? order.description : '').trim(),
+          invoiceUrl,
+          productName: order && order.product && order.product.name ? String(order.product.name).trim() : '',
+          subscriptionId: String(order && order.subscriptionId ? order.subscriptionId : '').trim()
+        };
+      })
+    );
+  } catch (err) {
+    invoices = [];
+    billingError = err && err.message ? String(err.message) : 'Unable to load invoice history';
+  }
+
   const name = computeInitialsFromUser(email, user);
-  res.render('billing', { name, email, user, instances });
+  res.render('billing', { name, email, user, instances: billingInstances, invoices, billingError });
 });
 
 app.get('/billing/success', requireAuth, (req, res) => {

@@ -276,6 +276,14 @@
       gap: 12px;
   }
 
+  .dbHeaderBadges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+  }
+
   .dbName {
       font-weight: 700;
       font-size: 16px;
@@ -333,6 +341,14 @@
       color: #ffe7ae;
       box-shadow: 0 10px 24px rgba(246, 193, 119, 0.10), inset 0 0 0 1px rgba(255, 231, 174, 0.06);
       letter-spacing: 0.14em;
+  }
+
+  .dbPillFree {
+      border-color: rgba(57, 198, 255, 0.24);
+      background: linear-gradient(135deg, rgba(57, 198, 255, 0.16), rgba(57, 198, 255, 0.05));
+      color: #a7ebff;
+      box-shadow: inset 0 0 0 1px rgba(167, 235, 255, 0.06);
+      letter-spacing: 0.12em;
   }
 
   .dbPremiumIcon {

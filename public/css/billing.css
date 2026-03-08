@@ -288,6 +288,7 @@ body::after {
 
 .dbName { font-weight: 850; letter-spacing: 0.04px; }
 .dbSub { margin-top: 2px; color: var(--muted); font-size: 12px; }
+.timelineLabel { font-weight: 800; font-size: 12px; color: rgba(233, 230, 218, 0.9); }
 
 .pill {
   display: inline-flex;
@@ -304,6 +305,26 @@ body::after {
 
 .pill.free { color: var(--accent); background: rgba(57, 198, 255, 0.10); border-color: rgba(57, 198, 255, 0.22); }
 .pill.pro { color: var(--ok); background: rgba(46, 211, 161, 0.10); border-color: rgba(46, 211, 161, 0.22); }
+.pill.status { text-transform: none; }
+.pill.status.none { color: var(--muted); background: rgba(233, 230, 218, 0.06); border-color: rgba(233, 230, 218, 0.14); }
+.pill.status.active,
+.pill.status.paid { color: var(--ok); background: rgba(46, 211, 161, 0.10); border-color: rgba(46, 211, 161, 0.22); }
+.pill.status.canceled,
+.pill.status.pending { color: var(--warn); background: rgba(246, 193, 119, 0.10); border-color: rgba(246, 193, 119, 0.22); }
+.pill.status.ended,
+.pill.status.revoked,
+.pill.status.refunded,
+.pill.status.partially_refunded,
+.pill.status.void { color: rgba(255, 157, 157, 0.92); background: rgba(255, 157, 157, 0.10); border-color: rgba(255, 157, 157, 0.20); }
+
+.invoiceLink {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.invoiceLink:hover {
+  text-decoration: underline;
+}
 
 .empty {
   padding: 14px;

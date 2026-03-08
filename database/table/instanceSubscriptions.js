@@ -37,6 +37,29 @@ async function getLatestInstanceSubscriptionByInstance(db, instanceId) {
   return rows[0] || null;
 }
 
+async function getLatestInstanceSubscriptionsByInstances(db, instanceIds) {
+  const ids = Array.isArray(instanceIds)
+    ? [...new Set(instanceIds.map((value) => String(value || '').trim()).filter(Boolean))]
+    : [];
+  if (!ids.length) return [];
+
+  const idSet = new Set(ids);
+  const rows = await listInstanceSubscriptions(db);
+  const latestByInstance = new Map();
+
+  for (const row of rows) {
+    const instanceId = String(row && row.instance_id ? row.instance_id : '').trim();
+    if (!idSet.has(instanceId)) continue;
+
+    const current = latestByInstance.get(instanceId);
+    if (!current || Number(row.updated_at || 0) > Number(current.updated_at || 0)) {
+      latestByInstance.set(instanceId, row);
+    }
+  }
+
+  return ids.map((id) => latestByInstance.get(id) || null).filter(Boolean);
+}
+
 function normalizeString(value) {
   if (value === null || value === undefined) return '';
   return String(value).trim();
@@ -106,6 +129,7 @@ module.exports = {
   listInstanceSubscriptionsByInstance,
   getInstanceSubscriptionBySubscriptionId,
   getLatestInstanceSubscriptionByInstance,
+  getLatestInstanceSubscriptionsByInstances,
   upsertInstanceSubscription,
   deleteInstanceSubscriptionBySubscriptionId,
   deleteInstanceSubscriptionsByInstance,
