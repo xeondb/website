@@ -97,7 +97,7 @@ async function deleteInstanceSubscriptionsByInstance(db, instanceId) {
 
 function isSubscriptionActiveLike(row) {
   const status = normalizeString(row && row.status).toLowerCase();
-  return status === 'active' || status === 'trialing' || status === 'past_due' || status === 'canceled';
+  return status === 'active' || status === 'trialing' || status === 'past_due';
 }
 
 module.exports = {

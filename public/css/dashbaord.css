@@ -250,6 +250,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 16px;
+      align-items: start;
   }
 
   .dbCard {
@@ -259,6 +260,7 @@
       padding: 18px;
       display: grid;
       gap: 14px;
+      align-self: start;
       transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out);
   }
 
@@ -405,8 +407,12 @@
   .dbDetail {
       padding: 12px 12px 14px;
       border-top: 1px solid rgba(233, 230, 218, 0.08);
-      display: grid;
+      display: none;
       gap: 8px;
+  }
+
+  .dbExpand[open] .dbDetail {
+      display: grid;
   }
 
   .dbDetailHint {
@@ -879,6 +885,21 @@
       background: var(--surface2);
   }
 
+  .planOption[data-selected="true"] {
+      border-color: rgba(57, 198, 255, 0.55);
+      background: linear-gradient(180deg, rgba(57, 198, 255, 0.10), rgba(13, 13, 14, 0.92));
+      box-shadow: inset 0 0 0 1px rgba(57, 198, 255, 0.18);
+  }
+
+  .planOption[data-selected="true"] .planName,
+  .planOption[data-selected="true"] .planPrice {
+      color: rgba(233, 230, 218, 0.98);
+  }
+
+  .planOption[data-selected="true"] .planFeature {
+      color: rgba(233, 230, 218, 0.82);
+  }
+
   .planOption.disabled {
       opacity: 0.50;
       cursor: not-allowed;
@@ -941,6 +962,11 @@
   .planBadge.free {
       background: rgba(46, 211, 161, 0.14);
       color: var(--ok);
+  }
+
+  .planBadge.pro {
+      background: rgba(57, 198, 255, 0.14);
+      color: var(--accent2);
   }
 
   .planBadge.coming {

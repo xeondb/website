@@ -37,7 +37,7 @@
         </div>
 
         <div class="modalBody">
-          <label class="planOption" data-plan="free">
+          <label class="planOption isSelected" data-plan="free" data-selected="true">
             <div class="planHeader">
               <span class="planName">Free</span>
               <span class="planPrice">$0<span>/month</span></span>
@@ -65,7 +65,7 @@
             <span class="planBadge free">Available</span>
           </label>
 
-          <div class="planOption disabled" data-plan="pro">
+          <label class="planOption" data-plan="pro" data-selected="false">
             <div class="planHeader">
               <span class="planName">Pro</span>
               <span class="planPrice">$5<span>/month</span></span>
@@ -81,7 +81,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
-                150 GB storage
+                100 GB storage
               </div>
               <div class="planFeature">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -90,8 +90,8 @@
                 Priority support
               </div>
             </div>
-            <span class="planBadge coming">Coming Soon</span>
-          </div>
+            <span class="planBadge pro">Available</span>
+          </label>
         </div>
 
         <div class="modalFooter">
@@ -313,21 +313,39 @@
       var setupErrEl = document.getElementById('setupError');
       var setupActionsEl = document.getElementById('setupActions');
       var setupBackBtn = document.getElementById('setupBack');
+      var planOptions = Array.prototype.slice.call(document.querySelectorAll('.planOption[data-plan]'));
       var selectedPlan = 'free';
+
+      function syncCreateButton() {
+        if (!createBtn) return;
+        createBtn.textContent = selectedPlan === 'pro' ? 'Continue to Checkout' : 'Create Database';
+      }
 
       function setSelectedPlan(plan) {
         selectedPlan = plan === 'pro' ? 'pro' : 'free';
+        planOptions.forEach(function (el) {
+          var isSelected = el.getAttribute('data-plan') === selectedPlan;
+          el.classList.toggle('isSelected', isSelected);
+          el.setAttribute('data-selected', isSelected ? 'true' : 'false');
+        });
+        syncCreateButton();
       }
 
-      document.querySelectorAll('.planOption[data-plan]').forEach(function (el) {
+      planOptions.forEach(function (el) {
         el.addEventListener('click', function () {
-          if (el.classList.contains('disabled')) return;
           setSelectedPlan(el.getAttribute('data-plan'));
         });
       });
 
+      syncCreateButton();
+
       async function create(plan) {
         const data = await postJson('/api/instances', { plan: plan });
+        return data;
+      }
+
+      async function startProCheckout() {
+        const data = await postJson('/api/billing/checkout/new-instance', { plan: 'pro' });
         return data;
       }
 
@@ -381,6 +399,20 @@
 
       if (createBtn) {
         createBtn.addEventListener('click', function () {
+          if (selectedPlan === 'pro') {
+            createBtn.disabled = true;
+            startProCheckout().then(function (data) {
+              if (!data || !data.url) {
+                throw new Error('Failed to start checkout');
+              }
+              window.location.href = data.url;
+            }).catch(function (err) {
+              try { createBtn.disabled = false; } catch { }
+              alert(err && err.message ? err.message : String(err));
+            });
+            return;
+          }
+
           if (!modalEl) {
             create(selectedPlan).then(function () {
               window.location.reload();
