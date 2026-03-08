@@ -261,14 +261,61 @@
     </div>
   </main>
 
+  <div class="copyToast" id="copyToast" hidden aria-live="polite" aria-atomic="true">
+    <div class="copyToastCard" role="status">
+      <div class="copyToastHeader">
+        <div>
+          <div class="copyToastTitle" id="copyToastTitle">Connection copied</div>
+          <div class="copyToastSub" id="copyToastSub">Your connection details are ready.</div>
+        </div>
+        <button class="copyToastClose" id="copyToastClose" type="button" aria-label="Dismiss copy notice">×</button>
+      </div>
+      <pre class="copyToastBody mono" id="copyToastBody"></pre>
+    </div>
+  </div>
+
   <script>
     (function () {
+      var copyToastEl = document.getElementById('copyToast');
+      var copyToastTitleEl = document.getElementById('copyToastTitle');
+      var copyToastSubEl = document.getElementById('copyToastSub');
+      var copyToastBodyEl = document.getElementById('copyToastBody');
+      var copyToastCloseEl = document.getElementById('copyToastClose');
+      var copyToastTimer = null;
+
       function fmtConnect(host, port, keyspace, username, password) {
         var out = ['Host: ' + host, 'Port: ' + port];
         if (keyspace) out.push('Keyspace: ' + keyspace);
         out.push('Username: ' + username);
         out.push('Password: ' + password);
         return out.join('\n');
+      }
+
+      function hideCopyToast() {
+        if (!copyToastEl) return;
+        copyToastEl.classList.remove('isVisible');
+        if (copyToastTimer) {
+          clearTimeout(copyToastTimer);
+          copyToastTimer = null;
+        }
+        setTimeout(function () {
+          if (!copyToastEl.classList.contains('isVisible')) {
+            copyToastEl.hidden = true;
+          }
+        }, 220);
+      }
+
+      function showCopyToast(title, subtitle, body) {
+        if (!copyToastEl) return;
+        copyToastEl.hidden = false;
+        if (copyToastTitleEl) copyToastTitleEl.textContent = title || 'Connection details';
+        if (copyToastSubEl) copyToastSubEl.textContent = subtitle || '';
+        if (copyToastBodyEl) copyToastBodyEl.textContent = body || '';
+        requestAnimationFrame(function () {
+          copyToastEl.classList.add('isVisible');
+        });
+        if (copyToastTimer) clearTimeout(copyToastTimer);
+        copyToastTimer = setTimeout(hideCopyToast, 5200);
       }
 
       async function postJson(url, body) {
@@ -298,15 +345,19 @@
           try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
               await navigator.clipboard.writeText(text);
-              alert('Connection details copied to clipboard.\n\n' + text);
+              showCopyToast('Connection copied', 'Credentials are now in your clipboard.', text);
               return;
             }
           } catch {
             // fallthrough
           }
-          alert(text);
+          showCopyToast('Connection details', 'Clipboard access is unavailable, so here are the details to copy manually.', text);
         });
       });
+
+      if (copyToastCloseEl) {
+        copyToastCloseEl.addEventListener('click', hideCopyToast);
+      }
 
       var createBtn = document.getElementById('createDb');
       var modalToggle = document.getElementById('modalToggle');
