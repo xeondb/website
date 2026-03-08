@@ -1460,6 +1460,12 @@
       gap: 6px;
   }
 
+  .planActions {
+      display: flex;
+      justify-content: flex-start;
+      padding-top: 4px;
+  }
+
   .planFeature {
       display: flex;
       align-items: center;

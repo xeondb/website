@@ -17,6 +17,12 @@ const {
   createBackupRow,
   deleteBackupRow
 } = require('../database/table/backups');
+const {
+  getLatestInstanceSubscriptionByInstance,
+  deleteInstanceSubscriptionsByInstance,
+  isSubscriptionActiveLike
+} = require('../database/table/instanceSubscriptions');
+const { revokePolarSubscription } = require('../lib/polar');
 
 async function loadOwnedInstance(req, id) {
   const db = getReqDb(req);
@@ -100,6 +106,11 @@ router.delete('/:id', async (req, res) => {
   try {
     await loadOwnedInstance(req, id);
 
+    const sub = await getLatestInstanceSubscriptionByInstance(db, id);
+    if (sub && isSubscriptionActiveLike(sub) && sub.subscription_id) {
+      await revokePolarSubscription(sub.subscription_id);
+    }
+
     const data = await listWhitelistByInstance(db, id);
     for (const wl of data) {
       try {
@@ -125,6 +136,8 @@ router.delete('/:id', async (req, res) => {
         throw new Error((del && del.error) || 'Failed to delete instance');
       }
     }
+
+    await deleteInstanceSubscriptionsByInstance(db, id);
 
     return res.json({ ok: true });
   } catch (err) {

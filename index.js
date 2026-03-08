@@ -18,8 +18,10 @@ const { getInstancesByUser, getInstanceById, listInstances } = require('./databa
 const { listUsers } = require('./database/table/user');
 const { cleanEmail, clearAuthCookie, getReqDb } = require('./lib/shared');
 const oauthRoutes = require('./routes/oauth');
+const { Checkout } = require('@polar-sh/express');
 
 app.use(cors());
+app.use('/api/polar/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.engine(".ejs", require("ejs").__express);
@@ -33,6 +35,20 @@ app.use('/api/instances', requireAuth, instancesApi);
 app.use('/api/account', requireAuth, accountApi);
 app.use('/api/admin', adminAuthApi);
 app.use('/api/admin', adminApi);
+
+app.use('/api/billing', requireAuth, require('./routes/billing'));
+app.use('/api/polar', require('./routes/polarWebhook'));
+
+app.get(
+  '/checkout',
+  Checkout({
+    accessToken: process.env.POLAR_ACCESS_TOKEN,
+    successUrl: process.env.POLAR_SUCCESS_URL,
+    cancelUrl: process.env.POLAR_CANCEL_URL,
+    returnUrl: process.env.POLAR_RETURN_URL || 'http://localhost:4862/billing',
+    server: process.env.POLAR_SERVER || 'production'
+  })
+);
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -183,6 +199,14 @@ app.get('/billing', requireAuth, async (req, res) => {
 
   const name = computeInitialsFromUser(email, user);
   res.render('billing', { name, email, user, instances });
+});
+
+app.get('/billing/success', requireAuth, (req, res) => {
+  res.redirect('/billing');
+});
+
+app.get('/billing/cancel', requireAuth, (req, res) => {
+  res.redirect('/billing');
 });
 
 app.get("/dashboard/:id", requireAuth, async (req, res) => {

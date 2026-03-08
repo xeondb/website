@@ -6,10 +6,16 @@ const requireAdmin = require('./requireAdmin');
 
 const { cleanEmail, cleanSQL, isIdentifier, getReqDb } = require('../lib/shared');
 const { listUsers, deleteUserByEmail } = require('../database/table/user');
-const { listInstances, getInstancesByUser, getInstanceById } = require('../database/table/instances');
+const { listInstances, getInstancesByUser, getInstanceById, setInstancePlan, syncInstanceQuotaWithPlan } = require('../database/table/instances');
 const { listWhitelistByInstance, deleteWhitelistEntryById } = require('../database/table/whitelist');
 const { listBackupsByInstance, deleteBackupRow } = require('../database/table/backups');
+const {
+  getLatestInstanceSubscriptionByInstance,
+  deleteInstanceSubscriptionsByInstance,
+  isSubscriptionActiveLike
+} = require('../database/table/instanceSubscriptions');
 const { connectRootClientForInstance } = require('../lib/rootClient');
+const { revokePolarSubscription } = require('../lib/polar');
 
 router.use(requireAdmin);
 
@@ -41,6 +47,14 @@ async function deleteWebsiteRowsForInstance(db, instanceId) {
   const q = `DELETE FROM instances WHERE id=${cleanSQL(instanceId)};`;
   const del = await db.query(q);
   if (!del || del.ok !== true) throw new Error((del && del.error) || 'Failed to delete instance row');
+
+  await deleteInstanceSubscriptionsByInstance(db, instanceId);
+}
+
+async function revokeSubscriptionForInstanceIfNeeded(db, instanceId) {
+  const sub = await getLatestInstanceSubscriptionByInstance(db, instanceId);
+  if (!sub || !isSubscriptionActiveLike(sub) || !sub.subscription_id) return;
+  await revokePolarSubscription(sub.subscription_id);
 }
 
 async function deprovisionInstanceForReal(instance) {
@@ -191,11 +205,58 @@ router.delete('/instances/:id', async (req, res) => {
     const instance = await getInstanceById(db, id);
     if (!instance) return res.status(404).json({ ok: false, error: 'Instance not found' });
 
+    await revokeSubscriptionForInstanceIfNeeded(db, id);
     await deprovisionInstanceForReal(instance);
     await deleteWebsiteRowsForInstance(db, id);
     return res.json({ ok: true });
   } catch (err) {
     return res.status(400).json({ ok: false, error: err && err.message ? err.message : 'Failed to delete instance' });
+  }
+});
+
+router.post('/instances/:id/upgrade', async (req, res) => {
+  const db = getReqDb(req);
+  if (!db) return res.status(500).json({ ok: false, error: 'Database not ready' });
+
+  const id = String(req.params.id || '').trim();
+  if (!id) return res.status(400).json({ ok: false, error: 'id is required' });
+
+  try {
+    const instance = await getInstanceById(db, id);
+    if (!instance) return res.status(404).json({ ok: false, error: 'Instance not found' });
+
+    if (String(instance.plan || '').trim().toLowerCase() === 'pro') {
+      return res.json({ ok: true, instance: safeInstanceForAdmin(instance), upgraded: false });
+    }
+
+    await setInstancePlan(db, id, 'pro');
+    const updated = await getInstanceById(db, id);
+    return res.json({ ok: true, instance: safeInstanceForAdmin(updated), upgraded: true });
+  } catch (err) {
+    return res.status(400).json({ ok: false, error: err && err.message ? err.message : 'Failed to upgrade instance' });
+  }
+});
+
+router.post('/repair-pro-quotas', async (req, res) => {
+  const db = getReqDb(req);
+  if (!db) return res.status(500).json({ ok: false, error: 'Database not ready' });
+
+  try {
+    const instances = await listInstances(db);
+    let repaired = 0;
+    for (const instance of instances) {
+      const plan = String(instance && instance.plan ? instance.plan : '').trim().toLowerCase();
+      if (plan !== 'pro') continue;
+      try {
+        await syncInstanceQuotaWithPlan(instance);
+        repaired += 1;
+      } catch {
+        // ignore best-effort repairs
+      }
+    }
+    return res.json({ ok: true, repaired });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err && err.message ? err.message : 'Failed to repair quotas' });
   }
 });
 

@@ -52,7 +52,12 @@
 
 
       <section class="card">
-        <div class="cardTitle">Users</div>
+        <div class="cardTitle cardTitleBar">
+          <span>Users</span>
+          <label class="searchBox" aria-label="Search users by email">
+            <input class="searchInput" id="emailSearch" type="search" placeholder="Search by email..." autocomplete="off" />
+          </label>
+        </div>
 
         <div class="groups">
           <% if (users && users.length) { %>
@@ -60,7 +65,7 @@
               <% const email = String(u.email || '').trim(); %>
               <% const emailKey = String(email || '').trim().toLowerCase(); %>
               <% const userInstances = (instancesByEmail && instancesByEmail[emailKey]) ? instancesByEmail[emailKey] : []; %>
-              <details class="userGroup">
+              <details class="userGroup" data-user-group="1" data-email="<%= emailKey %>">
                 <summary class="userSummary">
                   <div class="userMain">
                     <div class="userEmail mono"><%= email %></div>
@@ -111,6 +116,11 @@
                               </td>
                               <td class="actions">
                                 <button class="btn btnSmall" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
+                                <% if (String(inst.plan || 'free').trim().toLowerCase() !== 'pro') { %>
+                                  <button class="btn btnSmall" type="button" data-upgrade-instance="1" data-id="<%= inst.id %>">Upgrade to Pro</button>
+                                <% } else { %>
+                                  <span class="pill pro">Pro</span>
+                                <% } %>
                                 <button class="danger" type="button" data-delete-instance="1" data-id="<%= inst.id %>" data-keyspace="<%= inst.keyspace || '' %>">Delete DB</button>
                               </td>
                             </tr>
@@ -129,7 +139,7 @@
           <% } %>
 
           <% if (orphanInstances && orphanInstances.length) { %>
-            <details class="userGroup">
+            <details class="userGroup" data-user-group="1" data-email="__orphaned__">
               <summary class="userSummary">
                 <div class="userMain">
                   <div class="userEmail mono">Orphaned instances</div>
@@ -171,6 +181,11 @@
                           <td class="mono"><span data-storage-for="<%= inst.id %>">Not loaded</span></td>
                           <td class="actions">
                             <button class="btn btnSmall" type="button" data-load-storage="1" data-id="<%= inst.id %>">Load storage</button>
+                            <% if (String(inst.plan || 'free').trim().toLowerCase() !== 'pro') { %>
+                              <button class="btn btnSmall" type="button" data-upgrade-instance="1" data-id="<%= inst.id %>">Upgrade to Pro</button>
+                            <% } else { %>
+                              <span class="pill pro">Pro</span>
+                            <% } %>
                             <button class="danger" type="button" data-delete-instance="1" data-id="<%= inst.id %>" data-keyspace="<%= inst.keyspace || '' %>">Delete DB</button>
                           </td>
                         </tr>
@@ -249,6 +264,40 @@
           }
         });
       });
+
+      document.querySelectorAll('[data-upgrade-instance="1"]').forEach(function (btn) {
+        btn.addEventListener('click', async function (e) {
+          try { e.preventDefault(); e.stopPropagation(); } catch { /* ignore */ }
+          var id = btn.getAttribute('data-id') || '';
+          if (!id) return;
+          btn.disabled = true;
+          var old = btn.textContent;
+          btn.textContent = 'Upgrading...';
+          try {
+            await fetchJson('/api/admin/instances/' + encodeURIComponent(id) + '/upgrade', { method: 'POST' });
+            if (window.showToast) window.showToast('success', 'Instance upgraded to Pro');
+            window.location.reload();
+          } catch (err) {
+            btn.disabled = false;
+            btn.textContent = old || 'Upgrade to Pro';
+            if (window.showToast) window.showToast('error', err && err.message ? err.message : String(err));
+          }
+        });
+      });
+
+      var emailSearch = document.getElementById('emailSearch');
+      if (emailSearch) {
+        var groups = Array.prototype.slice.call(document.querySelectorAll('[data-user-group="1"]'));
+        emailSearch.addEventListener('input', function () {
+          var needle = String(emailSearch.value || '').trim().toLowerCase();
+          groups.forEach(function (group) {
+            var email = String(group.getAttribute('data-email') || '').toLowerCase();
+            var show = !needle || email.indexOf(needle) !== -1;
+            group.hidden = !show;
+            if (show && needle && email !== '__orphaned__') group.open = true;
+          });
+        });
+      }
 
       function formatBytes(bytes) {
         var b = Math.max(0, Number(bytes) || 0);

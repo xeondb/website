@@ -217,6 +217,30 @@ code {
   letter-spacing: 0.2px;
 }
 
+.cardTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  width: min(320px, 100%);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(233, 230, 218, 0.16);
+  background: rgba(10, 10, 11, 0.72);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
 .cardHeader {
   padding: 16px;
   border-bottom: 1px solid var(--stroke2);
@@ -320,6 +344,11 @@ code {
 .actions {
   text-align: right;
   white-space: nowrap;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .empty {
@@ -436,7 +465,21 @@ code {
   color: rgba(246, 193, 119, 0.95);
 }
 
+.pill.pro {
+  border-color: rgba(57, 198, 255, 0.25);
+  color: rgba(57, 198, 255, 0.95);
+}
+
 @media (max-width: 860px) {
+  .cardTitleBar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .searchBox {
+    width: 100%;
+  }
+
   .header {
     flex-direction: column;
     align-items: flex-start;

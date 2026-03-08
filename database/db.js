@@ -3,6 +3,7 @@ const { ensureUsersTable } = require("./table/user.js");
 const { ensureInstancesTable } = require("./table/instances.js");
 const { ensureWhitelistTable } = require('./table/whitelist.js');
 const { ensureBackupsTable } = require('./table/backups.js');
+const { ensureInstanceSubscriptionsTable } = require('./table/instanceSubscriptions.js');
 
 const { isIdentifier } = require('../lib/shared');
 const log = require('../lib/log');
@@ -83,6 +84,7 @@ async function connectAndInit({ reconnect, reason } = {}) {
         await ensureInstancesTable(client);
         await ensureWhitelistTable(client);
         await ensureBackupsTable(client);
+        await ensureInstanceSubscriptionsTable(client);
 
         return client;
     })().finally(() => {

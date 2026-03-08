@@ -406,34 +406,67 @@
                 </div>
               </div>
               <div class="upgradeSection">
-                <h3 class="usageTitle">Upgrade to Pro</h3>
-                <div class="planOption disabled">
-                  <div class="planHeader">
-                    <span class="planName">Pro</span>
-                    <span class="planPrice">$5<span>/month</span></span>
+                <% if (plan !== 'pro') { %>
+                  <h3 class="usageTitle">Upgrade to Pro</h3>
+                  <div class="planOption">
+                    <div class="planHeader">
+                      <span class="planName">Pro</span>
+                      <span class="planPrice">$5<span>/month</span></span>
+                    </div>
+                    <div class="planFeatures">
+                      <div class="planFeature">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        100 GB storage
+                      </div>
+                      <div class="planFeature">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        Unlimited connections
+                      </div>
+                      <div class="planFeature">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        Priority support
+                      </div>
+                    </div>
+                    <div class="planActions">
+                      <button class="queryBtn" id="upgradeToProBtn" type="button">Upgrade to Pro</button>
+                    </div>
                   </div>
-                  <div class="planFeatures">
-                    <div class="planFeature">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                      </svg>
-                      150 GB storage
+                <% } else { %>
+                  <h3 class="usageTitle">Pro Benefits</h3>
+                  <div class="planOption">
+                    <div class="planHeader">
+                      <span class="planName">Pro</span>
+                      <span class="planPrice">$5<span>/month</span></span>
                     </div>
-                    <div class="planFeature">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                      </svg>
-                      Unlimited connections
+                    <div class="planFeatures">
+                      <div class="planFeature">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        100 GB storage
+                      </div>
+                      <div class="planFeature">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        Unlimited connections
+                      </div>
+                      <div class="planFeature">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        Priority support
+                      </div>
                     </div>
-                    <div class="planFeature">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                      </svg>
-                      Priority support
-                    </div>
+                    <span class="planBadge pro">Current Plan</span>
                   </div>
-                  <span class="planBadge coming">Coming Soon</span>
-                </div>
+                <% } %>
               </div>
 
              <div class="dangerZone">
@@ -984,6 +1017,24 @@
             throw new Error((data && (data.error || data.message)) || ('Request failed (' + res.status + ')'));
           }
           return data;
+        }
+
+        const upgradeToProBtn = document.getElementById('upgradeToProBtn');
+        if (upgradeToProBtn) {
+          upgradeToProBtn.addEventListener('click', async () => {
+            upgradeToProBtn.disabled = true;
+            const originalText = upgradeToProBtn.textContent;
+            upgradeToProBtn.textContent = 'Redirecting...';
+            try {
+              const data = await postJson('/api/billing/checkout', { instanceId: instanceId });
+              if (!data || !data.url) throw new Error('Failed to start checkout');
+              window.location.href = data.url;
+            } catch (e) {
+              upgradeToProBtn.disabled = false;
+              upgradeToProBtn.textContent = originalText;
+              toast('error', e && e.message ? e.message : 'Failed to start checkout');
+            }
+          });
         }
 
         if (runBtn && queryEl) {

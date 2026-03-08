@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const { XeondbClient } = require('xeondb-driver');
 
 const { cleanSQL, isIdentifier } = require('../../lib/shared');
+const { connectRootClientForInstance } = require('../../lib/rootClient');
 
 function instancePool(envValue) {
   if (!envValue) return [];
@@ -48,16 +49,9 @@ function generateDbUsername(instanceId) {
   return `xeon_${String(instanceId || '').trim()}`;
 }
 
-function generateDisplayName(plan) {
-  const suffix = crypto.randomBytes(3).toString('hex');
-  return `${plan}-${suffix}`;
-}
-
-function generateKeyspaceName(plan, instanceId) {
-  const p = String(plan || '').trim().toLowerCase() === 'pro' ? 'pro' : 'free';
-  const idPart = String(instanceId || '').trim().slice(0, 6);
-  const suffix = idPart || crypto.randomBytes(3).toString('hex');
-  return `xeon_${p}_${suffix}`;
+function deriveNameSuffix(instanceId) {
+  const cleaned = String(instanceId || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+  return cleaned.slice(-6).padStart(6, '0');
 }
 
 async function querySingleRow(db, q, notFoundValue = null) {
@@ -99,6 +93,60 @@ async function getInstancesByUser(db, email) {
   const out = Array.isArray(rows) ? rows : [];
   out.sort((a, b) => String(b.id || '').localeCompare(String(a.id || '')));
   return out.filter((r) => String(r.user_email || '').trim().toLowerCase() === needle);
+}
+
+async function setInstancePlan(db, id, plan) {
+  const p = String(plan || '').trim().toLowerCase() === 'pro' ? 'pro' : 'free';
+  const instance = await getInstanceById(db, id);
+  if (!instance) throw new Error('Instance not found');
+
+  await syncInstanceQuotaWithPlan({ ...instance, plan: p });
+
+  const q = `UPDATE instances SET plan=${cleanSQL(p)} WHERE id=${cleanSQL(id)};`;
+  const res = await db.query(q);
+  if (!res || res.ok !== true) {
+    throw new Error((res && res.error) || 'Failed to update instance plan');
+  }
+  return true;
+}
+
+function quotaBytesForPlan(plan) {
+  const p = String(plan || '').trim().toLowerCase() === 'pro' ? 'pro' : 'free';
+  return p === 'pro'
+    ? (Number(process.env.PAID_INSTANCE_STORAGE || 100) * 1024 * 1024 * 1024)
+    : (Number(process.env.FREE_INSTANCE_STORAGE || 500) * 1024 * 1024);
+}
+
+async function syncInstanceQuotaWithPlan(instance) {
+  const keyspace = instance && instance.keyspace ? String(instance.keyspace).trim() : '';
+  if (!keyspace || !isIdentifier(keyspace)) throw new Error('Invalid keyspace for quota sync');
+
+  const quotaBytes = quotaBytesForPlan(instance && instance.plan ? instance.plan : 'free');
+  const updatedAt = Date.now();
+  let client = null;
+  try {
+    client = await connectRootClientForInstance(instance);
+    try {
+      await client.query(`DELETE FROM SYSTEM.KEYSPACE_QUOTAS WHERE keyspace=${cleanSQL(keyspace)};`);
+    } catch {
+      // ignore
+    }
+
+    const q =
+      `INSERT INTO SYSTEM.KEYSPACE_QUOTAS (keyspace,quota_bytes,updated_at) VALUES (` +
+      `${cleanSQL(keyspace)}, ${Number(quotaBytes)}, ${updatedAt});`;
+    const res = await client.query(q);
+    if (!res || res.ok !== true) {
+      throw new Error((res && res.error) || 'Failed to update keyspace quota');
+    }
+    return quotaBytes;
+  } finally {
+    try {
+      if (client) client.close();
+    } catch {
+      // ignore
+    }
+  }
 }
 
 async function listInstances(db) {
@@ -177,14 +225,15 @@ async function createInstance(db, data) {
   }
 
   const id = generateInstanceId();
-  const name = generateDisplayName(plan);
-  const keyspace = generateKeyspaceName(plan, id);
+  const suffix = deriveNameSuffix(id);
+  const name = `db-${suffix}`;
+  const keyspace = `xeon_${suffix}`;
   const dbUsername = generateDbUsername(id);
   const dbPassword = generateDbPassword();
   const createdAt = Date.now();
   const status = 'online';
 
-  const quotaBytes = plan === 'pro' ? (Number(process.env.PAID_INSTANCE_STORAGE || 100) * 1024 * 1024 * 1024) : (Number(process.env.FREE_INSTANCE_STORAGE || 500) * 1024 * 1024);
+  const quotaBytes = quotaBytesForPlan(plan);
   await provisionInstanceOnTarget(target, keyspace, dbUsername, dbPassword, quotaBytes);
 
   const q = `INSERT INTO instances (id, user_email, name, plan, host, port, keyspace, db_username, db_password, status, created_at) VALUES (${cleanSQL(
@@ -217,5 +266,8 @@ module.exports = {
   createInstance,
   getInstancesByUser,
   getInstanceById,
-  listInstances
+  setInstancePlan,
+  listInstances,
+  quotaBytesForPlan,
+  syncInstanceQuotaWithPlan
 };

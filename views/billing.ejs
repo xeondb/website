@@ -98,6 +98,9 @@
                       <td class="mono"><%= inst && inst.keyspace ? inst.keyspace : '-' %></td>
                       <td class="actions">
                         <a class="btn btnSmall" href="/dashboard/<%= inst.id %>">Open</a>
+                        <% if (plan !== 'pro') { %>
+                          <button class="btn btnSmall" type="button" data-upgrade="<%= inst.id %>">Upgrade</button>
+                        <% } %>
                       </td>
                     </tr>
                   <% }); %>
@@ -116,6 +119,32 @@
       </section>
     </div>
   </main>
+
+  <script>
+    (function () {
+      async function startUpgrade(instanceId) {
+        const r = await fetch('/api/billing/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ instanceId: instanceId })
+        });
+        const data = await r.json().catch(function () { return null; });
+        if (!r.ok || !data || !data.url) {
+          alert((data && data.error) ? data.error : 'Failed to start checkout');
+          return;
+        }
+        window.location.href = data.url;
+      }
+
+      document.addEventListener('click', function (e) {
+        const t = e && e.target ? e.target : null;
+        if (!t) return;
+        const id = t.getAttribute && t.getAttribute('data-upgrade');
+        if (!id) return;
+        startUpgrade(String(id));
+      });
+    })();
+  </script>
 </body>
 
 </html>
