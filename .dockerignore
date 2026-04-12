@@ -1,0 +1,13 @@
+.git/
+.git
+.gitignore
+.env
+node_modules/
+storage/
+npm-debug.log
+*.log
+*.tmp
+*.bak
+*.exe
+Dockerfile*
+.dockerignore
