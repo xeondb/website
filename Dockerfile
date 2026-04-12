@@ -3,7 +3,7 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --legacy-peer-deps --omit=dev && npm cache clean --force
 
 FROM node:lts-alpine
 ENV NODE_ENV=production
