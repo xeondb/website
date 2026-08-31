@@ -55,6 +55,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          platforms: linux/amd64
           push: true
           tags: harbor.ewenmacculloch.com/core/xeondb:${{ steps.version.outputs.tag }}
 
